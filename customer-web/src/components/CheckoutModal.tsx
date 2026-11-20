@@ -61,6 +61,7 @@ import {
   saveLastGuestOrder,
   validateGuestCheckout,
 } from '../utils/checkout';
+import {driverPaidDeliveryMessage, hasDeliveryMapLocation, withMapLocationAddress} from '../utils/ownerCheckoutRules';
 import {
   formatCartQuantitySummary,
   calculateCartSubtotal,
@@ -170,6 +171,7 @@ export function CheckoutModal({
     EMPTY_GUEST_CHECKOUT_FORM
   );
   const [errors, setErrors] = useState<CheckoutErrors>({});
+  const mapLocation = hasDeliveryMapLocation(form);
   const focusValidationError = useRef(false);
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -230,15 +232,19 @@ export function CheckoutModal({
       ? storefrontSettings.insideRamthaDeliveryFeeInMinorUnits
       : storefrontSettings.outsideRamthaDeliveryFeeInMinorUnits;
   const checkoutTotal = checkoutBeforeDelivery + selectedDeliveryFee;
+  // Owner 2026-11-20: a zero shop fee means the customer pays the driver directly,
+  // outside the shop invoice (no total, debt, revenue, drawer or return effect).
+  const driverPaysDelivery = selectedDeliveryFee === 0;
+  const driverFeeNote = storefrontSettings.deliveryAreasText.trim();
   const whatsappUrl = useMemo(() => {
     if (!receipt) return '';
     return buildWhatsAppUrl(
       storeWhatsAppNumber,
-      buildWhatsAppOrderMessage({
+      driverPaidDeliveryMessage(buildWhatsAppOrderMessage({
         receipt,
         items: displayedItems,
         paymentMethod,
-      })
+      }), receipt.deliveryFeeInMinorUnits)
     );
   }, [displayedItems, paymentMethod, receipt, storeWhatsAppNumber]);
 
@@ -562,7 +568,7 @@ export function CheckoutModal({
       return false;
     }
 
-    const validationErrors = validateGuestCheckout(form);
+    const validationErrors = validateGuestCheckout(withMapLocationAddress(form));
     if (Object.keys(validationErrors).length > 0) {
       focusValidationError.current = true;
       setErrors(validationErrors);
@@ -615,7 +621,7 @@ export function CheckoutModal({
           contractVersion: 'phase3-customer-reservation-v2' as const,
           idempotencyKey: crypto.randomUUID(),
           clientSessionId: getOrCreateGuestOrderSessionId(window.sessionStorage),
-          customer: structuredClone(form),
+          customer: structuredClone(withMapLocationAddress(form)),
           items: lines,
           promotionCode: authoritativeQuote.code || undefined,
           paymentMethod,
@@ -665,11 +671,11 @@ export function CheckoutModal({
         const popup = window.open(
           buildWhatsAppUrl(
             storeWhatsAppNumber,
-            buildWhatsAppOrderMessage({
+            driverPaidDeliveryMessage(buildWhatsAppOrderMessage({
               receipt: result,
               items: attempt.submittedItems,
               paymentMethod: attempt.request.paymentMethod,
-            })
+            }), result.deliveryFeeInMinorUnits)
           ),
           '_blank',
           'noopener,noreferrer'
@@ -868,8 +874,9 @@ export function CheckoutModal({
                     {activePromotionQuote && (
                       <div className="flex justify-between text-emerald-700"><span>خصم {activePromotionQuote.code}</span><strong>- {formatJod(activePromotionQuote.discountInMinorUnits)}</strong></div>
                     )}
-                    <div className="flex justify-between"><span>التوصيل ({deliveryZone === 'inside_ramtha' ? 'داخل الرمثا' : 'خارج الرمثا'})</span><strong>{formatJod(selectedDeliveryFee)}</strong></div>
-                    <div className="flex justify-between border-t border-slate-200 pt-3 text-base font-black text-blue-900"><span>الإجمالي النهائي</span><strong>{formatJod(checkoutTotal)}</strong></div>
+                    <div className="flex justify-between"><span>التوصيل ({deliveryZone === 'inside_ramtha' ? 'داخل الرمثا' : 'خارج الرمثا'})</span><strong>{driverPaysDelivery ? 'تُدفع لعامل التوصيل' : formatJod(selectedDeliveryFee)}</strong></div>
+                    <div className="flex justify-between border-t border-slate-200 pt-3 text-base font-black text-blue-900"><span>{driverPaysDelivery ? 'إجمالي فاتورة المحل' : 'الإجمالي النهائي'}</span><strong>{formatJod(checkoutTotal)}</strong></div>
+                    {driverPaysDelivery && <p data-testid="checkout-driver-fee-note" className="text-[10px] leading-5 text-slate-500">أجرة التوصيل خارج فاتورة المحل وتُدفع لعامل التوصيل مباشرة.{driverFeeNote ? ` ${driverFeeNote}` : ''}</p>}
                   </div>
                 </section>
 
@@ -881,7 +888,7 @@ export function CheckoutModal({
                   </div>
                   <div className="rounded-3xl border border-slate-200 bg-white p-5">
                     <p className="text-[10px] font-bold text-slate-400">عنوان التوصيل</p>
-                    <p className="mt-1 text-xs font-black text-blue-700">{deliveryZone === 'inside_ramtha' ? 'داخل الرمثا' : 'خارج الرمثا'} • {formatJod(selectedDeliveryFee)}</p>
+                    <p className="mt-1 text-xs font-black text-blue-700">{deliveryZone === 'inside_ramtha' ? 'داخل الرمثا' : 'خارج الرمثا'} • {driverPaysDelivery ? 'أجرة التوصيل لعامل التوصيل' : formatJod(selectedDeliveryFee)}</p>
                     <p className="mt-2 text-xs font-black leading-6 text-slate-800">
                       {[form.governorate, form.city, form.area, form.street, form.building].filter(Boolean).join(' - ')}
                     </p>
@@ -1056,8 +1063,8 @@ export function CheckoutModal({
                 </Field>
 
                 <Field
-                  label="المنطقة أو الحي"
-                  required
+                  label={mapLocation ? 'المنطقة أو الحي (اختياري مع الموقع)' : 'المنطقة أو الحي'}
+                  required={!mapLocation}
                   error={errors.area}
                 >
                   <input
@@ -1074,7 +1081,7 @@ export function CheckoutModal({
                 <div className="sm:col-span-2">
                   <Field
                     label="تفاصيل العنوان والتوصيل"
-                    required
+                    required={!mapLocation}
                     error={errors.street}
                   >
                     <textarea
@@ -1089,7 +1096,7 @@ export function CheckoutModal({
                       className={`${inputClassName} resize-none`}
                     />
                     <p className="mt-1.5 text-[10px] font-bold text-slate-500">
-                      اكتب الشارع أو رقم المبنى أو أقرب معلم ليسهل الوصول إليك. {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
+                      {mapLocation ? 'موقعك على الخريطة يكفي؛ أضف تفاصيل فقط إذا بتساعد السائق.' : 'اكتب الشارع أو رقم المبنى أو أقرب معلم ليسهل الوصول إليك، أو حدّد موقعك على الخريطة.'} {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
                     </p>
                   </Field>
                 </div>
@@ -1247,7 +1254,8 @@ export function CheckoutModal({
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-sky-600 text-white"><Truck className="h-5 w-5" /></span>
                   <div>
                     <p className="text-xs font-black text-sky-950">منطقة التوصيل</p>
-                    <p className="mt-1 text-[10px] font-bold leading-5 text-sky-700">اختر المنطقة ليظهر المجموع النهائي شامل أجرة التوصيل.</p>
+                    <p className="mt-1 text-[10px] font-bold leading-5 text-sky-700">{driverPaysDelivery ? 'أجرة التوصيل تُدفع لعامل التوصيل مباشرة، وما بتنحسب بفاتورة المحل.' : 'اختر المنطقة ليظهر المجموع النهائي شامل أجرة التوصيل.'}</p>
+                    {driverPaysDelivery && driverFeeNote && <p data-testid="checkout-driver-fee-areas" className="mt-1 text-[10px] font-bold leading-5 text-sky-900">{driverFeeNote}</p>}
                   </div>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">
@@ -1270,12 +1278,12 @@ export function CheckoutModal({
                       className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-right transition ${deliveryZone === zone ? 'border-sky-600 bg-sky-600 text-white shadow-lg shadow-sky-900/15' : 'border-slate-200 bg-white text-slate-800 hover:border-sky-300'}`}
                     >
                       <span><strong className="block text-xs font-black">{label}</strong><span className={`mt-1 block text-[9px] font-bold ${deliveryZone === zone ? 'text-sky-100' : 'text-slate-400'}`}>أجرة التوصيل</span></span>
-                      <strong className="text-sm font-black">{formatJod(fee)}</strong>
+                      <strong className="text-sm font-black">{fee === 0 ? 'للسائق' : formatJod(fee)}</strong>
                     </button>
                   ))}
                 </div>
                 <div className="mt-3 flex items-center justify-between rounded-2xl bg-slate-950 px-4 py-3 text-white">
-                  <span className="text-[10px] font-bold text-slate-300">الإجمالي شامل التوصيل</span>
+                  <span className="text-[10px] font-bold text-slate-300">{driverPaysDelivery ? 'إجمالي فاتورة المحل (بدون أجرة التوصيل)' : 'الإجمالي شامل التوصيل'}</span>
                   <strong className="text-base font-black text-emerald-300">{formatJod(checkoutTotal)}</strong>
                 </div>
               </section>

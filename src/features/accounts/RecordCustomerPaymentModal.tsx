@@ -8,6 +8,7 @@ import {
 } from '../../services/supabase/customerAccounts.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
 import {businessErrorMessage} from '../../utils/businessError';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 interface RecordCustomerPaymentModalProps {
   initialOrder?: CustomerOutstandingOrder | null;
@@ -92,10 +93,6 @@ export const RecordCustomerPaymentModal: React.FC<
       setError('اختر طلبًا عليه مبلغ مستحق.');
       return;
     }
-    if (paymentMethod === 'cliq' && !referenceNumber.trim()) {
-      setError('رقم مرجع CliQ مطلوب لتسجيل الدفعة.');
-      return;
-    }
     if (
       !Number.isFinite(numericAmount) ||
       numericAmount <= 0 ||
@@ -116,7 +113,7 @@ export const RecordCustomerPaymentModal: React.FC<
         orderId: selectedOrder.id,
         amount: numericAmount,
         paymentMethod,
-        referenceNumber: referenceNumber.trim(),
+        referenceNumber: cliqReferenceForServer(paymentMethod, referenceNumber) ?? '',
         notes: notes.trim(),
         idempotencyKey: paymentIdempotencyKey.current,
       });
@@ -287,14 +284,13 @@ export const RecordCustomerPaymentModal: React.FC<
 
       <div>
         <label htmlFor={`${fieldId}-reference`} className="mb-1 block font-bold text-nw-text">
-          {paymentMethod === 'cliq' ? 'رقم مرجع CliQ *' : 'رقم المرجع (اختياري)'}
+          {paymentMethod === 'cliq' ? 'رقم مرجع CliQ (اختياري)' : 'رقم المرجع (اختياري)'}
         </label>
         <input
           id={`${fieldId}-reference`}
           value={referenceNumber}
           onChange={(event) => setReferenceNumber(event.target.value)}
           placeholder={paymentMethod === 'cliq' ? 'رقم مرجع CliQ' : 'مرجع داخلي إن وجد'}
-          required={paymentMethod === 'cliq'}
           className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
         />
       </div>

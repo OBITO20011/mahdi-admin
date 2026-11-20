@@ -2,6 +2,7 @@ import type {Order} from '../../types';
 import type {AdminAftercareModernContext,ReturnPhysicalSource,ReturnRequestItem} from '../../services/supabase/salesAftercare.service';
 import type {Aftercare215Payloads} from '../../utils/aftercare215Contracts';
 import {allocateBaseReturn,singleSkuPhysicalQuantity} from './aftercarePresentation';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 export type WizardSelection215={kind:'base';orderItemId:string;quantity:number;unit:'parcels'|'packets';replacementSourceId?:string}
   |{kind:'formed';parcelInstanceId:string;componentId?:string;quantity:number;replacementSourceId?:string};
@@ -100,9 +101,9 @@ export function buildWizard215(order:Order,context:AdminAftercareModernContext,i
       })}];
   }
   const payload:Aftercare215Payloads['sealed_return']={orderId:order.id,items,physicalSources:sources,reason,notes,refundMethod:input.refundMethod,
-    referenceNumber:input.refundMethod==='cliq'||input.refundMethod==='auto'&&order.paymentMethod==='cliq'?input.referenceNumber.trim()||null:null,supplierAssignments:assignments};
+    referenceNumber:input.refundMethod==='cliq'||input.refundMethod==='auto'&&order.paymentMethod==='cliq'?cliqReferenceForServer('cliq',input.referenceNumber):null,supplierAssignments:assignments};
   if(input.intent==='refund')return{action:'sealed_return',payload};
   if(!input.productId)throw new Error('اختر الصنف الذي أخذه الزبون بدلاً من الراجع.');
   return{action:'exchange',payload:{returnRequest:{...payload,refundMethod:'auto',referenceNumber:null},replacement:{productId:input.productId,kind:input.replacementKind,quantity:positive(input.replacementQuantity,'كمية البديل')},
-    differenceMethod:input.differenceMethod,referenceNumber:input.differenceMethod==='cliq'?input.referenceNumber.trim()||null:null}};
+    differenceMethod:input.differenceMethod,referenceNumber:input.differenceMethod==='cliq'?cliqReferenceForServer('cliq',input.referenceNumber):null}};
 }

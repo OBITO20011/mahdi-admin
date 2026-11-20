@@ -6,6 +6,7 @@ import {
 } from '../../stores/useAppStore';
 import {FormFields, UiButton} from '../../components/ui';
 import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 interface ExpenseFormModalProps {
   onClose: () => void;
@@ -39,8 +40,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
     Boolean(currentShift) &&
     Number.isFinite(numericAmount) &&
     numericAmount > 0 &&
-    description.trim().length >= 2 &&
-    (paymentMethod !== 'cliq' || referenceNumber.trim().length > 0);
+    description.trim().length >= 2;
 
   if (!currentShift) {
     return (
@@ -77,7 +77,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
         numericAmount,
         description.trim(),
         paymentMethod,
-        referenceNumber
+        cliqReferenceForServer(paymentMethod, referenceNumber) ?? ''
       );
 
       if (success) onClose();
@@ -151,7 +151,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
       {paymentMethod === 'cliq' && (
         <div>
           <label htmlFor="expense-reference" className="mb-1 block font-bold text-nw-muted">
-            رقم مرجع CliQ *
+            رقم مرجع CliQ (اختياري)
           </label>
           <input
             id="expense-reference"

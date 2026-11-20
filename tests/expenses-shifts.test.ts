@@ -87,11 +87,12 @@ test('expected drawer cash uses canonical inflows and outflows only once', () =>
   );
 });
 
-test('CliQ is tracked separately and requires a reference', () => {
+test('CliQ is tracked separately; the database still requires a reference, which the owner made optional in the form (blank = «بدون مرجع»)', () => {
   assert.match(migration, /payment_method IN \('cash', 'cliq'\)/);
   assert.match(migration, /p_payment_method = 'cliq'[\s\S]*p_reference_number/);
-  assert.match(expenseModal, /رقم مرجع CliQ/);
-  assert.match(expenseModal, /paymentMethod !== 'cliq' \|\| referenceNumber/);
+  assert.match(expenseModal, /رقم مرجع CliQ \(اختياري\)/);
+  assert.match(expenseModal, /cliqReferenceForServer\(paymentMethod, referenceNumber\)/);
+  assert.doesNotMatch(expenseModal, /paymentMethod !== 'cliq' \|\| referenceNumber/);
 });
 
 test('closing discrepancy requires a documented reason', () => {

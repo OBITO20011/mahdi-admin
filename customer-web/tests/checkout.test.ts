@@ -35,6 +35,12 @@ import {
   normalizePromotionCode,
   validateGuestCheckout,
 } from '../src/utils/checkout';
+import {
+  hasDeliveryMapLocation,
+  withMapLocationAddress,
+  driverPaidDeliveryMessage,
+  MAP_LOCATION_ADDRESS_PLACEHOLDER,
+} from '../src/utils/ownerCheckoutRules';
 
 class MemoryStorage {
   private values = new Map<string, string>();
@@ -465,4 +471,52 @@ test('latest security migration makes the guest mutation service-only', () => {
     service,
     /supabase\.rpc\(\s*['"]submit_guest_customer_order['"]/
   );
+});
+
+test('owner 2026-11-20: a pinned map location makes area and details optional', () => {
+  const pinned = {...validForm, area: '', street: '', latitude: 32.56, longitude: 36.01};
+  assert.equal(hasDeliveryMapLocation(pinned), true);
+  // The checkout validates and submits the shaped form; the frozen validator stays exact.
+  assert.deepEqual(validateGuestCheckout(withMapLocationAddress(pinned)), {});
+  const sent = withMapLocationAddress(pinned);
+  assert.equal(sent.area, MAP_LOCATION_ADDRESS_PLACEHOLDER);
+  assert.equal(sent.street, MAP_LOCATION_ADDRESS_PLACEHOLDER);
+  // Typed text is never replaced, and governorate/city stay required.
+  assert.equal(withMapLocationAddress({...pinned, area: ' الحي الشمالي '}).area, 'الحي الشمالي');
+  assert.ok(validateGuestCheckout(withMapLocationAddress({...pinned, city: ''})).city);
+  // Without a location both stay required exactly as before.
+  const noPin = {...validForm, area: '', street: ''};
+  assert.equal(hasDeliveryMapLocation(noPin), false);
+  assert.ok(validateGuestCheckout(withMapLocationAddress(noPin)).area);
+  assert.equal(validateGuestCheckout(withMapLocationAddress(noPin)).street, 'اكتب تفاصيل كافية للوصول إلى عنوان التوصيل.');
+  assert.deepEqual(withMapLocationAddress(noPin), noPin);
+  // A half pin or an unsupported link is not a location.
+  assert.equal(hasDeliveryMapLocation({...noPin, latitude: 32.5}), false);
+  assert.equal(hasDeliveryMapLocation({...noPin, googleMapsUrl: 'https://example.com/x'}), false);
+});
+
+test('owner 2026-11-20: a zero shop delivery fee is shown as paid to the driver, outside the shop invoice', () => {
+  const receipt = mapGuestOrderReceipt({
+    success: true,
+    order_id: 'order-id-2',
+    order_number: 'ORD-2026-002',
+    total: 12000,
+    subtotal: 12000,
+    discount: 0,
+    delivery_fee: 0,
+    delivery_zone: 'inside_ramtha',
+  });
+  const message = driverPaidDeliveryMessage(buildWhatsAppOrderMessage({receipt, items: cartItems, paymentMethod: 'cash_on_delivery'}), receipt.deliveryFeeInMinorUnits);
+  // A real shop fee keeps the original message byte for byte.
+  const paid = buildWhatsAppOrderMessage({receipt: {...receipt, deliveryFeeInMinorUnits: 1000}, items: cartItems, paymentMethod: 'cash_on_delivery'});
+  assert.equal(driverPaidDeliveryMessage(paid, 1000), paid);
+  assert.match(message, /أجرة التوصيل: تُدفع لعامل التوصيل مباشرة \(خارج فاتورة المحل\)/);
+  assert.match(message, /إجمالي فاتورة المحل: /);
+  assert.doesNotMatch(message, /الإجمالي المطلوب/);
+  const modal = readFileSync(new URL('../src/components/CheckoutModal.tsx', import.meta.url), 'utf8');
+  assert.match(modal, /const driverPaysDelivery = selectedDeliveryFee === 0;/);
+  assert.match(modal, /customer: structuredClone\(withMapLocationAddress\(form\)\)/);
+  assert.match(modal, /validateGuestCheckout\(withMapLocationAddress\(form\)\)/);
+  assert.match(modal, /data-testid="checkout-driver-fee-note"/);
+  assert.match(modal, /إجمالي فاتورة المحل \(بدون أجرة التوصيل\)/);
 });

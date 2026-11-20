@@ -225,9 +225,8 @@ test('profile «تحصيل من الزبون» previews oldest-first allocation 
     const preview=dialog.getByTestId('customer-collection-preview');
     await expect(preview).toContainText('رصيد سابق قبل النظام');
     await expect(preview).toContainText('30.000');await expect(preview).toContainText('15.123');
-    await save.click();expect(writes).toEqual([]); // required CliQ reference remains fail-closed.
-    await expect(dialog.getByRole('alert')).toContainText('رقم مرجع CliQ مطلوب');
-    await dialog.getByLabel('رقم مرجع CliQ *').fill(' REF-45 ');
+    // Owner 2026-11-20: the CliQ reference is optional; a typed one is still sent trimmed.
+    await dialog.getByLabel('رقم مرجع CliQ (اختياري)').fill(' REF-45 ');
     await dialog.getByLabel('ملاحظات (اختياري)').fill(' دفعة جزئية ');
     await save.click();await expect.poll(()=>writes.length).toBe(1);
     await expect(dialog.getByRole('button',{name:'جارٍ الحفظ…'})).toBeDisabled();
