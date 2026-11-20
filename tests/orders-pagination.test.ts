@@ -78,7 +78,9 @@ test('cancelled and expired orders are not presented as collectible receivables'
     /order\.status === 'cancelled' \|\| order\.status === 'expired'/
   );
   assert.match(orderStatus, /label: 'لا مبلغ للتحصيل'/);
-  assert.match(ordersCenter, /ذمم الطلبات المكتملة/);
+  // Owner trial item 10 (2026-11-20): the misleading Σ(total − paid) line is gone; receivables come from the home reader.
+  assert.doesNotMatch(ordersCenter, /ذمم الطلبات المكتملة/);
+  assert.match(ordersCenter, /ديون لك على الزبائن/);
 });
 
 test('global store refreshes only the bounded summary used by the navigation badge', () => {
