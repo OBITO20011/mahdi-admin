@@ -1,62 +1,36 @@
 {
   "schemaVersion": 1,
   "status": "PAUSED",
-  "owner": "codex",
-  "objective": "Owner19Nov two-stage ON225 cutover:read-only pre-B activity guard,live cost mismatch refusal,docs/card and isolated archive rehearsal;DraftPR no merge",
-  "baselineSha": "3fda5f90d6fe380bcff677f494476bc9a6a6ab69",
-  "branch": "codex/on225-two-stage-cutover",
-  "phase": "ON225_TWO_STAGE_CUTOVER",
-  "startedAt": "2026-11-19T05:20:37.123Z",
+  "owner": "claude",
+  "objective": "Owner20Nov ON225 trial fixes batch C UI/settings-only (no migration): item2 map-pinned address optional, item3 CliQ reference optional everywhere (blank=«بدون مرجع»), item6 delivery fee paid to driver outside shop invoice; owner authorized branch/commit/push/PR/merge on green CI",
+  "baselineSha": "628f504743dc42424dc2b163693cfa8ad8a1f34f",
+  "branch": "claude/on225-owner-fixes-c",
+  "phase": "ON225_OWNER_TRIAL_FIXES",
+  "startedAt": "2026-11-20T12:00:00.000Z",
   "completed": [
-    "Fresh v3 two-stage rehearsal passed throughopening:123tables protected;stockalerttimestamp-only1row;all9609HTTP200/unexpectedempty.",
-    "StageA1176995ms;StageB79937ms;stock2599ms;catalog748/108/444/1084/15.",
-    "OwnerUI renamed/repriced/correctedcost to600;oldcostrefused;quantityonly77@600;independentrevenue12200/COGS7800/profit4400/inventory39600/quantity66 matched.",
-    "Units2242/2242,focused54/54,types/strictlint0;card2pages."
+    "Batch1 #120",
+    "Batch2 #121",
+    "#119 two-stage merged"
   ],
   "inProgress": [
-    "Final docs/pins/PR/no merge;FULLCI and Gitleaks."
+    "Batch C items 2/3/6"
   ],
   "notStarted": [
-    "Demo225 upgrade only after this task report;read state before writing and stop if OFF requires221/reset."
+    "Items 9/10/17: owner choosing UI-only vs read-only migration226"
   ],
-  "testsPassed": [
-    "2242units",
-    "54focused",
-    "types/strictlint",
-    "2pagecard",
-    "v3fullrehearsal/independentaccounting"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "ExactPRheadFULLCI/Gitleaks",
-    "After currenttaskreport:demo225 read/reportstate beforebackup;stop if OFF requires221/reset"
+    "units,types,lint,full CI"
   ],
   "findings": [
-    "Read-only archive/DB row comparison:only last_updated_at on1 NW-0365 stock_alert row changed;1192rows otherwise exact;all other122 protected tables exact,operations and balances0.",
-    "Sourcechain v7→v5→v4→v3→v2→base SETmin_stock_level/is_active fires stockalert sync even unchanged values;220 updates alert timestamp.9503HTTP200/unexpectedempty.",
-    "Ownerexplicitly approved deleting only first-round27684;PIDidentity/target verified,process stopped and that container removed;lastfailed19340 retained."
+    "Items 2/3/6 need no migration: server constraints satisfied by explicit placeholders and zero shop delivery fee."
   ],
   "blockers": [],
-  "activeProcesses": [
-    {
-      "pid": 19340,
-      "kind": "idle retained failed rehearsal",
-      "container": "nawasrah-full-restore-19340-fa3f1ef9",
-      "network": "none",
-      "interfacesClosed": true
-    },
-    {
-      "pid": 27316,
-      "kind": "idle successful evidence retention",
-      "container": "nawasrah-full-restore-27316-bf83a761",
-      "network": "none",
-      "interfacesClosed": true
-    }
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No merge/deploy/hosted/n8n/Docker restart/original3310file changes.",
-    "Demo only after current rehearsal success and DraftPR;read/report state then backup;stop if OFF requires221/reset."
+    "No deploy/Frankfurt/Production/hosted access; no historical migration edits."
   ],
-  "nextExactAction": "DraftPR review only;v3rehearsal clean;wait exactheadFULLCI/Gitleaks then demo approved readbackup;no merge/hosted/deploy",
+  "nextExactAction": "Push claude/on225-owner-fixes-c, open PR, merge on 100% green CI; then items 9/10/17 per owner choice",
   "checkpointedAt": "2026-11-19T14:59:05.959Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"

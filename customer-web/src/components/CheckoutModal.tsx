@@ -54,7 +54,6 @@ import {
   getOrCreateGuestOrderSessionId,
   extractGoogleMapsCoordinates,
   isSupportedGoogleMapsUrl,
-  hasDeliveryMapLocation,
   normalizePromotionCode,
   readSavedGuestCustomer,
   saveGuestCustomer,
@@ -62,6 +61,7 @@ import {
   saveLastGuestOrder,
   validateGuestCheckout,
 } from '../utils/checkout';
+import {driverPaidDeliveryMessage, hasDeliveryMapLocation, withMapLocationAddress} from '../utils/ownerCheckoutRules';
 import {
   formatCartQuantitySummary,
   calculateCartSubtotal,
@@ -240,11 +240,11 @@ export function CheckoutModal({
     if (!receipt) return '';
     return buildWhatsAppUrl(
       storeWhatsAppNumber,
-      buildWhatsAppOrderMessage({
+      driverPaidDeliveryMessage(buildWhatsAppOrderMessage({
         receipt,
         items: displayedItems,
         paymentMethod,
-      })
+      }), receipt.deliveryFeeInMinorUnits)
     );
   }, [displayedItems, paymentMethod, receipt, storeWhatsAppNumber]);
 
@@ -568,7 +568,7 @@ export function CheckoutModal({
       return false;
     }
 
-    const validationErrors = validateGuestCheckout(form);
+    const validationErrors = validateGuestCheckout(withMapLocationAddress(form));
     if (Object.keys(validationErrors).length > 0) {
       focusValidationError.current = true;
       setErrors(validationErrors);
@@ -621,7 +621,7 @@ export function CheckoutModal({
           contractVersion: 'phase3-customer-reservation-v2' as const,
           idempotencyKey: crypto.randomUUID(),
           clientSessionId: getOrCreateGuestOrderSessionId(window.sessionStorage),
-          customer: structuredClone(form),
+          customer: structuredClone(withMapLocationAddress(form)),
           items: lines,
           promotionCode: authoritativeQuote.code || undefined,
           paymentMethod,
@@ -671,11 +671,11 @@ export function CheckoutModal({
         const popup = window.open(
           buildWhatsAppUrl(
             storeWhatsAppNumber,
-            buildWhatsAppOrderMessage({
+            driverPaidDeliveryMessage(buildWhatsAppOrderMessage({
               receipt: result,
               items: attempt.submittedItems,
               paymentMethod: attempt.request.paymentMethod,
-            })
+            }), result.deliveryFeeInMinorUnits)
           ),
           '_blank',
           'noopener,noreferrer'

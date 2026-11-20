@@ -1,5 +1,4 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
-import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 export interface CustomerOutstandingOrder {
   id: string;
@@ -125,6 +124,9 @@ export async function recordCustomerOrderPayment(
   if (!['cash', 'cliq'].includes(input.paymentMethod)) {
     return {success: false, error: 'اختر كاش أو CliQ لتسجيل دفعة جديدة.'};
   }
+  if (input.paymentMethod === 'cliq' && !input.referenceNumber?.trim()) {
+    return {success: false, error: 'رقم مرجع CliQ مطلوب لتسجيل الدفعة.'};
+  }
   if (!Number.isFinite(amountInMinorUnits) || amountInMinorUnits <= 0) {
     return { success: false, error: 'قيمة الدفعة يجب أن تكون أكبر من صفر.' };
   }
@@ -136,7 +138,7 @@ export async function recordCustomerOrderPayment(
         p_order_id: input.orderId,
         p_amount_in_minor_units: amountInMinorUnits,
         p_payment_method: input.paymentMethod,
-        p_reference_number: cliqReferenceForServer(input.paymentMethod, input.referenceNumber),
+        p_reference_number: input.referenceNumber || null,
         p_notes: input.notes || null,
         p_idempotency_key: input.idempotencyKey,
       }

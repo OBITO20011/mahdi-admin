@@ -8,6 +8,7 @@ import {
   collectCustomerBalance, fetchCustomerCollections, newIdempotencyKey, previewCustomerCollection, reverseCustomerCollection,
   type CollectionMethod, type CollectionOperation, type CollectionPreview,
 } from '../../services/supabase/goLive.service';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 interface CustomerCollectionModalProps {
   customerId: string;
@@ -71,7 +72,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
     setBusy(true); setError('');
     try {
       const operation = await collectCustomerBalance({ customerId, amountInMinorUnits: preview.minor, method,
-        branchId, reference, notes, idempotencyKey: key });
+        branchId, reference: cliqReferenceForServer(method, reference) ?? '', notes, idempotencyKey: key });
       setToast(`تم التحصيل ${operation.operationNumber}`, 'success');
       onSuccess(); onClose();
     } catch (e) { setError(errorText(e)); } finally { setBusy(false); }

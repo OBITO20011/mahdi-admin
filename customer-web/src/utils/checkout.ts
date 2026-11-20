@@ -52,30 +52,6 @@ export const EMPTY_GUEST_CHECKOUT_FORM: GuestCheckoutForm = {
   customerNotes: '',
 };
 
-/** Owner 2026-11-20: a pinned map location replaces the area/details text. */
-export const MAP_LOCATION_ADDRESS_PLACEHOLDER = 'حسب الموقع على الخريطة';
-
-/** True only for a complete GPS pin or a supported Google Maps share link. */
-export function hasDeliveryMapLocation(
-  form: Pick<GuestCheckoutForm, 'googleMapsUrl' | 'latitude' | 'longitude'>
-): boolean {
-  if (form.latitude !== null && form.longitude !== null) {
-    return Number.isFinite(form.latitude) && Number.isFinite(form.longitude);
-  }
-  const mapsUrl = form.googleMapsUrl.trim();
-  return Boolean(mapsUrl) && isSupportedGoogleMapsUrl(mapsUrl);
-}
-
-/** The server still needs non-empty area/details; with a map pin, blanks become the placeholder. */
-export function withMapLocationAddress<T extends GuestCheckoutForm>(form: T): T {
-  if (!hasDeliveryMapLocation(form)) return form;
-  return {
-    ...form,
-    area: form.area.trim() || MAP_LOCATION_ADDRESS_PLACEHOLDER,
-    street: form.street.trim() || MAP_LOCATION_ADDRESS_PLACEHOLDER,
-  };
-}
-
 /** Structured delivery fields are the required address; free text supplements them. */
 export function buildDeliveryAddress(form: GuestCheckoutForm): string {
   return [form.governorate, form.city, form.area, form.street]
@@ -192,11 +168,10 @@ export function validateGuestCheckout(
 
   if (!form.governorate.trim()) errors.governorate = 'اختر المحافظة.';
   if (!form.city.trim()) errors.city = 'اكتب المدينة.';
-  const mapLocation = hasDeliveryMapLocation(form);
-  if (!mapLocation && !form.area.trim()) errors.area = 'اكتب المنطقة أو الحي، أو حدّد موقعك على الخريطة.';
-  if (!mapLocation && !form.street.trim()) {
+  if (!form.area.trim()) errors.area = 'اكتب المنطقة أو الحي.';
+  if (!form.street.trim()) {
     errors.street = 'اكتب تفاصيل كافية للوصول إلى عنوان التوصيل.';
-  } else if (buildDeliveryAddress(withMapLocationAddress(form)).length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
+  } else if (buildDeliveryAddress(form).length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
     errors.street = `تفاصيل العنوان والتوصيل يجب ألا تتجاوز ${MAX_GUEST_DELIVERY_DETAILS_LENGTH} حرفًا.`;
   }
 
@@ -533,11 +508,9 @@ export function buildWhatsAppOrderMessage({
       : '',
     '🚚 *التوصيل والتحصيل*',
     `منطقة التوصيل: ${receipt.deliveryZone === 'inside_ramtha' ? 'داخل الرمثا' : 'خارج الرمثا'}`,
-    receipt.deliveryFeeInMinorUnits > 0
-      ? `أجرة التوصيل: ${formatJod(receipt.deliveryFeeInMinorUnits)}`
-      : 'أجرة التوصيل: تُدفع لعامل التوصيل مباشرة (خارج فاتورة المحل)',
+    `أجرة التوصيل: ${formatJod(receipt.deliveryFeeInMinorUnits)}`,
     `طريقة الدفع: ${paymentMethod === 'cliq' ? 'CliQ' : 'كاش عند الاستلام'}`,
-    `💰 *${receipt.deliveryFeeInMinorUnits > 0 ? 'الإجمالي المطلوب' : 'إجمالي فاتورة المحل'}: ${formatJod(receipt.totalInMinorUnits)}*`,
+    `💰 *الإجمالي المطلوب: ${formatJod(receipt.totalInMinorUnits)}*`,
     '',
     'تفاصيل التوصيل وبيانات العميل محفوظة داخل نظام الإدارة.',
   ]

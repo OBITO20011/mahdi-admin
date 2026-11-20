@@ -12,10 +12,11 @@ import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {approvedCheques195Source,cheques195Files} from './approved-cheques195-source';
 import {restore198CollectionPresentation} from '../scripts/testing/product-workbook-historical-views.mjs';
+import {sourceBeforeOn225OwnerFixes} from '../scripts/audit/source-before-on225-owner-fixes.mjs';
 
 const baseline='18217d193acf0041c6319064f29501484501d8c7';
 for(const file of cheques195Files)test('cheques: every byte outside exact approved additions matches accepted182: '+file,()=>{
-  const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(current):current;
+  const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(sourceBeforeOn225OwnerFixes(file,current) as string):current; // exact owner-fixes225 pin first
   const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(approvedCheques195Source(file,source),before);
   if(Object.hasOwn(corrections207Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED/u,'newest exact full-file pin rejects extra logic');

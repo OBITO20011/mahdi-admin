@@ -4,7 +4,6 @@ import {parseSalesOnlyShiftReport,type CashShiftClosingResult} from './salesOnly
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { Expense, Shift, ShiftClosingReport } from '../../types';
 import {exchangeClosingCredit215} from '../../utils/exchangeClosing215';
-import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 type RpcRecord = Record<string, unknown>;
 
@@ -578,7 +577,7 @@ export async function createOperationalExpenseInSupabase(
       p_description: input.description.trim(),
       p_amount_in_minor_units: jodToMinorUnits(input.amount),
       p_payment_method: input.paymentMethod,
-      p_reference_number: cliqReferenceForServer(input.paymentMethod, input.referenceNumber),
+      p_reference_number: input.referenceNumber?.trim() || null,
     }
   );
   if (error) throw new Error(error.message || 'تعذر تسجيل المصروف.');

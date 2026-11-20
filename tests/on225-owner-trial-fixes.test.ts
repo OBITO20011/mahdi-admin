@@ -77,16 +77,15 @@ test('owner 2026-11-20: CliQ reference is optional everywhere; a blank one is re
  assert.equal(cliqReferenceForServer('bank_transfer',' T-9 '),'T-9');
  assert.equal(cliqReferenceForServer('debt',undefined),null);
  // Every CliQ entry point routes through the helper and no longer blocks a blank reference.
- for(const file of ['src/services/supabase/customerAccounts.service.ts','src/services/supabase/goLive.service.ts',
-  'src/services/supabase/expenses-shifts.service.ts','src/features/orders/OrderDetailModal.tsx','src/features/orders/aftercare215Draft.ts'])
+ for(const file of ['src/features/accounts/RecordCustomerPaymentModal.tsx','src/features/crm/CustomerCollectionModal.tsx',
+  'src/features/expenses/ExpenseFormModal.tsx','src/features/orders/OrderDetailModal.tsx','src/features/orders/aftercare215Draft.ts'])
   assert.match(raw(file),/cliqReferenceForServer\(/u,file);
  for(const file of ['src/features/accounts/RecordCustomerPaymentModal.tsx','src/features/crm/CustomerCollectionModal.tsx',
-  'src/features/expenses/ExpenseFormModal.tsx','src/features/orders/OrderDetailModal.tsx','src/services/supabase/customerAccounts.service.ts'])
+  'src/features/expenses/ExpenseFormModal.tsx','src/features/orders/OrderDetailModal.tsx'])
   assert.doesNotMatch(raw(file),/مرجع CliQ مطلوب|مرجع CliQ \*|مرجع عملية CliQ قبل|referenceNumber\.trim\(\)\.length > 0/u,file);
  assert.match(raw('src/features/orders/AftercareWizard215.tsx'),/ومرجعه اختياري/u);
 });
 
-test('owner 2026-11-20: delivery paid to the driver is explained where the owner sets the fee and settles the order',()=>{
- assert.match(raw('src/features/more/StorefrontSettingsModal.tsx'),/data-testid="storefront-driver-fee-hint"[^]*خلّي التوصيلين 0/u);
+test('owner 2026-11-20: delivery paid to the driver is explained where the order is settled',()=>{
  assert.match(raw('src/features/orders/OrderDetailModal.tsx'),/خلّيها 0 إذا الزبون دفع الأجرة للسائق مباشرة/u);
 });

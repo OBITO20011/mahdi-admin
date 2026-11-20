@@ -6,6 +6,7 @@ import {
 } from '../../stores/useAppStore';
 import {FormFields, UiButton} from '../../components/ui';
 import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 interface ExpenseFormModalProps {
   onClose: () => void;
@@ -76,7 +77,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
         numericAmount,
         description.trim(),
         paymentMethod,
-        referenceNumber
+        cliqReferenceForServer(paymentMethod, referenceNumber) ?? ''
       );
 
       if (success) onClose();

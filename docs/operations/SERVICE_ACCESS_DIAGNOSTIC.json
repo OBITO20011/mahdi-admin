@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T07:51:38.753Z",
+  "startedAt": "2026-11-20T13:12:03.144Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-jb9hE4",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-o58M2m",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -175,7 +175,7 @@
     },
     {
       "file": "src/features/accounts/RecordCustomerPaymentModal.tsx",
-      "sha256": "59252febc3bf31643c7b8b2a08e7e3bb20edaa0bd2958bdcf6ad628ad5f68764"
+      "sha256": "1ed3e27598810d0858d356dc7a0a6c1078d24f8c0852cc8167f3028d871e2940"
     },
     {
       "file": "src/features/assistant/AdminAssistantView.tsx",
@@ -227,7 +227,7 @@
     },
     {
       "file": "src/features/crm/CustomerCollectionModal.tsx",
-      "sha256": "ffa2dac897149f9cb8bd3b187fa869efed9aa1d531423916130fb8f300945633"
+      "sha256": "116d4a378694f0fe18cca33d54c45cb82c0913d5e1632470413881baf0a6c9da"
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
@@ -307,7 +307,7 @@
     },
     {
       "file": "src/features/expenses/ExpenseFormModal.tsx",
-      "sha256": "186237990e30bba01a8454b43a6fc4a3974713beef773e28b855f124daa66a56"
+      "sha256": "cb6b8adae7fd772e63906a5f8b8761b0681b01146b0801bbf907a688c88588b2"
     },
     {
       "file": "src/features/expenses/ExpensesView.tsx",
@@ -491,7 +491,7 @@
     },
     {
       "file": "src/features/orders/aftercare215Draft.ts",
-      "sha256": "842e2fa35aea70313882265d518460b5707ebf0974184bbc010a8b3fb79784b1"
+      "sha256": "73824f544310dea7206d4b58392557c208c81a0345eaee6dc8800bb0a22e31b3"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
@@ -503,7 +503,7 @@
     },
     {
       "file": "src/features/orders/AftercareWizard215.tsx",
-      "sha256": "e57582d23da56109ad9cbb7457df7c4e88dcdc1d981a54f21324e4204519d0ae"
+      "sha256": "c770f3fe4cb8c3843245aeb0a20c4c1b83bb46046f51bad97247db07162b173d"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -519,7 +519,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "7375ea10a330bf8660c69814e0c40e599999ff3f92aa3d164ba97e41aca8ec8c"
+      "sha256": "ff75fd0968444ef5d44c18833ae6e1cf8a97b3c6a2776b480ebf3cc02176ebd6"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -1210,6 +1210,10 @@
       "sha256": "6fd4660f387b8f9bdadb82fba150d3e84e378508eac6f7f55eb5a00cb6e8698f"
     },
     {
+      "file": "src/utils/cliqReference.ts",
+      "sha256": "21951fec8bdb4618b185e62496416ae263b2dd8a6161e0d0e68f692d76cc8d47"
+    },
+    {
       "file": "src/utils/customerCollections.ts",
       "sha256": "ea9d29a4db3ce97ad3965ab6bf81f08264e0a89ef19328f6199c56b9213eadee"
     },
@@ -1407,7 +1411,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "21a6e6faea7cd4cbf7458dc1b31b2a3464d9303ef7a6bbbe5783949008c6f3aa"
+      "sha256": "313029be6302d966c2f40801025eaadfc7eed95654b7ff93368cb2f11794a98a"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -1704,6 +1708,10 @@
     {
       "file": "customer-web/src/utils/operatingRead.ts",
       "sha256": "f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6"
+    },
+    {
+      "file": "customer-web/src/utils/ownerCheckoutRules.ts",
+      "sha256": "ced6eb65567f6fd15ffe7790a24056de257ef1b544dc90d4a8b20f3073fda96c"
     },
     {
       "file": "customer-web/src/utils/productDetails.ts",
@@ -56523,7 +56531,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-20T07:53:17.455Z",
+  "endedAt": "2026-11-20T13:13:40.501Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

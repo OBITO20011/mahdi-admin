@@ -1,7 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { RowError } from '../../features/goLive/goLiveImport';
 import { fetchSuppliersFromSupabase } from './purchases.service';
-import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 type Json = Record<string, unknown>;
 
@@ -241,7 +240,7 @@ export async function collectCustomerBalance(input: { customerId: string; amount
   branchId: string | null; reference: string; notes: string; idempotencyKey: string }) {
   return readOperation(await settle(client().rpc('collect_customer_balance_v1', { p_customer_id: input.customerId,
     p_amount_in_minor_units: input.amountInMinorUnits, p_payment_method: input.method, p_branch_id: input.branchId,
-    p_reference_number: cliqReferenceForServer(input.method, input.reference), p_notes: input.notes.trim() || null,
+    p_reference_number: input.reference.trim() || null, p_notes: input.notes.trim() || null,
     p_idempotency_key: input.idempotencyKey })));
 }
 

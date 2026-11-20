@@ -190,7 +190,6 @@ export function StorefrontSettingsModal() {
           <label className="text-xs font-black text-nw-text">توصيل داخل الرمثا (د.أ)<input inputMode="decimal" enterKeyHint="next" type="number" min="0" step="0.001" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
           <label className="text-xs font-black text-nw-text">توصيل خارج الرمثا (د.أ)<input inputMode="decimal" enterKeyHint="next" type="number" min="0" step="0.001" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
         </div>
-        <p data-testid="storefront-driver-fee-hint" className="mt-3 rounded-xl border border-nw-border bg-nw-surface-2 p-3 text-xs font-bold leading-5 text-nw-muted">إذا الزبون بيدفع أجرة التوصيل للسائق مباشرة: خلّي التوصيلين 0، واكتب المبالغ بخانة «مناطق التوصيل» (مثلاً: داخل الرمثا 1 د.أ وخارجها 2 د.أ للسائق). المتجر بيعرضها للزبون وما بتدخل فاتورة المحل ولا الذمم ولا الربح ولا الدرج.</p>
         <p className="mt-3 flex items-start gap-2 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 text-xs font-bold leading-5 text-nw-ok"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />العميل يختار داخل أو خارج الرمثا، وقاعدة البيانات تضيف السعر المحفوظ هنا إلى إجمالي الطلب؛ لا يمكن تغييره من المتصفح.</p>
         </MobileDisclosure>
       </Card>

@@ -8,6 +8,7 @@ import {
 } from '../../services/supabase/customerAccounts.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
 import {businessErrorMessage} from '../../utils/businessError';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 interface RecordCustomerPaymentModalProps {
   initialOrder?: CustomerOutstandingOrder | null;
@@ -112,7 +113,7 @@ export const RecordCustomerPaymentModal: React.FC<
         orderId: selectedOrder.id,
         amount: numericAmount,
         paymentMethod,
-        referenceNumber: referenceNumber.trim(),
+        referenceNumber: cliqReferenceForServer(paymentMethod, referenceNumber) ?? '',
         notes: notes.trim(),
         idempotencyKey: paymentIdempotencyKey.current,
       });
