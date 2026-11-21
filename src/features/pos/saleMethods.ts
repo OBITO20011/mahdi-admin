@@ -12,5 +12,5 @@ export function posCartSaleMethodConflict(items:PosCartItem[],products:ReadonlyM
   const paused=items.find(item=>item.v2Line.commercial_line_kind!=='base_unit'&&products.get(item.productId)?.parcelSaleEnabled===false);
   if(paused)return paused.productName+': بيع الطرد موقوف مؤقتاً. احذف سطر الطرد قبل متابعة البيع.';
   const invalid=items.find(item=>item.v2Line.commercial_line_kind==='base_unit'&&products.get(item.productId)?.parcelOnly);
-  return invalid?`${invalid.productName} بيتباع بالطرد بس. احذف سطر المفرد وأضفه كطرد؛ لم تُغيّر السلة تلقائياً.`:null;
+  return invalid?`${invalid.productName} يُباع بالطرد فقط. احذف سطر المفرد وأضفه كطرد؛ لم تُغيّر السلة تلقائياً.`:null;
 }

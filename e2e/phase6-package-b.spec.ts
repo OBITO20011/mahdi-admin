@@ -10,7 +10,7 @@ test('J saved flavor names hide parcel UUID; invalid inspection names the piece 
  const fresh=structuredClone(context),internal='41bb6c3c-cdc3-4240-8000-000000000001';fresh.parcelInstances[0].parcelInstanceId=internal;
  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:fresh}));const calls=await mockCurrentAftercare(page);
  await page.goto(url);await openAftercare(page,'refund','الطرد المشكّل كاملاً');await expect(page.locator('body')).not.toContainText(internal);
- await expect(page.getByText('البديل الذي أعطيته · 3 باكيت',{exact:true})).toBeVisible();await page.getByLabel('الخربان · عصير برتقال',{exact:true}).fill('4');
+ await expect(page.getByText('البديل الذي أعطيته · 3 باكيت',{exact:true})).toBeVisible();await page.getByLabel('التالف · عصير برتقال',{exact:true}).fill('4');
  await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
  await expect(page.getByRole('alert').first()).toContainText('عصير برتقال');await expect(page.getByRole('alert').first()).toContainText('بين 0 و3 باكيت');expect(calls.previews).toHaveLength(0);expect(calls.writes).toHaveLength(0);
 });
@@ -41,7 +41,7 @@ test('J safety action moves to three-state damage; preview precedes confirmation
 test('J supplier disposition and damage actions stay absent for admin; inspected final replacement remains available',async({page})=>{
  let supplierReads=0;await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',r=>{supplierReads++;return r.abort();});const calls=await mockCurrentAftercare(page);
  await page.goto(url+'?role=admin');await openAftercare(page,'replace','تبديل المعيب · عصير برتقال');
- for(const field of await page.getByLabel(/^الخربان ·/).all())await field.fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
+ for(const field of await page.getByLabel(/^التالف ·/).all())await field.fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
  await expect(page.getByRole('button',{name:'على المورد — بانتظار البديل',exact:true})).toHaveCount(0);await expect(page.getByText('التالف',{exact:true})).toHaveCount(0);await page.getByRole('button',{name:'خسارة عليّ — تالف نهائي',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
  await confirmCurrentAftercare(page,'replace');await expect.poll(()=>calls.writes.length).toBe(1);expect(calls.writes[0].p_payload.items[0].supplierId).toBe(null);expect(supplierReads).toBe(0);
 });
@@ -64,7 +64,7 @@ test('partial return sends selected quantity and exact source allocation; invali
 
 test('parcel names, good/bad/customer-damage totals and whole-parcel boundary remain explicit',async({page})=>{
  await page.goto(url);await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByRole('button',{name:'الطرد المشكّل كاملاً',exact:true}).click();await expect(page.getByLabel('عدد الطرود المشكّلة الراجعة',{exact:true})).toBeDisabled();await page.getByRole('button',{name:'التالي',exact:true}).click();
- const bad=page.getByLabel('الخربان · عصير برتقال',{exact:true});await bad.fill('1');await page.getByText('متقدم · ضرر من الزبون',{exact:true}).click();const damage=page.getByLabel('ضرر الزبون · عصير برتقال',{exact:true});await damage.fill('1');await expect(page.getByText('السليم الذي يرجع للمخزون: 1 باكيت',{exact:true})).toBeVisible();
+ const bad=page.getByLabel('التالف · عصير برتقال',{exact:true});await bad.fill('1');await page.getByText('متقدم · ضرر من الزبون',{exact:true}).click();const damage=page.getByLabel('ضرر الزبون · عصير برتقال',{exact:true});await damage.fill('1');await expect(page.getByText('السليم الذي يرجع للمخزون: 1 باكيت',{exact:true})).toBeVisible();
  for(const input of [bad,damage])expect((await input.boundingBox())!.height).toBeGreaterThanOrEqual(44);
  await damage.fill('3');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('عصير برتقال');
 });

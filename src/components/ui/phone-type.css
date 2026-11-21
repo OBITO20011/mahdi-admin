@@ -15,3 +15,12 @@
     font-size: 12px;
   }
 }
+/* Owner UX batch F (2026-11-20): no screen text below 12px, laptops included.
+   Separate block so the phone/tablet rules above keep their own media scope;
+   print keeps its existing typography. Collapsed side-rail captions sit under an icon
+   in a 56px tile, where 12px would cut them; the full menu already uses 14px. */
+@media screen and (min-width: 1024px) {
+  :is(.text-\[8px\], .text-\[9px\], .text-\[10px\], .text-\[11px\]):not([data-side-nav-item]) {
+    font-size: 12px;
+  }
+}

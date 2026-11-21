@@ -229,7 +229,7 @@ async function runDay(browserType,engine,device){
     await expect(review).toContainText('1.000');
     await expect(review).toContainText('0.840');
     const pricingBefore=await settings(db);
-    await button(review,'خلّيه هيك').click();
+    await button(review,'إبقاؤه كما هو').click();
     await expect(review.getByRole('heading',{name:productName})).toHaveCount(0);
     assert.deepEqual(await settings(db),pricingBefore);
     stage='manual raise preserves or clears the original single price';

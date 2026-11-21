@@ -10,7 +10,7 @@ export const posKnownRejectionCopy: Readonly<Record<string, string>> = {
   POS216_INITIAL_PAYMENT_INVALID: 'راجع المدفوع الآن؛ يجب أن يكون أقل من صافي الفاتورة للدفع الجزئي.',
   POS216_SALE_CONTRACT_CHANGED: 'تغيّرت بيانات البيع؛ لم تُحفظ العملية. راجع السلة قبل المحاولة مجدداً.',
   PARCEL209_UNIT_SALE_FORBIDDEN:
-    'هذا الصنف بيتباع بالطرد بس. احذف سطر المفرد وأضفه كطرد؛ لا تتغيّر السلة تلقائياً.',
+    'هذا الصنف يُباع بالطرد فقط. احذف سطر المفرد وأضفه كطرد؛ لا تتغيّر السلة تلقائياً.',
   PARCEL209_FAMILY_CHANGED_RETRY:
     'تغيّرت نكهات المنتج. حدّث البيانات وراجع السلة قبل بدء محاولة جديدة.',
   PHASE3_IDEMPOTENCY_CONFLICT:

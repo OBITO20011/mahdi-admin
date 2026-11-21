@@ -30,10 +30,10 @@ for(const width of [390,1280])test.describe(`inventory224 ${width}`,()=>{
  test('name/SKU/barcode search, combined filter, clear and empty action',async({page},info)=>{
   const c=await setup(page),search=page.getByRole('searchbox',{name:'البحث في المخزون'});
   for(const text of ['براوني','nw-٠٢٦٨','001234']){await search.fill(text);await expect.poll(()=>c.reads.at(-1)?.p_search).toBe(text==='nw-٠٢٦٨'?'nw-0268':text);await expect(page.locator('[data-counter-id]')).toHaveCount(1);await expect(page.locator('[data-counter-id]')).toContainText('براوني');}
-  await page.getByLabel('فلتر المخزون').getByRole('button',{name:'نفد',exact:true}).click();await expect(page.getByRole('status')).toContainText('ما في نتيجة');
+  await page.getByLabel('فلتر المخزون').getByRole('button',{name:'نفد',exact:true}).click();await expect(page.getByRole('status')).toContainText('لا توجد نتيجة');
   expect(c.reads.at(-1)).toMatchObject({p_search:'001234',p_filter:'zero'});
   await page.getByRole('button',{name:'مسح البحث'}).click();await expect(page.locator('[data-counter-id]')).toHaveCount(1);
-  await search.fill('لايوجد');await expect(page.getByRole('status')).toHaveText('ما في نتيجة لـ"لايوجد"');
+  await search.fill('لايوجد');await expect(page.getByRole('status')).toHaveText('لا توجد نتيجة لـ"لايوجد"');
   await page.screenshot({path:info.outputPath('inventory-search-empty.png'),fullPage:true});
  });
  test('receive +24 saves26 once; correction saves absolute value and full Latin quantities fit',async({page},info)=>{
@@ -76,11 +76,11 @@ for(const width of [390,1280])test.describe(`inventory224 ${width}`,()=>{
   await page.route('**/rpc/search_admin_products',route=>route.fulfill({json:[]}));
   await page.getByRole('button',{name:'إضافة منتج للعدّ',exact:true}).click();
   const dialog=page.getByRole('dialog');
-  await expect(dialog.getByRole('status')).toHaveText('ما في منتجات متاحة');
+  await expect(dialog.getByRole('status')).toHaveText('لا توجد منتجات متاحة');
   await dialog.getByRole('searchbox',{name:'بحث عن منتج للعدّ'}).fill('لايوجد');
-  await expect(dialog.getByRole('status')).toHaveText('ما في نتيجة لـ"لايوجد"');
+  await expect(dialog.getByRole('status')).toHaveText('لا توجد نتيجة لـ"لايوجد"');
   await dialog.getByRole('button',{name:'مسح البحث',exact:true}).click();
-  await expect(dialog.getByRole('status')).toHaveText('ما في منتجات متاحة');
+  await expect(dialog.getByRole('status')).toHaveText('لا توجد منتجات متاحة');
  });
 });
 test('nonowner inventory renders no owner data and performs no RPC',async({page})=>{

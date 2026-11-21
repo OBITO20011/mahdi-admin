@@ -51,7 +51,7 @@ test('التقرير بسيط، والتكلفة في تفاصيل؛ الدقة 
   await expect(cards.first()).not.toBeVisible();
   await expect(main.getByText('تكلفة الاستبدال', {exact: true})).not.toBeVisible();
   await details.locator('summary').click();
-  for (const label of ['المبيعات', 'المرتجعات', 'صافي المبيعات', 'المقبوض — كاش', 'المقبوض — CliQ', 'المصاري المرجّعة', 'الذمم', 'المصاريف', 'الربح']) {
+  for (const label of ['المبيعات', 'المرتجعات', 'صافي المبيعات', 'المقبوض — كاش', 'المقبوض — CliQ', 'المبالغ المُعادة', 'الذمم', 'المصاريف', 'الربح']) {
     await expect(cards.getByText(label, {exact: true})).toBeVisible();
   }
   await expect(cards.filter({has: page.getByText('الربح', {exact: true})})).toContainText(signed);

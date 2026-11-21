@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "claude",
-  "objective": "Owner20Nov ON225 trial fixes batch E UI-only (no migration): item15 reports page design A chosen by owner — profit first, four plain numbers, how-profit-was-made box, folds for products, stock/purchases and accountant details; general Arabic wording.",
+  "objective": "Owner20Nov ON225 UX simplification batch F UI-only (no migration): owner approved all 8 items — home 4 numbers+shift+alerts, simpler POS cart with one customer field, order detail without duplicates, orders list text, customers 4 filters, quick add product, general Arabic for colloquial copy, minimum 12px text.",
   "baselineSha": "628f504743dc42424dc2b163693cfa8ad8a1f34f",
-  "branch": "claude/on225-owner-fixes-e",
+  "branch": "claude/on225-owner-fixes-f",
   "phase": "ON225_OWNER_TRIAL_FIXES",
   "startedAt": "2026-11-20T12:00:00.000Z",
   "completed": [
@@ -30,7 +30,7 @@
   "prohibitions": [
     "No deploy/Frankfurt/Production/hosted access; no historical migration edits."
   ],
-  "nextExactAction": "Push claude/on225-owner-fixes-e (item15 reports design A, UI-only), open PR, update trial build for owner review, merge on 100% green CI after owner OK",
+  "nextExactAction": "Implement UX batch F items 1-3 (home, POS cart, order detail) UI-only, then items 4-8; regenerate pins/evidence, test, PR, trial build for owner review",
   "checkpointedAt": "2026-11-19T14:59:05.959Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"

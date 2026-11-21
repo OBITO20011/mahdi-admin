@@ -180,7 +180,7 @@ export const ShiftClosingReportModal: React.FC<
               <div className="flex justify-between text-nw-text"><span>مبالغ مرجعة</span><b>{money(report.sales.refunds)}</b></div>
               <div className="flex justify-between text-nw-text"><span>تخفيض دين</span><b>{money(report.sales.debtReduction ?? 0)}</b></div>
               {report.sales.internalExchangeCreditInMinorUnits!==undefined&&<div className="flex flex-wrap justify-between gap-2"><span>من المرتجع إلى مقابل التبديل (بلا كاش)</span><bdi dir="ltr">{formatExactMinorJod(report.sales.internalExchangeCreditInMinorUnits)}</bdi></div>}
-              <p className="text-[10px] text-nw-muted">{report.sales.salesDefinitionVersion===215?'المرتجعات = المال المرجع + تخفيض الدين + مقابل التبديل الداخلي.':'المرتجعات = المبالغ المرجعة + تخفيض الدين.'} تخفيض الدين والمقابل الداخلي لا يخرجان مصاري من الصندوق.</p>
+              <p className="text-[10px] text-nw-muted">{report.sales.salesDefinitionVersion===215?'المرتجعات = المال المرجع + تخفيض الدين + مقابل التبديل الداخلي.':'المرتجعات = المبالغ المرجعة + تخفيض الدين.'} تخفيض الدين والمقابل الداخلي لا يُخرجان مالاً من الصندوق.</p>
             </section>
           )}
 

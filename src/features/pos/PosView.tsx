@@ -136,6 +136,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
   const recoveryBlocked = recoveryStatus !== null && !['SUCCEEDED', 'DEFINITIVELY_REJECTED', 'CANCELLED_UNCOMMITTED'].includes(recoveryStatus);
   const [posCustomers, setPosCustomers] = useState<PosCustomer[]>([]);
   const [customerSearch, setCustomerSearch] = useState('');
+  const [isCustomerSearchOpen, setIsCustomerSearchOpen] = useState(false);
   const [posCustomerPage, setPosCustomerPage] = useState(1);
   const [posCustomerTotal, setPosCustomerTotal] = useState(0);
   const [posCustomersHaveMore, setPosCustomersHaveMore] = useState(false);
@@ -873,47 +874,63 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
             </section>}
           </section>
           <ResponsiveCartPanel open={isCartOpen} onClose={() => setIsCartOpen(false)} busy={isSubmitting}
-            title={'سلة المبيعات الحالية (' + cartItems.length + ')'}
+            title={'السلة (' + cartItems.length + ')'}
             action={cartItems.length > 0 && <UiButton variant="danger" disabled={isSubmitting || recoveryBlocked} onClick={() => setCartItems([])} className="px-2 text-xs"><Trash2 className="h-4 w-4" />إفراغ السلة</UiButton>}
             footer={<>{cartTotals}{paymentControl}{completeSaleButton}</>}>
             {cartMethodConflict&&<p role="alert" className="rounded-lg bg-nw-bad-bg p-3 text-sm text-nw-bad">{cartMethodConflict}</p>}
-                      {/* Customer Picker */}
-          <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-bg/35 p-3">
-            <div className="flex items-center justify-between gap-2">
-              <span className="font-bold text-nw-text">العميل المستلم</span>
+          {/* Customer picker — owner UX batch F: one field, the search opens on demand. */}
+          <div data-testid="pos-customer-picker" className="space-y-2 rounded-2xl border border-nw-border bg-nw-bg/35 p-3">
+            <div className="flex items-center gap-2">
+              <select aria-label="اختيار العميل"
+                value={selectedCustomerId}
+                onChange={(e) => setSelectedCustomerId(e.target.value)}
+                className="min-h-11 min-w-0 flex-1 rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2 text-sm text-nw-text focus:border-nw-ok focus:outline-none"
+              >
+                <option value="">زبون نقدي</option>
+                {posCustomers.map((customer) => (
+                  <option key={customer.id} value={customer.id}>
+                    {customer.name}
+                    {customer.phone ? ` — ${customer.phone}` : ''}
+                  </option>
+                ))}
+              </select>
+              <button type="button" aria-label="بحث عن زبون" aria-expanded={isCustomerSearchOpen}
+                onClick={() => setIsCustomerSearchOpen((open) => !open)}
+                className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-surface-2 text-nw-text">
+                <Search className="h-4 w-4" aria-hidden="true" />
+              </button>
               <button
                 type="button"
                 onClick={() => setIsAddCustomerOpen(true)}
-                className="min-h-11 flex items-center gap-1.5 rounded-xl border border-nw-ok/30 bg-nw-ok-bg/10 px-2.5 py-1.5 text-[10px] font-extrabold text-nw-ok transition hover:bg-nw-ok-bg/20"
+                className="flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl border border-nw-ok/30 bg-nw-ok-bg/10 px-2.5 py-1.5 text-xs font-bold text-nw-ok transition hover:bg-nw-ok-bg/20"
               >
-                <UserPlus className="h-3.5 w-3.5" />
-                زبون جديد سريع
+                <UserPlus className="h-4 w-4" aria-hidden="true" />
+                زبون جديد
               </button>
             </div>
-            <div className="relative">
-              <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted" />
+            {isCustomerSearchOpen && <div className="space-y-2">
               <input
                 type="search"
                 value={customerSearch}
                 onChange={(event) => setCustomerSearch(event.target.value)}
-                placeholder="ابحث بالاسم أو الهاتف أو معرف العميل"
+                placeholder="اسم الزبون أو هاتفه"
                 aria-label="البحث عن عميل للبيع"
-                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 min-h-11 py-2 pl-3 pr-9 text-xs text-nw-text placeholder:text-nw-muted focus:border-nw-ok focus:outline-none"
+                className="min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2 text-sm text-nw-text placeholder:text-nw-muted focus:border-nw-ok focus:outline-none"
               />
-            </div>
-            <select aria-label="اختيار العميل"
-              value={selectedCustomerId}
-              onChange={(e) => setSelectedCustomerId(e.target.value)}
-              className="w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 min-h-11 py-2 text-sm text-nw-text focus:border-nw-ok focus:outline-none"
-            >
-              <option value="">زبون نقدي - مباشر</option>
-              {posCustomers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                  {customer.phone ? ` — ${customer.phone}` : ''}
-                </option>
-              ))}
-            </select>
+              {(isPosCustomersLoading || posCustomersHaveMore) && <div className="flex items-center justify-between gap-2 text-xs text-nw-muted">
+                <span>{isPosCustomersLoading ? 'جاري البحث...' : `${posCustomerTotal} زبون`}</span>
+                {posCustomersHaveMore && (
+                  <button
+                    type="button"
+                    onClick={loadMorePosCustomers}
+                    disabled={isPosCustomersLoading}
+                    className="min-h-11 rounded-lg border border-nw-border bg-nw-surface-2 px-2 py-1 font-bold text-nw-text disabled:opacity-60"
+                  >
+                    تحميل المزيد
+                  </button>
+                )}
+              </div>}
+            </div>}
             {selectedPosCustomer && <div data-testid="pos-customer-debt" className={
               selectedPosCustomer.currentBalance !== undefined && selectedPosCustomer.creditLimit !== undefined
                 && selectedPosCustomer.currentBalance > selectedPosCustomer.creditLimit
@@ -927,35 +944,10 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
               </>}
             </div>}
             {selectedPosCustomer&&canReceiveCheque&&<UiButton disabled={isSubmitting||recoveryBlocked} onClick={()=>setIsChequeOpen(true)}>استلام شيك من العميل</UiButton>}
-            <div className="flex items-center justify-between gap-2 text-[9px] text-nw-muted">
-              <span>
-                {isPosCustomersLoading
-                  ? 'جاري البحث...'
-                  : `${posCustomerTotal} عميل مطابق`}
-              </span>
-              {posCustomersHaveMore && (
-                <button
-                  type="button"
-                  onClick={loadMorePosCustomers}
-                  disabled={isPosCustomersLoading}
-                  className="min-h-11 rounded-lg border border-nw-border bg-nw-surface-2 px-2 py-1 font-bold text-nw-text disabled:opacity-60"
-                >
-                  تحميل المزيد
-                </button>
-              )}
-            </div>
-            {paymentMethod === 'debt' && !selectedCustomerId ? (
-              <p className="flex items-start gap-1.5 text-[10px] leading-5 text-nw-warn">
-                <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                اختر عميلاً مسجلاً؛ لا يمكن حفظ دين على زبون نقدي مباشر.
-              </p>
-            ) : selectedPosCustomer ? (
-              <p className="text-[10px] leading-5 text-nw-ok">
-                ستُحفظ الفاتورة في سجل {selectedPosCustomer.name} وحسابه.
-              </p>
-            ) : (
-              <p className="text-[10px] leading-5 text-nw-muted">
-                للبيع النقدي العابر اترك الخيار على «زبون نقدي - مباشر».
+            {paymentMethod === 'debt' && !selectedCustomerId && (
+              <p className="flex items-start gap-1.5 text-xs leading-5 text-nw-warn">
+                <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                البيع بالدين يحتاج اختيار زبون.
               </p>
             )}
           </div>
@@ -973,7 +965,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
               return <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
                   <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {unitLabel}</span></div>
-                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{unitLabel}</StatusBadge><span className="nw-num text-xs text-nw-muted">
+                  <span className="nw-num text-xs text-nw-muted">
                     {item.unitPrice.toFixed(3)} {CURRENCY} / {unitLabel}
                   </span>
                 </div>
@@ -1021,7 +1013,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
                 className="block min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2 text-base text-nw-text"/>
             </label>}
             <p id="pos-initial-paid-help" className={initialPaidIssue?'text-sm text-nw-bad':'text-sm text-nw-muted'} role={initialPaidIssue?'alert':undefined}>
-              {initialPaidIssue??<>الباقي على الحساب: <MoneyText amount={initialDue??totalAmount} currency/>. صفر يعني ديناً كاملاً؛ دفع الصافي كله يعني دفعاً كاملاً.</>}
+              {initialPaidIssue??<>الباقي على الحساب: <MoneyText amount={initialDue??totalAmount} currency/></>}
             </p>
           </fieldset>}
 

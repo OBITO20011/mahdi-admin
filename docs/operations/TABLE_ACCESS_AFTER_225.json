@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T17:54:06.616Z",
+  "startedAt": "2026-11-21T13:56:31.656Z",
   "managedAccess": false,
   "migrationCeiling": 225,
   "manifest": [
@@ -190,11 +190,11 @@
     "224_optional_quantity_inventory_reader.sql",
     "225_on_independent_prices.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-jh0xje",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-8apk1S",
   "stage": "rls-and-acl",
   "results": [
     {
-      "id": "src/features/pos/PosView.tsx:592",
+      "id": "src/features/pos/PosView.tsx:593",
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -218,7 +218,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -229,7 +229,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/features/pos/PosView.tsx:592",
+      "id": "src/features/pos/PosView.tsx:593",
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -253,7 +253,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -264,7 +264,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/features/pos/PosView.tsx:592",
+      "id": "src/features/pos/PosView.tsx:593",
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -288,7 +288,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -323,7 +323,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -358,7 +358,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -393,7 +393,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -428,7 +428,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c3c6616b-7f80-45a9-bc45-0f0d121aef7d"
+            "664b8c5a-a1a7-444d-90c4-69c86fbc3c46"
           ]
         },
         {
@@ -463,7 +463,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c3c6616b-7f80-45a9-bc45-0f0d121aef7d"
+            "664b8c5a-a1a7-444d-90c4-69c86fbc3c46"
           ]
         },
         {
@@ -498,7 +498,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c3c6616b-7f80-45a9-bc45-0f0d121aef7d"
+            "664b8c5a-a1a7-444d-90c4-69c86fbc3c46"
           ]
         },
         {
@@ -731,7 +731,7 @@
           "method": "eq",
           "args": [
             "id",
-            "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb"
+            "56b802fd-7c75-4b8c-bef9-96848c5da328"
           ]
         },
         {
@@ -766,7 +766,7 @@
           "method": "eq",
           "args": [
             "id",
-            "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb"
+            "56b802fd-7c75-4b8c-bef9-96848c5da328"
           ]
         },
         {
@@ -801,7 +801,7 @@
           "method": "eq",
           "args": [
             "id",
-            "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb"
+            "56b802fd-7c75-4b8c-bef9-96848c5da328"
           ]
         },
         {
@@ -836,7 +836,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9d18f9ff-f836-4185-a493-9b738c2e2ce9"
+            "3ba2b629-dc74-4226-91e3-0cc6edc74595"
           ]
         },
         {
@@ -871,7 +871,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9d18f9ff-f836-4185-a493-9b738c2e2ce9"
+            "3ba2b629-dc74-4226-91e3-0cc6edc74595"
           ]
         },
         {
@@ -906,7 +906,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9d18f9ff-f836-4185-a493-9b738c2e2ce9"
+            "3ba2b629-dc74-4226-91e3-0cc6edc74595"
           ]
         },
         {
@@ -941,7 +941,7 @@
           "method": "eq",
           "args": [
             "id",
-            "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb"
+            "56b802fd-7c75-4b8c-bef9-96848c5da328"
           ]
         },
         {
@@ -976,7 +976,7 @@
           "method": "eq",
           "args": [
             "id",
-            "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb"
+            "56b802fd-7c75-4b8c-bef9-96848c5da328"
           ]
         },
         {
@@ -1011,7 +1011,7 @@
           "method": "eq",
           "args": [
             "id",
-            "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb"
+            "56b802fd-7c75-4b8c-bef9-96848c5da328"
           ]
         },
         {
@@ -1549,7 +1549,7 @@
           "args": [
             "order_id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1589,7 +1589,7 @@
           "args": [
             "order_id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1629,7 +1629,7 @@
           "args": [
             "order_id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1662,7 +1662,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1695,7 +1695,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1728,7 +1728,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1899,7 +1899,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1932,7 +1932,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1965,7 +1965,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -1998,7 +1998,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -2031,7 +2031,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -2064,7 +2064,7 @@
           "args": [
             "id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         }
@@ -2097,7 +2097,7 @@
           "args": [
             "order_id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         },
@@ -2163,7 +2163,7 @@
           "args": [
             "order_id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         },
@@ -2229,7 +2229,7 @@
           "args": [
             "order_id",
             [
-              "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+              "c8a2ecad-447a-463e-80b5-494554f66a46"
             ]
           ]
         },
@@ -2294,7 +2294,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -2329,7 +2329,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -2364,7 +2364,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -2399,7 +2399,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -2436,7 +2436,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -2473,7 +2473,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -2511,7 +2511,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "c5c44034-ed53-49cd-a194-72351dcee978"
+              "a0ae3129-bbfd-4be3-8548-65cf0910bf38"
             ]
           ]
         }
@@ -2544,7 +2544,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "c5c44034-ed53-49cd-a194-72351dcee978"
+              "a0ae3129-bbfd-4be3-8548-65cf0910bf38"
             ]
           ]
         }
@@ -2577,7 +2577,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "c5c44034-ed53-49cd-a194-72351dcee978"
+              "a0ae3129-bbfd-4be3-8548-65cf0910bf38"
             ]
           ]
         }
@@ -5438,7 +5438,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9d18f9ff-f836-4185-a493-9b738c2e2ce9"
+            "3ba2b629-dc74-4226-91e3-0cc6edc74595"
           ]
         },
         {
@@ -5473,7 +5473,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9d18f9ff-f836-4185-a493-9b738c2e2ce9"
+            "3ba2b629-dc74-4226-91e3-0cc6edc74595"
           ]
         },
         {
@@ -5508,7 +5508,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9d18f9ff-f836-4185-a493-9b738c2e2ce9"
+            "3ba2b629-dc74-4226-91e3-0cc6edc74595"
           ]
         },
         {
@@ -7195,7 +7195,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "771fa3b8-8652-4d78-99e4-3de839a8c1aa",
+              "entity_id": "c8a2ecad-447a-463e-80b5-494554f66a46",
               "status": "processing"
             }
           ]
@@ -7228,7 +7228,7 @@
           "method": "eq",
           "args": [
             "id",
-            "771fa3b8-8652-4d78-99e4-3de839a8c1aa"
+            "c8a2ecad-447a-463e-80b5-494554f66a46"
           ]
         },
         {
@@ -7267,7 +7267,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-20T17:55:51.030Z"
+              "completed_at": "2026-11-21T13:58:36.913Z"
             }
           ]
         },
@@ -7303,7 +7303,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-20T17:55:51.058Z"
+              "completed_at": "2026-11-21T13:58:36.929Z"
             }
           ]
         },
@@ -7337,9 +7337,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-20T17:55:51.086Z",
+              "last_success_at": "2026-11-21T13:58:36.948Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-20T17:55:51.086Z"
+              "updated_at": "2026-11-21T13:58:36.948Z"
             }
           ]
         },
@@ -7374,9 +7374,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-20T17:55:51.117Z",
+              "last_failure_at": "2026-11-21T13:58:36.974Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-20T17:55:51.117Z"
+              "updated_at": "2026-11-21T13:58:36.974Z"
             }
           ]
         },
@@ -7413,7 +7413,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-20T17:55:51.152Z"
+              "completed_at": "2026-11-21T13:58:37.005Z"
             }
           ]
         },
@@ -31114,131 +31114,6 @@
         ],
         "rls": false,
         "kind": "r",
-        "name": "messages_2026_11_19",
-        "view": null,
-        "owner": "supabase_realtime_admin",
-        "schema": "realtime",
-        "columns": [
-          {
-            "acl": null,
-            "name": "topic",
-            "type": "text",
-            "number": 1,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "extension",
-            "type": "text",
-            "number": 2,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "payload",
-            "type": "jsonb",
-            "number": 3,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "event",
-            "type": "text",
-            "number": 4,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "private",
-            "type": "boolean",
-            "number": 5,
-            "default": "false",
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "updated_at",
-            "type": "timestamp without time zone",
-            "number": 6,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "inserted_at",
-            "type": "timestamp without time zone",
-            "number": 7,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "id",
-            "type": "uuid",
-            "number": 8,
-            "default": "gen_random_uuid()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "binary_payload",
-            "type": "bytea",
-            "number": 9,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          }
-        ],
-        "options": null,
-        "parents": [
-          {
-            "name": "messages",
-            "schema": "realtime"
-          }
-        ],
-        "forceRls": false,
-        "partition": "FOR VALUES FROM ('2026-11-19 00:00:00') TO ('2026-11-20 00:00:00')",
-        "persistence": "p",
-        "replicaIdentity": "d"
-      },
-      {
-        "acl": [
-          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
-          "postgres=arwdDxtm/supabase_realtime_admin",
-          "dashboard_user=arwdDxtm/supabase_realtime_admin"
-        ],
-        "rls": false,
-        "kind": "r",
         "name": "messages_2026_11_20",
         "view": null,
         "owner": "supabase_realtime_admin",
@@ -31728,6 +31603,131 @@
         ],
         "forceRls": false,
         "partition": "FOR VALUES FROM ('2026-11-23 00:00:00') TO ('2026-11-24 00:00:00')",
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      {
+        "acl": [
+          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
+          "postgres=arwdDxtm/supabase_realtime_admin",
+          "dashboard_user=arwdDxtm/supabase_realtime_admin"
+        ],
+        "rls": false,
+        "kind": "r",
+        "name": "messages_2026_11_24",
+        "view": null,
+        "owner": "supabase_realtime_admin",
+        "schema": "realtime",
+        "columns": [
+          {
+            "acl": null,
+            "name": "topic",
+            "type": "text",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "extension",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payload",
+            "type": "jsonb",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "event",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "private",
+            "type": "boolean",
+            "number": 5,
+            "default": "false",
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp without time zone",
+            "number": 6,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "inserted_at",
+            "type": "timestamp without time zone",
+            "number": 7,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 8,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "binary_payload",
+            "type": "bytea",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [
+          {
+            "name": "messages",
+            "schema": "realtime"
+          }
+        ],
+        "forceRls": false,
+        "partition": "FOR VALUES FROM ('2026-11-24 00:00:00') TO ('2026-11-25 00:00:00')",
         "persistence": "p",
         "replicaIdentity": "d"
       },
@@ -42084,32 +42084,6 @@
         "replicaIdentity": false
       },
       {
-        "name": "messages_2026_11_19_inserted_at_topic_idx",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_19",
-        "valid": true,
-        "schema": "realtime",
-        "unique": false,
-        "primary": false,
-        "clustered": false,
-        "definition": "CREATE INDEX messages_2026_11_19_inserted_at_topic_idx ON realtime.messages_2026_11_19 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
-        "replicaIdentity": false
-      },
-      {
-        "name": "messages_2026_11_19_pkey",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_19",
-        "valid": true,
-        "schema": "realtime",
-        "unique": true,
-        "primary": true,
-        "clustered": false,
-        "definition": "CREATE UNIQUE INDEX messages_2026_11_19_pkey ON realtime.messages_2026_11_19 USING btree (id, inserted_at)",
-        "replicaIdentity": false
-      },
-      {
         "name": "messages_2026_11_20_inserted_at_topic_idx",
         "owner": "supabase_realtime_admin",
         "ready": true,
@@ -42211,6 +42185,32 @@
         "primary": true,
         "clustered": false,
         "definition": "CREATE UNIQUE INDEX messages_2026_11_23_pkey ON realtime.messages_2026_11_23 USING btree (id, inserted_at)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_24_inserted_at_topic_idx",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_24",
+        "valid": true,
+        "schema": "realtime",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX messages_2026_11_24_inserted_at_topic_idx ON realtime.messages_2026_11_24 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_24_pkey",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_24",
+        "valid": true,
+        "schema": "realtime",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX messages_2026_11_24_pkey ON realtime.messages_2026_11_24 USING btree (id, inserted_at)",
         "replicaIdentity": false
       },
       {
@@ -78008,38 +78008,6 @@
         "initiallyDeferred": false
       },
       {
-        "name": "messages_2026_11_19_pkey",
-        "type": "p",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_19",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "PRIMARY KEY (id, inserted_at)",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
-        "name": "messages_payload_exclusive",
-        "type": "c",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_19",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
         "name": "messages_2026_11_20_pkey",
         "type": "p",
         "local": false,
@@ -78157,6 +78125,38 @@
         "local": false,
         "match": " ",
         "table": "messages_2026_11_23",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_2026_11_24_pkey",
+        "type": "p",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_24",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id, inserted_at)",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_payload_exclusive",
+        "type": "c",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_24",
         "schema": "realtime",
         "onDelete": " ",
         "onUpdate": " ",
@@ -80421,7 +80421,7 @@
     },
     {
       "file": "src/features/crm/CustomerFilters.tsx",
-      "sha256": "0cfae06241c094709601b16e9aeeabd40e59da9aa9f91a14d46ff6c8add19b4a"
+      "sha256": "2941440ce1440221d58fd27296bb6a51512d5e89a2c2c885c5fc756d4a9e998c"
     },
     {
       "file": "src/features/crm/CustomerList.tsx",
@@ -80437,7 +80437,7 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "6c1cd17f3983c875014b812a01d4644c56bf80540dde7ed4b75a3bbdbda924b5"
+      "sha256": "1f33ee065af437ab7a104ffec67fe98528878cc9685d5f810a73527622c39565"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
@@ -80601,7 +80601,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "310b04fa0d9330aa2795881b713df379fe530d477929d563aa30d1c1e94ffc1f"
+      "sha256": "864adbacf0fef022ee919a681a35de2b89eff53455966b6b0476ae0be3593384"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -80625,7 +80625,7 @@
     },
     {
       "file": "src/features/operatingMode/Inventory224View.tsx",
-      "sha256": "6222b6ec57f58d095582e6ed6871a4c13bb14a30573569131672a24a6a9deb50"
+      "sha256": "850ffb7857075c86df8e42692ffd7e235598d3b52aefeadc8fb000030c720854"
     },
     {
       "file": "src/features/operatingMode/LowOptionalQuantityList.tsx",
@@ -80665,7 +80665,7 @@
     },
     {
       "file": "src/features/operatingMode/OptionalQuantityPanel.tsx",
-      "sha256": "c33a2efc278daeb0b6724b7a81082a1c4d1e6cf370e6061e6c89bf2ecea0ccdf"
+      "sha256": "a117e92c51fbea3cff175e6a33a44c3917932f30a849d627de3a3fa7aa965bd6"
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
@@ -80673,7 +80673,7 @@
     },
     {
       "file": "src/features/orders/aftercare215Draft.ts",
-      "sha256": "73824f544310dea7206d4b58392557c208c81a0345eaee6dc8800bb0a22e31b3"
+      "sha256": "09210b68b31cf535c7df3c492c20af6e3aa90aeeeb92df3489d3c700e2e0a7ba"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
@@ -80685,7 +80685,7 @@
     },
     {
       "file": "src/features/orders/AftercareWizard215.tsx",
-      "sha256": "c770f3fe4cb8c3843245aeb0a20c4c1b83bb46046f51bad97247db07162b173d"
+      "sha256": "cef86f2616f7ff518d2f8fd8d6fcda2d1c9e0f0615f0ac08411151b9a5a6ac74"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -80701,15 +80701,15 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "6718aeaea823a20c9fdd0a73757d6caa3a91a0e22af7d595f57933399e78aa0f"
+      "sha256": "f28ac5b51122a803ac7364c673241d12ed5d08ec5ec83843af4e223708505573"
     },
     {
       "file": "src/features/orders/OrderReturnBadge.tsx",
-      "sha256": "bf77578315f8d6caba0e243f10940317078b23ac7573fc6dfa5940ad974f325b"
+      "sha256": "5d6501ed7a9d20c00d040a6a00e1b293b5d41a833f10df0d955df82d08bb2846"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "b1a41f2e4ff7ee5deb2f681fcdd53de71df7e2b915ccb7a2cb7ef0cfbcb1709e"
+      "sha256": "5526091d880f6e22e742d68a57656b129213b8eb2741dc54df0e85f2dcc8c535"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
@@ -80749,11 +80749,11 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "6dae252669b36ab6c9a8fc739fc4936c3acdcad56447f57711d3c58e91200e04"
+      "sha256": "07b15d7e1575ef24a1fcb463ec1238712bc533a160c7f9c741f31721844c29b4"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
-      "sha256": "9314af6f0d76f70088d81ccd35433f28177cceb970f6c8984c58f0b152bf3610"
+      "sha256": "9a7ae9d45cdd7cc484c38ce98b0bcc6bf0415b9869dab14afb2e150c48ee3f54"
     },
     {
       "file": "src/features/pos/salesOnlyPos.ts",
@@ -80853,11 +80853,11 @@
     },
     {
       "file": "src/features/purchases/ReceivingPurchaseHint.tsx",
-      "sha256": "e29842b1597bc09580f03070dc0a8553e51df19f855a7e325c0a1435aa091616"
+      "sha256": "60d7a7bc662349bb938c032a2bdf684b7c12917c8fce92a321ead3df7719d66f"
     },
     {
       "file": "src/features/purchases/SavedReceiptPriceReview225.tsx",
-      "sha256": "f5e2e70bf4dbd8a15ff1c28f99b94c9bcf38b3e24eb332712d575a383d033f35"
+      "sha256": "8ba5169ff91c4644e380e4f09f77507ecd546f2f3d802d99e1572f95edaf2f6e"
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -80877,7 +80877,7 @@
     },
     {
       "file": "src/features/reports/DamageLossReportSection.tsx",
-      "sha256": "babd927dc4bb4b4351359a37a225adb069b13651179051d45ba4be79394a08b1"
+      "sha256": "60eb10301e74bd6ab8f819bc8c5d91f8901f9b195c4095baffc86830bc235a5b"
     },
     {
       "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
@@ -80885,7 +80885,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "648bbe06fe8a9951e2914cfe0edda5ca6a77be8288eb0b0bc0cd053dab15b373"
+      "sha256": "b3091422e54fa78bb45bdffe25e93cfd8bebc455a1943249304629c1f5c100f6"
     },
     {
       "file": "src/features/reports/SalesOnlyReportsView.tsx",
@@ -80941,11 +80941,11 @@
     },
     {
       "file": "src/features/shifts/ShiftClosingReportModal.tsx",
-      "sha256": "dd76de9e7938cee27255d3f4f3cb01e794e0181441b7297c3ce8d47f5fe38bfb"
+      "sha256": "3c7fd9d0f698f5763718b1eedeb7034ce81179e5918d23e225504724652ea021"
     },
     {
       "file": "src/features/shifts/ShiftOwnerSummary.tsx",
-      "sha256": "839cc035b721deab634831b09d14f19fd884f3256fc2a7f5146126c6ebae56a5"
+      "sha256": "13ed11226d2559d4498f7e4579436b4b29598a23332dc5b66b63e81a11193dc3"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
@@ -81213,7 +81213,7 @@
     },
     {
       "file": "src/services/supabase/posV2.service.ts",
-      "sha256": "35ba16da838ac558c322e4c07c519d8d13cf0dd20d0c911f5e351c0178b7842a"
+      "sha256": "6b03da84b2c19bf6b7ab9a563c31c8944a878e9cc96c77cbd0c36c407f592833"
     },
     {
       "file": "src/services/supabase/posV2Recovery.ts",
@@ -81505,7 +81505,7 @@
     },
     {
       "file": "src/utils/posKnownRejectionCopy.ts",
-      "sha256": "34198297fa38cd3c656b6fd4772b5006f94938346b20db166ff205971ab6e7bb"
+      "sha256": "409d65dddd49fd45cfaa25b9e8527b869a53a4a8d54a2a36e6adcd2ddbf0bf59"
     },
     {
       "file": "src/utils/posStockCopy.ts",
@@ -81601,7 +81601,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "39eebd29b9c54e2458143a819a1303e690f829939fccc7774af0b77dcf29ec98"
+      "sha256": "b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -81629,7 +81629,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "313029be6302d966c2f40801025eaadfc7eed95654b7ff93368cb2f11794a98a"
+      "sha256": "28b5cbd72a1b793005c96a976247320b3b27869a153ef4c5bebff7d8637d213d"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -82001,13 +82001,13 @@
     }
   ],
   "fixture": {
-    "orderId": "771fa3b8-8652-4d78-99e4-3de839a8c1aa",
-    "operationId": "c3c6616b-7f80-45a9-bc45-0f0d121aef7d",
-    "receiptId": "96ffeb8c-ad05-4a93-a1bf-f89cff3f4ffb",
-    "poId": "9d18f9ff-f836-4185-a493-9b738c2e2ce9",
+    "orderId": "c8a2ecad-447a-463e-80b5-494554f66a46",
+    "operationId": "664b8c5a-a1a7-444d-90c4-69c86fbc3c46",
+    "receiptId": "56b802fd-7c75-4b8c-bef9-96848c5da328",
+    "poId": "3ba2b629-dc74-4226-91e3-0cc6edc74595",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "c5c44034-ed53-49cd-a194-72351dcee978"
+      "a0ae3129-bbfd-4be3-8548-65cf0910bf38"
     ]
   },
   "access": [
@@ -87932,5 +87932,5 @@
     "zero_rows": 15,
     "other_error": 0
   },
-  "endedAt": "2026-11-20T17:58:24.922Z"
+  "endedAt": "2026-11-21T14:01:01.849Z"
 }

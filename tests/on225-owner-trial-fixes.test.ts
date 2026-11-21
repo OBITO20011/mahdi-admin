@@ -54,7 +54,7 @@ test('receiving can add loose packets (or a parcel) of the same product as its o
 test('damage report leads with one plain profit line whose sign follows profit',()=>{
  const section=raw('src/features/reports/DamageLossReportSection.tsx');
  assert.match(section,/const effect=losses\.additional===0\?0:-losses\.additional/u);
- assert.match(section,/أثر التلف على ربحك بهذه الفترة/u);
+ assert.match(section,/أثر التلف على الربح في هذه الفترة/u);
  assert.match(section,/تفاصيل للمحاسب/u);
  assert.doesNotMatch(section,/'إعادة تصنيف عيب إلى معلّق'/u);
 });
@@ -87,5 +87,5 @@ test('owner 2026-11-20: CliQ reference is optional everywhere; a blank one is re
 });
 
 test('owner 2026-11-20: delivery paid to the driver is explained where the order is settled',()=>{
- assert.match(raw('src/features/orders/OrderDetailModal.tsx'),/خلّيها 0 إذا الزبون دفع الأجرة للسائق مباشرة/u);
+ assert.match(raw('src/features/orders/OrderDetailModal.tsx'),/اتركها 0 إذا دفع الزبون الأجرة للسائق مباشرة/u);
 });

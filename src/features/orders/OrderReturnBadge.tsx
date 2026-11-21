@@ -23,7 +23,7 @@ export const ReturnedAfterSaleOrders: React.FC<{ onOpen: (orderId: string) => vo
     fetchRecentReturnedOrders().then((next) => { if (active) setRows(next); }).catch(() => { if (active) { setRows(null); setFailed(true); } });
     return () => { active = false; };
   }, [refreshKey]);
-  if (failed) return <Card role="status" className="text-xs text-nw-muted">تعذر تحميل الفواتير اللي فيها مرتجع بعد البيع؛ القائمة تحت تعرض الطلبات المرتجعة بالكامل فقط.</Card>;
+  if (failed) return <Card role="status" className="text-xs text-nw-muted">تعذر تحميل الفواتير التي فيها مرتجع بعد البيع؛ القائمة أدناه تعرض الطلبات المرتجعة بالكامل فقط.</Card>;
   if (!rows || rows.length === 0) return null;
   return <Card data-testid="returned-after-sale-orders" className="space-y-2">
     <h2 className="m-0 flex items-center gap-2 text-sm font-bold"><RotateCcw className="h-4 w-4 text-nw-warn" />فواتير فيها مرتجع بعد البيع ({rows.length})</h2>

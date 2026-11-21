@@ -62,7 +62,7 @@ function ShiftOwnerSummaryCard({report}:{report:ShiftClosingReport}) {
       <div data-testid="shift-summary-cliq" className="rounded-xl border border-nw-border bg-nw-info-bg p-3">
         <span className="flex items-center gap-1 text-[11px] font-bold text-nw-muted"><Smartphone className="h-3.5 w-3.5 text-nw-info"/>صافي CliQ بالوردية</span>
         <strong className="mt-1 block text-base text-nw-info"><MoneyText amount={reconciliation.netCliqMovement} currency/></strong>
-        <span className="mt-1 block text-[10px] text-nw-muted">صافي اللي دخل حساب CliQ بالوردية (بيع + سندات قبض − مرتجعات ومصاريف).</span>
+        <span className="mt-1 block text-[10px] text-nw-muted">صافي ما دخل حساب CliQ في الوردية (بيع + سندات قبض − مرتجعات ومصاريف).</span>
       </div>
     </div>
     {profit.status==='ready'&&profit.facts.top.length>0&&<div data-testid="shift-summary-top-items" className="rounded-xl border border-nw-border p-3">

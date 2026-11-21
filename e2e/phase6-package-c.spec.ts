@@ -12,7 +12,7 @@ test('POS product keyboard activation adds once per Enter or Space and retains c
   const card = page.locator('[data-pos-product-card="keyboard-product"]');
   await expect(card).toHaveJSProperty('tagName', 'BUTTON');
   await card.focus(); await page.keyboard.press('Enter');
-  if (page.viewportSize()!.width >= 1024) await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (1)'})).toBeVisible();
+  if (page.viewportSize()!.width >= 1024) await expect(page.getByRole('heading', {name: 'السلة (1)'})).toBeVisible();
   else await expect(page.getByRole('button', {name: 'مراجعة السلة والعميل'})).toContainText('صنف واحد');
   const quantity = page.locator('[data-pos-product-quantity="keyboard-product"]:visible');
   await expect(quantity).toHaveText('1');

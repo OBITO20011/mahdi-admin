@@ -52,8 +52,8 @@ for (const source of ['create-direct', 'receive'] as const) {
     await expect(review).toContainText('0.500');
     await expect(review).toContainText('1.000');
     await expect(review).toContainText('0.800');
-    await expect(review.getByRole('button', { name: 'رجّع السعر الأصلي لـباكيت' })).toBeVisible();
-    await review.getByRole('button', { name: 'خلّيه هيك' }).click();
+    await expect(review.getByRole('button', { name: 'استرجاع السعر الأصلي لـباكيت' })).toBeVisible();
+    await review.getByRole('button', { name: 'إبقاؤه كما هو' }).click();
     await expect(review.getByRole('heading', { name: 'عصير' })).toHaveCount(0);
     await review.getByRole('button', { name: 'تم', exact: true }).click();
     await expect(review).toHaveCount(0);

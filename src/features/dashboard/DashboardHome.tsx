@@ -1,12 +1,11 @@
 import type {SalesOnlyHomeData} from '../../services/supabase/salesOnlyHome.service';
 import {CashFlowSummary} from '../shifts/CashFlowSummary';
-import {SupplierReplacementSummary} from '../inventory/SupplierReplacementSummary';
 import {RecentSalesCard} from '../salesHistory/RecentSalesCard';
 import type {SalesHistoryReadState} from '../../hooks/useSalesHistory';
 import {customerCollectionRows} from '../../utils/customerCollections';
 import React, { useState } from 'react';
-import { ChevronLeft, PackagePlus, ReceiptText, RefreshCw } from 'lucide-react';
-import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, UiButton, formatUiDate } from '../../components/ui';
+import { ChevronLeft, RefreshCw } from 'lucide-react';
+import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, UiButton, formatUiDate } from '../../components/ui';
 import type { HomeDashboardData } from '../../types/dashboard';
 import type { Shift } from '../../types';
 
@@ -36,7 +35,7 @@ const money = (minor: number | null | undefined, available: boolean) =>
   available && minor != null ? <MoneyText amount={minor / 1000} currency /> : 'غير متاح';
 
 /** Shared live/harness presentation. Fixtures never enter the live loader. */
-export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques,salesHistory,onSalesHistory,onInvoice }) => {
+export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift,onCheques,salesHistory,onSalesHistory,onInvoice }) => {
   const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');
   const fullData:HomeDashboardData|null='accountingTracked' in data?null:data;
   const { summary, financialFactsAvailable: available } = data;
@@ -61,7 +60,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
       <section data-testid="dashboard-hero" aria-labelledby="home-title" className="px-4 pb-3 pt-3 lg:px-8 lg:pt-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="min-w-0"><h1 id="home-title" className="m-0 break-words text-lg font-bold lg:text-2xl">أهلاً {currentUserName || 'بإدارة النواصرة لتجارة الجملة والمواد الغذائية'}</h1>
-            <p className="mt-1 text-xs text-nw-muted">{formatUiDate(date, {weekday:'long',day:'numeric',month:'long'})} · مركز اليوم · {realtimeConnected?'تحديث مباشر':'آخر نسخة محمّلة'}</p></div>
+            <p className="mt-1 text-xs text-nw-muted">{formatUiDate(date, {weekday:'long',day:'numeric',month:'long'})} · {realtimeConnected?'تحديث مباشر':'آخر نسخة محمّلة'}</p></div>
           <UiButton aria-label="تحديث مركز اليوم" disabled={loading} onClick={onRefresh}><RefreshCw aria-hidden="true" className={`h-4 w-4 ${loading?'animate-spin':''}`}/></UiButton>
         </div>
         <div className="mt-2"><SegmentedControl<'day'|'week'|'month'> touchSize label="فترة المبيعات" value={period} onChange={setPeriod} options={[{value:'day',label:'اليوم'},{value:'week',label:'الأسبوع'},{value:'month',label:'الشهر'}]}/></div>
@@ -75,7 +74,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
             <KpiCard label={periodLabel} value={loading?'جاري التحميل…':error?'تعذر التحميل':money(periodSales,available)} note={`${summary.todayCompletedOrders} طلب مكتمل اليوم`} className="[&>div:nth-child(2)]:text-xl"/>
             {fullData&&<KpiCard label="ربح الشهر" value={loading?'جاري التحميل…':error?'تعذر التحميل':money(fullData.summary.monthProfitInMinorUnits,available&&fullData.access.canViewProfit)} note={fullData.access.canViewProfit?'حسب الربح المحسوب في النظام':'بحسب صلاحية الربح'} className="[&>div:nth-child(2)]:text-xl"/>}
             <KpiCard label="المقبوض اليوم" value={collectedValue} note={collectedNote} className="[&>div:nth-child(2)]:text-xl"/>
-            <KpiCard label="ذمم العملاء" value={loading?'جاري التحميل…':error?'تعذر التحميل':money(summary.customerReceivablesInMinorUnits,available)} note={<button type="button" className="min-h-11 text-right text-nw-primary" onClick={onAccounts}>مراجعة الذمم</button>} className="[&>div:nth-child(2)]:text-xl"/>
+            <KpiCard label="الديون على الزبائن" value={loading?'جاري التحميل…':error?'تعذر التحميل':money(summary.customerReceivablesInMinorUnits,available)} note={<button type="button" className="min-h-11 text-right text-nw-primary" onClick={onAccounts}>مراجعة الذمم</button>} className="[&>div:nth-child(2)]:text-xl"/>
           </KpiGrid>
         </div>
         <section aria-labelledby="home-shift-title" className="rounded-xl border border-nw-border bg-nw-surface px-3">
@@ -97,36 +96,23 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
         </Card>}
         {salesHistory&&<RecentSalesCard state={salesHistory} onOpen={id=>onInvoice?.(id)} onViewAll={()=>onSalesHistory?.()}/>}
 
-        <div className="flex flex-wrap items-stretch gap-5">
-          <Card aria-labelledby="home-sales-title" className="min-w-0 flex-[2_1_520px]">
-            <SectionHeader id="home-sales-title" title="صافي المبيعات — آخر 7 أيام" hint="بعد استحقاق المرتجعات" />
-            <div className="mt-5">{netAvailable ? <SalesBarChart label="صافي المبيعات آخر 7 أيام" points={days.map((day) => ({ id: day.date, label: day.date === today ? 'اليوم' : formatUiDate(`${day.date}T12:00:00+03:00`, { weekday: 'long' }), amount: day.netSalesInMinorUnits! / 1000, current: day.date === today }))} /> : <p className="py-12 text-center text-nw-muted">غير متاح</p>}</div>
-          </Card>
-          {fullData&&<Card aria-labelledby="home-stock-title" className="min-w-0 flex-[1_1_280px]">
-            <SectionHeader id="home-stock-title" title="تنبيهات المخزون" action={<span className="flex items-center gap-2"><StatusBadge tone={stockIssues ? 'warn' : 'ok'}>{stockIssues}</StatusBadge><UiButton onClick={onInventory}>المخزون</UiButton></span>} hint="الجاهزية محسوبة حسب طرد البيع" />
-            <div className="mt-4 space-y-2">
-              {fullData.stockAlerts.slice(0, 5).map((item) => <div key={item.id} className="rounded-xl bg-nw-surface-2 p-3">
-                <div className="flex items-start justify-between gap-2"><p className="min-w-0 break-words text-sm font-semibold">{item.nameAr}</p><StatusBadge tone={item.severity === 'configuration' ? 'info' : item.severity === 'out_of_stock' ? 'bad' : 'warn'}>{item.severity === 'configuration' ? 'إعداد' : item.severity === 'out_of_stock' ? 'نفد' : 'منخفض'}</StatusBadge></div>
-                <div className="mt-1 flex flex-wrap items-center justify-between gap-2"><p className="text-xs text-nw-muted">{item.severity === 'configuration' ? 'أكمل بيانات طرد البيع والسعر' : `${item.availableSalePackages} ${item.saleUnitName} متاح`}</p><UiButton onClick={() => item.severity === 'configuration' ? onProducts() : onReceive(item.id)}>{item.severity === 'configuration' ? 'ضبط' : 'استلام'}</UiButton></div>
-              </div>)}
-              {!stockIssues && <p className="py-6 text-sm text-nw-muted">المخزون جاهز؛ لا توجد تنبيهات.</p>}
-            </div>
-          </Card>}
-        </div>
-        {fullData&&<SupplierReplacementSummary ownerOnly />}
-        {fullData&&fullData.summary.monthOwnerWithdrawalsInMinorUnits !== undefined && <Card data-testid="home-owner-withdrawals">
-          <SectionHeader title="سحوبات المالك — هذا الشهر" hint="كل الفروع، بنفس نطاق ربح الشهر" />
-          <dl className="mt-3 grid gap-3 sm:grid-cols-2">
-            <div><dt className="text-xs text-nw-muted">صافي السحوبات</dt><dd className="m-0 text-xl font-bold text-nw-bad">{money(fullData.summary.monthOwnerWithdrawalsInMinorUnits, true)}</dd></div>
-            <div><dt className="text-xs text-nw-muted">المتبقي في المحل</dt><dd className="m-0"><span className="text-xl font-bold">{money(fullData.summary.monthRemainingAfterWithdrawalsInMinorUnits ?? null, available)}</span>
-              <p className="m-0 mt-1 text-xs text-nw-muted">ربح الشهر ناقص صافي السحوبات؛ ليس رصيد الدرج أو البنك.</p></dd></div>
-          </dl>
-        </Card>}
-        <Card>
-          <SectionHeader title="إجراءات سريعة" />
-          <div className="mt-3 flex flex-wrap gap-3"><UiButton onClick={onSell}>بيع جديد</UiButton>{fullData&&<UiButton onClick={() => onReceive()}><PackagePlus className="h-4 w-4" aria-hidden="true" />استلام بضاعة</UiButton>}<UiButton onClick={onExpense}><ReceiptText className="h-4 w-4" aria-hidden="true" />تسجيل مصروف</UiButton></div>
-          <details className="mt-4 text-sm"><summary className="min-h-11 cursor-pointer text-nw-muted">تفاصيل إضافية</summary><dl className="space-y-2 text-nw-muted"><div>صافي مبيعات الشهر بعد المرتجعات: {money(summary.monthNetSalesInMinorUnits, available)}</div>{fullData&&<div>ذمم الموردين: {money(fullData.summary.supplierPayablesInMinorUnits, available)}</div>}{fullData&&fullData.summary.supplierAdvancesInMinorUnits !== undefined && <div>دفعات مقدّمة للموردين: {money(fullData.summary.supplierAdvancesInMinorUnits, available)}</div>}<div>عدد العملاء المتأخرين: غير متاح في قراءة الرئيسية</div>{fullData&&fullData.access.canViewProfit && <div>ربح الشهر: {money(fullData.summary.monthProfitInMinorUnits, available)}</div>}</dl></details>
-        </Card>
+        <details data-testid="home-more" className="rounded-xl border border-nw-border bg-nw-surface px-3">
+          <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">أرقام إضافية</summary>
+          <div className="space-y-3 pb-3">
+            <p className="m-0 text-sm text-nw-muted">صافي مبيعات الشهر بعد المرتجعات: {money(summary.monthNetSalesInMinorUnits, available)}</p>
+            <Card aria-labelledby="home-sales-title" className="min-w-0">
+              <SectionHeader id="home-sales-title" title="صافي المبيعات — آخر 7 أيام" hint="بعد المرتجعات" />
+              <div className="mt-5">{netAvailable ? <SalesBarChart label="صافي المبيعات آخر 7 أيام" points={days.map((day) => ({ id: day.date, label: day.date === today ? 'اليوم' : formatUiDate(`${day.date}T12:00:00+03:00`, { weekday: 'long' }), amount: day.netSalesInMinorUnits! / 1000, current: day.date === today }))} /> : <p className="py-12 text-center text-nw-muted">غير متاح</p>}</div>
+            </Card>
+            {fullData&&fullData.summary.monthOwnerWithdrawalsInMinorUnits !== undefined && <Card data-testid="home-owner-withdrawals">
+              <SectionHeader title="سحوبات المالك — هذا الشهر" />
+              <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div><dt className="text-xs text-nw-muted">صافي السحوبات</dt><dd className="m-0 text-xl font-bold text-nw-bad">{money(fullData.summary.monthOwnerWithdrawalsInMinorUnits, true)}</dd></div>
+                <div><dt className="text-xs text-nw-muted">الربح بعد السحوبات</dt><dd className="m-0 text-xl font-bold">{money(fullData.summary.monthRemainingAfterWithdrawalsInMinorUnits ?? null, available)}</dd></div>
+              </dl>
+            </Card>}
+          </div>
+        </details>
         {summary.activeProductsCount === 0 && summary.activeCustomersCount === 0 && data.latestOrders.length === 0 && <Card><SectionHeader title="ابدأ بإضافة أول صنف" hint={fullData?"بعدها استلم الكميات، وستظهر المتابعة اليومية هنا تلقائياً.":"عرّف الأسعار والنكهات وحدد التوفر يدوياً؛ لا يلزم جرد مخزون الآن."} /><UiButton className="mt-3" onClick={onProducts}>إضافة صنف</UiButton></Card>}
       </div>
     </div>

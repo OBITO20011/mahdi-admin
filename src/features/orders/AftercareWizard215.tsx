@@ -17,7 +17,7 @@ import {buildWizard215,selectWizardPhysical215,inspectWizardPhysical215,physical
 interface Props {order:Order;context:AdminAftercareModernContext;ownerAllowed:boolean;disabled:boolean;
   onBusyChange:(busy:boolean)=>void;onRecoveryChange:()=>Promise<void>;onChanged:()=>Promise<void>;
   notify:(message:string,type?:'success'|'error'|'info')=>void}
-const titles=['شو بده الزبون؟','شو الراجع؟','كيف حالة الراجع؟','الخربان على مين؟','المصاري أو البديل','راجع قبل التأكيد'];
+const titles=['ماذا يريد الزبون؟','ما الذي أُرجع؟','ما حالة البضاعة المُرجعة؟','التالف على حساب من؟','المبلغ أو البديل','راجع قبل التأكيد'];
 const privateLabels:Record<string,string>={issuedCostInMinorUnits:'تكلفة البديل الصادر',goodRecoveryInMinorUnits:'قيمة السليم المستعاد',supplierHeldInMinorUnits:'قيمة المعيب المعلّق عند المورد',profitDeltaInMinorUnits:'أثر العملية على الربح',
   goodRestockValueExact:'قيمة السليم المستعاد',badLossInMinorUnits:'قيمة المعيب',profitDeltaExactInMinorUnits:'أثر العملية على الربح',newCogsExact:'تكلفة الصنف البديل'};
 const defaultRefund=(order:Order):WizardRequest215['refundMethod']=>order.paymentMethod==='debt'?'debt':order.paymentMethod==='cliq'?'cliq':order.paymentMethod==='cash'?'cash':'auto';
@@ -139,7 +139,7 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
     {step===3&&<div className="space-y-3"><p className="text-sm">{salesOnly?'افحص الراجع لتسوية حق الزبون فقط؛ لا تتغير كميات مخزون.':'السليم يرجع للمخزون. المعيب حسب القرار التالي. الافتراضي الكل سليم.'}</p>
       {physical.map(leaf=>{const key=physicalKey215(leaf.source),value=inspection[key]??{bad:0,customerDamage:0},rest=leaf.source.quantity-value.bad-value.customerDamage;
         return <div key={key} className="space-y-2 rounded-lg border border-nw-border p-3"><b>{leaf.name}</b><p className="text-sm text-nw-muted">{leaf.original?'من البيع الأصلي':'البديل الذي أعطيته'} · {leaf.source.quantity} باكيت</p>
-          <label>الخربان · {leaf.name}<input type="number" min={0} max={leaf.source.quantity} inputMode="numeric" enterKeyHint="next" value={value.bad}
+          <label>التالف · {leaf.name}<input type="number" min={0} max={leaf.source.quantity} inputMode="numeric" enterKeyHint="next" value={value.bad}
             onChange={e=>{changed();setInspection({...inspection,[key]:{...value,bad:Number(e.target.value)}});setInspected(false);}}/></label>
           <p>{salesOnly?'السليم بعد الفحص':'السليم الذي يرجع للمخزون'}: {rest>=0?rest:'راجع الكمية'} باكيت</p>
           <details><summary className="min-h-11 cursor-pointer py-3 text-sm">متقدم · ضرر من الزبون</summary><label>ضرر الزبون · {leaf.name}<input type="number" min={0} max={leaf.source.quantity} inputMode="numeric" enterKeyHint="next" value={value.customerDamage}
@@ -147,17 +147,17 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
       <label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={inspected} onChange={e=>{changed();setInspected(e.target.checked);}}/>فحصت الباكيتات الراجعة</label>
     </div>}
     {step===4&&<div className="space-y-3">{bad===0?<p>{salesOnly?'لا يوجد باكيت معيب؛ لا توجد حركة مخزون.':'لا يوجد باكيت معيب. السليم يعود للمخزون.'}</p>:<>
-      <p>الخربان: {bad} باكيت</p><UiButton variant={destination==='final'?'primary':'secondary'} onClick={()=>{changed();setDestination('final');}}>{salesOnly?'معيب من البضاعة — تسوية المرتجع فقط':'خسارة عليّ — تالف نهائي'}</UiButton>
+      <p>التالف: {bad} باكيت</p><UiButton variant={destination==='final'?'primary':'secondary'} onClick={()=>{changed();setDestination('final');}}>{salesOnly?'معيب من البضاعة — تسوية المرتجع فقط':'خسارة عليّ — تالف نهائي'}</UiButton>
       {!salesOnly&&ownerAllowed&&<UiButton variant={destination==='supplier'?'primary':'secondary'} onClick={()=>{changed();setDestination('supplier');}}>على المورد — بانتظار البديل</UiButton>}
       {destination==='supplier'&&ownerAllowed&&<><label>بحث المورد<input value={supplierSearch} onChange={e=>setSupplierSearch(e.target.value)} enterKeyHint="search"/></label>
         {badProducts.map(p=><label key={p.id}>مورد {p.name}<select aria-label={`مورد ${p.name}`} value={suppliers[p.id]??''} onChange={e=>{changed();setSuppliers({...suppliers,[p.id]:e.target.value});}}>
           <option value="">اختر المورد</option>{options?.suppliers.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label>)}
         {optionsError&&<p role="alert" className="text-sm text-nw-bad">{optionsError}</p>}<p className="text-sm text-nw-muted">المعيب وحده ينتظر المورد؛ السليم يرجع للمخزون. يُقترح آخر مورد استلمنا منه الصنف.</p></>}
     </>}</div>}
-    {step===5&&<div className="space-y-3">{intent==='refund'?<><h4 className="font-bold">كيف ترجّع المصاري؟</h4><p className="text-sm">المبلغ من سعر الفاتورة بعد الخصم. ينخفض دين هذه الفاتورة أولاً، ثم يُرد المال المدفوع فعلاً.</p>
-      <label>طريقة رد المال<select aria-label="طريقة رد المال" value={refundMethod} onChange={e=>{changed();setRefundMethod(e.target.value as typeof refundMethod);}}><option value="auto">حسب دفع الفاتورة الأصلية</option><option value="cash">كاش — من الدرج الآن</option><option value="cliq">CliQ — تحويل من حسابك</option><option value="debt">خفض ذمة — ينقص من دين الزبون، بلا مصاري</option></select></label>
+    {step===5&&<div className="space-y-3">{intent==='refund'?<><h4 className="font-bold">كيف يُرَد المبلغ؟</h4><p className="text-sm">المبلغ من سعر الفاتورة بعد الخصم. ينخفض دين هذه الفاتورة أولاً، ثم يُرد المال المدفوع فعلاً.</p>
+      <label>طريقة رد المال<select aria-label="طريقة رد المال" value={refundMethod} onChange={e=>{changed();setRefundMethod(e.target.value as typeof refundMethod);}}><option value="auto">حسب دفع الفاتورة الأصلية</option><option value="cash">كاش — من الدرج الآن</option><option value="cliq">CliQ — تحويل من حسابك</option><option value="debt">خفض ذمة — ينقص من دين الزبون، دون دفع مبلغ</option></select></label>
       <p className="text-sm text-nw-muted">الكاش ينقص متوقع الوردية المفتوحة. CliQ خارج الدرج ومرجعه اختياري.</p></>:<>
-      <h4 className="font-bold">شو أخذ بداله؟</h4><div className="flex flex-wrap gap-2"><UiButton variant={replacement==='same'?'primary':'secondary'} onClick={()=>{changed();setReplacement('same');}}>نفس الصنف</UiButton>
+      <h4 className="font-bold">ماذا أخذ بدلاً منه؟</h4><div className="flex flex-wrap gap-2"><UiButton variant={replacement==='same'?'primary':'secondary'} onClick={()=>{changed();setReplacement('same');}}>نفس الصنف</UiButton>
       <UiButton variant={replacement==='other'?'primary':'secondary'} onClick={()=>{if(partial||context.financial.merchandiseDebtInMinorUnits>0){fail('التبديل بصنف آخر يحتاج فاتورة مسددة وطرداً كاملاً أو باكيت بيع أصلياً مستقلاً.');return;}changed();setReplacement('other');}}>صنف آخر — مع فرق السعر</UiButton></div>
       {replacement==='same'?<p className="text-sm">يخرج نفس الصنف والكمية بلا فرق سعر. يعود السليم فقط، ويُسجّل المعيب حسب قرارك.</p>:<>
         <p className="text-sm">لفواتير مسددة وطرد كامل أو باكيت بيع أصلي مستقل. لا دين جديد ولا تبديل نكهة كأنها الصنف نفسه.</p>
@@ -175,7 +175,7 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
     {step===6&&preview&&<div className="space-y-3" data-testid="aftercare215-preview"><p>يرجع للمخزون <b>{preview.goodQuantity} باكيت</b> · معيب <b>{preview.badQuantity} باكيت</b>{preview.customerDamageQuantity>0&&` · يبقى للزبون ${preview.customerDamageQuantity} باكيت`}</p>
       {preview.badQuantity>0&&<p>{salesOnly?'تسوية المعيب دون مخزون أو تكلفة':destination==='supplier'?'المعيب بانتظار المورد':'المعيب خسارة نهائية عليّ'}</p>}
       {preview.kind==='sealed_return'&&<><p>المبيعات −{formatExactMinorJod(preview.entitlementInMinorUnits)}</p><p>ينقص من دين هذه الفاتورة: {formatExactMinorJod(preview.debtReductionInMinorUnits)}</p>
-        {BigInt(preview.moneyRefundInMinorUnits)>0n?<p>تعطي الزبون {formatExactMinorJod(preview.moneyRefundInMinorUnits)} {preview.refundMethod==='cash'?'كاش من الدرج':preview.refundMethod==='cliq'?'CliQ من حسابك':'— اختر طريقة الرد'}</p>:<p>بلا مصاري من الدرج أو الحساب.</p>}</>}
+        {BigInt(preview.moneyRefundInMinorUnits)>0n?<p>تعطي الزبون {formatExactMinorJod(preview.moneyRefundInMinorUnits)} {preview.refundMethod==='cash'?'كاش من الدرج':preview.refundMethod==='cliq'?'CliQ من حسابك':'— اختر طريقة الرد'}</p>:<p>دون مبلغ من الدرج أو الحساب.</p>}</>}
       {preview.kind==='inspected_replacement'&&<><p>خرج للزبون {preview.issuedQuantity} باكيت بنفس الصنف · فرق المال 0.000 د.أ</p><p>صافي المخزون: {preview.goodQuantity-preview.issuedQuantity} باكيت</p></>}
       {preview.kind==='exchange'&&<><p>البديل: {preview.productName} · {preview.baseQuantity} باكيت</p><p>مقابل داخلي من المرتجع: {formatExactMinorJod(preview.internalCreditInMinorUnits)}</p><p>إجمالي البديل: {formatExactMinorJod(preview.newTotalInMinorUnits)}</p>
         <p>{BigInt(preview.moneyReceivedInMinorUnits)>0n?`تقبض الآن ${formatExactMinorJod(preview.moneyReceivedInMinorUnits)}`:BigInt(preview.moneyRefundInMinorUnits)>0n?`تعطي الزبون ${formatExactMinorJod(preview.moneyRefundInMinorUnits)}`:'فرق المال: 0.000 د.أ'} {preview.differenceMethod==='cash'?'كاش من/إلى الدرج':preview.differenceMethod==='cliq'?'CliQ خارج الدرج':''}</p></>}
