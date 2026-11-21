@@ -402,8 +402,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       {embedded && <header className="sticky top-0 z-10 -mx-4 -mt-4 border-b border-nw-border bg-nw-bg p-4 pt-[max(1rem,env(safe-area-inset-top))] md:hidden">
         <UiButton aria-label={historyContext ? "إغلاق الفاتورة" : "رجوع للطلبات"} onClick={onClose} disabled={busy}><ChevronRight className="h-4 w-4" />{historyContext ? "إغلاق الفاتورة" : "رجوع للطلبات"}</UiButton>
       </header>}
-      <div className="flex items-start justify-between border-b border-nw-border pb-3">
-        <div className="md:min-w-0 md:flex-1">
+      <div className="flex flex-wrap items-start justify-between gap-2 border-b border-nw-border pb-3">
+        <div className="min-w-0 flex-1 basis-40">
           <bdi dir="ltr" className="select-text font-mono text-[11px] font-black text-nw-info">
             {order.orderNumber}
           </bdi>

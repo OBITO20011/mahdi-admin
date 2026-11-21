@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T21:07:46.012Z",
+  "startedAt": "2026-11-21T14:01:03.414Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-CF1xhb",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-FV97HR",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -519,7 +519,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "b816d8f1a33072cbdc157f31b4a66ab8c08a7c738e3ea59f2a320a7b09622a4e"
+      "sha256": "f28ac5b51122a803ac7364c673241d12ed5d08ec5ec83843af4e223708505573"
     },
     {
       "file": "src/features/orders/OrderReturnBadge.tsx",
@@ -56567,7 +56567,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-20T21:09:22.573Z",
+  "endedAt": "2026-11-21T14:02:53.317Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

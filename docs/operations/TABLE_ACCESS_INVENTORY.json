@@ -517,7 +517,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "b816d8f1a33072cbdc157f31b4a66ab8c08a7c738e3ea59f2a320a7b09622a4e"
+      "sha256": "f28ac5b51122a803ac7364c673241d12ed5d08ec5ec83843af4e223708505573"
     },
     {
       "file": "src/features/orders/OrderReturnBadge.tsx",

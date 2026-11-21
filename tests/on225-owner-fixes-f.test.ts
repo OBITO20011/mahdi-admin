@@ -39,6 +39,8 @@ test('order detail shows each fact once and puts the next step before the items'
   assert.equal(detail.split('<OrderCommercialSummary').length-1,1);
   assert.equal(detail.split('<StatusBadge tone={getOrderStatus(order.status).tone}>').length-1,1);
   for(const gone of ['كميات هذا الطلب محجوزة منذ إنشائه','هذا الطلب بلا تتبع مخزون أو حجز','الإجمالي {order.totalAmount.toFixed(3)} {CURRENCY} ·'])assert.ok(!detail.includes(gone),gone);
+  // Owner trial 2026-11-21: in the narrow laptop panel the badges used to squeeze the order number to one letter per line.
+  assert.match(detail,/<div className="flex flex-wrap items-start justify-between gap-2 border-b border-nw-border pb-3">\n\s*<div className="min-w-0 flex-1 basis-40">/u);
   assert.match(detail,/\{!embedded&&<>\n\s*<div className="space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">\n\s*<h4 className="font-bold text-nw-text">أصناف الطلب<\/h4>/u);
 });
 
