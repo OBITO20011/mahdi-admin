@@ -17,8 +17,8 @@ export function DamageLossReportSection({losses}: {losses?: DamageLosses}) {
       {/* Owner 2026-11-20: one plain line first. Net profit already subtracts `additional`,
           so its effect on profit is the opposite sign: + raises profit, − lowers it. */}
       {(()=>{const effect=losses.additional===0?0:-losses.additional;return <div data-testid="report-damage-plain" className="space-y-1 rounded-xl border border-nw-border p-3 text-sm">
-        <p className="m-0 font-bold">أثر التلف على ربحك بهذه الفترة: <bdi dir="ltr" className={effect<0?'text-nw-bad':effect>0?'text-nw-ok':''}>{effect>0?'+':''}<MoneyText amount={effect} currency /></bdi> — {effect<0?'نقص ربحك':effect>0?'زاد ربحك (رجعت خسارة محسوبة قبل)':'ما في أثر إضافي'}</p>
-        <p className="m-0 text-nw-muted">التلف اللي داخل أصلاً بالمرتجع أو الاستبدال ما بنخصمه مرة ثانية. لتشوف كل صنف وحالته عند المورد افتح: المزيد ← التالف.</p>
+        <p className="m-0 font-bold">أثر التلف على الربح في هذه الفترة: <bdi dir="ltr" className={effect<0?'text-nw-bad':effect>0?'text-nw-ok':''}>{effect>0?'+':''}<MoneyText amount={effect} currency /></bdi> — {effect<0?'نقص الربح':effect>0?'زاد الربح (استُرجعت خسارة محسوبة سابقاً)':'لا يوجد أثر إضافي'}</p>
+        <p className="m-0 text-nw-muted">التلف المحسوب ضمن المرتجع أو الاستبدال لا يُخصم مرة ثانية. لعرض كل صنف وحالته عند المورد افتح: المزيد ← التالف.</p>
       </div>;})()}
       <p className="m-0 text-xs font-bold text-nw-muted">تفاصيل للمحاسب</p>
       <dl className="grid gap-4 sm:grid-cols-3">

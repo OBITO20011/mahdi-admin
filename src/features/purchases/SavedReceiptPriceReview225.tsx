@@ -27,9 +27,9 @@ export function SavedReceiptPriceReview225({warnings,onClose}:{warnings:ReceiptP
    {(row.originalParcelPrice!==null||row.parcelBelowCost)&&<p>سعر {row.parcelUnit} {formatJod(row.parcelPrice/1000)}{row.originalParcelPrice!==null?' · الأصلي '+formatJod(row.originalParcelPrice/1000):''}{row.parcelEnabled?'':' · الطرد موقوف'}</p>}
    {(row.parcelBelowCost||row.unitBelowCost)&&<p className="text-nw-warn">{row.unitBelowCost?row.unit+' تحت التكلفة. ':''}{row.parcelBelowCost?row.parcelUnit+' تحت التكلفة.':''}</p>}
    <div className="flex flex-wrap gap-2">
-    {row.originalUnitPrice!==null&&<UiButton type="button" variant="secondary" disabled={refreshError} onClick={()=>setEditing({productId:row.priceProductId,restore:'single'})}>رجّع السعر الأصلي لـ{row.unit}</UiButton>}
-    {row.originalParcelPrice!==null&&<UiButton type="button" variant="secondary" disabled={refreshError} onClick={()=>setEditing({productId:row.priceProductId,restore:'parcel'})}>رجّع السعر الأصلي لـ{row.parcelUnit}</UiButton>}
-    <UiButton type="button" onClick={()=>setDismissed(current=>[...current,row.productId])}>خلّيه هيك</UiButton>
+    {row.originalUnitPrice!==null&&<UiButton type="button" variant="secondary" disabled={refreshError} onClick={()=>setEditing({productId:row.priceProductId,restore:'single'})}>استرجاع السعر الأصلي لـ{row.unit}</UiButton>}
+    {row.originalParcelPrice!==null&&<UiButton type="button" variant="secondary" disabled={refreshError} onClick={()=>setEditing({productId:row.priceProductId,restore:'parcel'})}>استرجاع السعر الأصلي لـ{row.parcelUnit}</UiButton>}
+    <UiButton type="button" onClick={()=>setDismissed(current=>[...current,row.productId])}>إبقاؤه كما هو</UiButton>
    </div>
   </article>)}
   <UiButton type="button" onClick={onClose}>تم</UiButton>

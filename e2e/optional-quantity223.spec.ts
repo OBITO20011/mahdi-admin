@@ -39,24 +39,24 @@ test('actual product form enables an optional counter with Arabic input and exac
  const c=await setup(page,'sales-only&unit-parcel');await c.edit();const section=page.locator('[data-optional-quantity]'),row=section.locator('[data-optional-quantity-row]');
  await expect(row.getByRole('checkbox',{name:'تتبّع الكمية',exact:true})).not.toBeChecked();
  await row.getByRole('checkbox',{name:'تتبّع الكمية',exact:true}).check();
- await row.getByLabel('صار عندي — باكيت',{exact:true}).fill('٣');await row.getByLabel('نبّهني إذا صارت أقل من — باكيت',{exact:true}).fill('٢');expect(c.writes).toHaveLength(0);
- await row.getByRole('button',{name:/حفظ كمية/}).tap();await expect(row.getByLabel('صار عندي — باكيت',{exact:true})).toHaveValue('3');
+ await row.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('٣');await row.getByLabel('نبّهني إذا صارت أقل من — باكيت',{exact:true}).fill('٢');expect(c.writes).toHaveLength(0);
+ await row.getByRole('button',{name:/حفظ كمية/}).tap();await expect(row.getByLabel('الكمية الحالية — باكيت',{exact:true})).toHaveValue('3');
  await expect.poll(()=>c.writes.length).toBe(1);expect(c.writes[0]).toMatchObject({p_enabled:true,p_quantity:3,p_low_threshold:2,p_expected_revision:0,p_product_id:inventoryProducts[0].id});
  expect(c.writes[0].p_key).toMatch(/^[0-9a-f-]{36}$/u);await expect(row.getByRole('checkbox',{name:'تتبّع الكمية'})).toBeChecked();
  await page.screenshot({path:info.outputPath('owner-counter.png'),fullPage:true});
 });
 for(const failure of ['lost','stale'] as const)test(`actual owner counter ${failure} response requires explicit read and never retries`,async({page})=>{
  const c=await setup(page,'sales-only&unit-parcel',failure);await c.edit();const section=page.locator('[data-optional-quantity]');
- await section.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await section.getByLabel('صار عندي — باكيت',{exact:true}).fill('3');
+ await section.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await section.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('3');
  await section.getByRole('button',{name:/حفظ كمية/}).tap();await expect(section.getByRole('alert')).toContainText('QTY-01');expect(c.writes).toHaveLength(1);
- await section.getByRole('button',{name:'إعادة قراءة الكميات',exact:true}).tap();await expect(section.getByLabel('صار عندي — باكيت',{exact:true})).toHaveValue(failure==='lost'?'3':'7');expect(c.writes).toHaveLength(1);
+ await section.getByRole('button',{name:'إعادة قراءة الكميات',exact:true}).tap();await expect(section.getByLabel('الكمية الحالية — باكيت',{exact:true})).toHaveValue(failure==='lost'?'3':'7');expect(c.writes).toHaveLength(1);
 });
 test('family editor shows leaf counters together and never offers a parent counter',async({page})=>{
  const c=await setup(page,'sales-only&family&flavor-parcel');await c.edit();const section=page.locator('[data-optional-quantity]');
  await expect(section.locator('[data-optional-quantity-row]')).toHaveCount(2);
  await expect(section.locator(`[data-optional-quantity-row="${inventoryProducts[4].id}"]`)).toHaveCount(0);
  const leaf=section.locator(`[data-optional-quantity-row="${inventoryProducts[6].id}"]`);
- await leaf.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await leaf.getByLabel('صار عندي — باكيت',{exact:true}).fill('٦');await leaf.getByRole('button',{name:/حفظ كمية/}).tap();
+ await leaf.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await leaf.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('٦');await leaf.getByRole('button',{name:/حفظ كمية/}).tap();
  await expect.poll(()=>c.writes.length).toBe(1);expect(c.writes[0]).toMatchObject({p_product_id:inventoryProducts[6].id,p_quantity:6});
 });
 test('owner low list links to the new inventory screen without making a legacy low read',async({page})=>{
@@ -71,7 +71,7 @@ test('first counter activation freezes base-unit conversion but leaves adding a 
  const c=await setup(page,'sales-only&unit-parcel');await c.edit();
  const panel=page.locator('[data-optional-quantity]'),unit=page.getByLabel('الوحدة الأساسية',{exact:true});
  await expect(unit).toBeEnabled();
- await panel.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await panel.getByLabel('صار عندي — باكيت',{exact:true}).fill('3');
+ await panel.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await panel.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('3');
  await panel.getByRole('button',{name:/حفظ كمية/}).tap();await expect.poll(()=>c.writes.length).toBe(1);
  await expect(unit).toBeDisabled();await expect(panel).toContainText('وحدة الأساس ثابتة بعد أول تفعيل');
  await expect(page.getByRole('checkbox',{name:/بدي أضيف طرد/})).toBeEnabled();

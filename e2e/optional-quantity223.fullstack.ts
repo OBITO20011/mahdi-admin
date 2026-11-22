@@ -70,9 +70,9 @@ async function mountOwner(page:Page,fixture:Record<string,unknown>,view:'product
 }
 async function setCounter(page:Page,fixture:Record<string,unknown>,quantity:number,enabled=true){
  await mountOwner(page,fixture,'product');const panel=page.locator('[data-optional-quantity]');
- await expect(panel.getByLabel('صار عندي — باكيت',{exact:true})).toBeVisible();
+ await expect(panel.getByLabel('الكمية الحالية — باكيت',{exact:true})).toBeVisible();
  await panel.getByRole('checkbox',{name:'تتبّع الكمية',exact:true}).setChecked(enabled);
- await panel.getByLabel('صار عندي — باكيت',{exact:true}).fill(String(quantity));
+ await panel.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill(String(quantity));
  await panel.getByRole('button',{name:/حفظ كمية/}).tap();
  await expect.poll(async()=>{const value=await control('/snapshot');return {quantity:value.counter?.quantity,enabled:value.counter?.enabled};}).toEqual({quantity,enabled});
 }

@@ -5,7 +5,7 @@ const seal='a'.repeat(64);
 async function inspect(page:import('@playwright/test').Page){
   await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
   await page.getByRole('button',{name:'طرد كامل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
-  await page.getByLabel('الخربان · عصير تجريبي',{exact:true}).fill('1');await expect(page.getByText('السليم الذي يرجع للمخزون: 11 باكيت',{exact:true})).toBeVisible();
+  await page.getByLabel('التالف · عصير تجريبي',{exact:true}).fill('1');await expect(page.getByText('السليم الذي يرجع للمخزون: 11 باكيت',{exact:true})).toBeVisible();
   await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
   await page.getByRole('button',{name:'خسارة عليّ — تالف نهائي',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
 }
@@ -31,7 +31,7 @@ test('215 mobile wizard names a missing inspection field and uses 16px quantity 
   await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('اختر ما رجع');
   await page.getByRole('button',{name:'طرد كامل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
   await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('فحصت');
-  const field=page.getByLabel('الخربان · عصير تجريبي',{exact:true});expect(await field.evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThanOrEqual(16);
+  const field=page.getByLabel('التالف · عصير تجريبي',{exact:true});expect(await field.evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThanOrEqual(16);
   expect(await field.getAttribute('inputmode')).toBe('numeric');expect(await field.evaluate(e=>e.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
 });
 test('215 changing account discards an owner preview and ignores its late response',async({page})=>{

@@ -11,7 +11,7 @@ export async function openAftercare(page:Page,intent:'refund'|'replace',choice:s
   await page.getByRole('button',{name:'التالي',exact:true}).click();
 }
 export async function finishCurrentInspection(page:Page,bad:'all'|'none'='none',supplier?:string){
-  if(bad==='all')for(const field of await page.getByLabel(/^الخربان ·/).all())await field.fill((await field.getAttribute('max'))!);
+  if(bad==='all')for(const field of await page.getByLabel(/^التالف ·/).all())await field.fill((await field.getAttribute('max'))!);
   await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
   if(bad==='all'){
     await page.getByRole('button',{name:supplier?'على المورد — بانتظار البديل':'خسارة عليّ — تالف نهائي',exact:true}).click();

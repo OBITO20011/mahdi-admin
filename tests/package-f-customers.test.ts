@@ -133,7 +133,11 @@ test('Customers all33 action/value/modal bindings are AST-identical to delivered
       if(ts.isJsxAttribute(n)&&/^(onClick|onChange|onClose|onSuccess|onBack|onRefreshList|onSelectCustomer|onBlockToggle|onSoftDelete|onStatusFilterChange|onSearchChange|onSortByChange)$/u.test(n.name.getText(ast))&&n.initializer)attrs.push(printer.printNode(ts.EmitHint.Unspecified,n,ast));
       ts.forEachChild(n,visit);
     }
-    visit(ast);assert.equal(attrs.length,count,file);assert.equal(hash(attrs.sort()),fingerprint,file);
+    visit(ast);
+    // Owner batch F (2026-11-20) added one "more filters" list; the four delivered bindings stay byte-identical.
+    const added=file==='src/features/crm/CustomerFilters.tsx'?["onChange={(event) => onStatusFilterChange((event.target.value || 'all') as CrmCustomerStatus)}"]:[];
+    for(const extra of added){const at=attrs.indexOf(extra);assert.ok(at>=0,extra);attrs.splice(at,1);}
+    assert.equal(attrs.length,count,file);assert.equal(hash(attrs.sort()),fingerprint,file);
   }
 });
 
@@ -147,8 +151,8 @@ test('aging read evidence rejects missing/incoherent financial amounts rather th
 test('Customers migrated surfaces use tokens,never fake financial filters or unavailable balances',()=>{
   for(const {file} of baseline)assert.doesNotMatch(readFileSync(file,'utf8'),/(?:bg|text|border)-(?:slate|gray|blue|emerald|rose|amber|indigo|cyan|orange)-\d/u);
   const filters=readFileSync('src/features/crm/CustomerFilters.tsx','utf8');
-  assert.deepEqual([...filters.matchAll(/value:'([^']+)'/gu)].map(match=>match[1]),
-    ['all','active','vip','inactive','blocked','has_debt','overdue','over_limit','wholesale']);
+  assert.deepEqual([...filters.matchAll(/value:'([^']+)'/gu)].map(match=>match[1]).sort(),
+    ['all','active','vip','inactive','blocked','has_debt','overdue','over_limit','wholesale'].sort());
   const types=readFileSync('src/types/crm.ts','utf8');
   const status=types.match(/export type CrmCustomerStatus = ([\s\S]+?);/u)?.[1];assert.ok(status);
   assert.deepEqual([...status.matchAll(/'([^']+)'/gu)].map(match=>match[1]).sort(),

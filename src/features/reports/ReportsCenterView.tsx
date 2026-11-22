@@ -486,7 +486,7 @@ const FullReportsCenterView: React.FC = () => {
               <MetricCard label="صافي المبيعات" value={money(report.sales.netSales)} hint="المبيعات ناقص استحقاق المرتجعات" icon={ShoppingCart} tone="blue" />
               <MetricCard label="المقبوض — كاش" value={money(report.cashFlow.cashCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="emerald" />
               <MetricCard label="المقبوض — CliQ" value={money(report.cashFlow.cliqCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="cyan" />
-              <MetricCard label="المصاري المرجّعة" value={money(report.sales.refunds)} hint="كاش وCliQ؛ لا تشمل خفض الذمة" icon={HandCoins} tone="rose" />
+              <MetricCard label="المبالغ المُعادة" value={money(report.sales.refunds)} hint="كاش وCliQ؛ لا تشمل خفض الذمة" icon={HandCoins} tone="rose" />
               <MetricCard label="الذمم" value={money(report.balances.customerDue)} hint="رصيد العملاء الحالي وقت قراءة التقرير" icon={Users} tone="rose" />
               <MetricCard label="المصاريف" value={money(report.expenses.total)} hint="المصاريف غير المعكوسة خلال الفترة" icon={ReceiptText} tone="amber" />
               <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف والتلف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
@@ -500,14 +500,14 @@ const FullReportsCenterView: React.FC = () => {
               <MetricCard label="خفض الذمم بالمرتجعات" value={money(report.sales.debtReduction)} hint="ليس حركة كاش أو CliQ" icon={Users} tone="cyan" />
               <MetricCard label="هامش البيع الأصلي" value={money(report.sales.grossProfit)} hint="البضاعة بعد الخصم ناقص تكلفتها؛ دون التوصيل" icon={TrendingUp} tone="emerald" />
               <MetricCard label="هامش ما بعد البيع" value={money(report.sales.aftercareAdjustedMargin)} hint="يشمل التوصيل؛ قبل المصاريف" icon={TrendingUp} tone="violet" />
-              <MetricCard label="صافي حركة الكاش" value={money(report.cashFlow.cashNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
-              <MetricCard label="صافي حركة CliQ" value={money(report.cashFlow.cliqNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
+              <MetricCard label="صافي حركة الكاش" value={money(report.cashFlow.cashNetFlow)} hint="المقبوض بعد العكس ناقص المبالغ المُعادة" icon={Banknote} tone="cyan" />
+              <MetricCard label="صافي حركة CliQ" value={money(report.cashFlow.cliqNetFlow)} hint="المقبوض بعد العكس ناقص المبالغ المُعادة" icon={Banknote} tone="cyan" />
             </section>
           <section className="print-section space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-4">
             <h3 className="flex items-center gap-2 text-sm font-black text-nw-text"><ShoppingCart className="h-4 w-4 text-nw-info" />تفاصيل المبيعات والربح</h3>
             <div className="grid grid-cols-1 gap-x-4 gap-y-3 text-sm md:grid-cols-2">
               <div className="flex justify-between"><span className="text-nw-muted">إجمالي المبيعات</span><b>{money(report.sales.grossSales)}</b></div>
-              <div className="flex justify-between"><span className="text-nw-muted">المصاري المرجّعة</span><b className="text-nw-bad">{money(report.sales.refunds)}</b></div>
+              <div className="flex justify-between"><span className="text-nw-muted">المبالغ المُعادة</span><b className="text-nw-bad">{money(report.sales.refunds)}</b></div>
               <div className="flex justify-between"><span className="text-nw-muted">الخصومات</span><b>{money(report.sales.discount)}</b></div>
               <div className="flex justify-between"><span className="text-nw-muted">رسوم التوصيل</span><b>{money(report.sales.deliveryFees)}</b></div>
               <div className="flex justify-between"><span className="text-nw-muted">تغطية تحصيل طلبات الفترة حاليًا</span><b className="text-nw-ok">{money(report.sales.collected)}</b></div>

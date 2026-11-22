@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
+import { AlertCircle, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import { fetchOrderByIdFromSupabase, fetchOperationalOrdersPageFromSupabase, type OperationalOrderListItem, type OperationalOrdersSort, subscribeToOrdersInSupabase } from '../../services/supabase/orders.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
 import type { Order } from '../../types';
@@ -42,7 +42,7 @@ export const OperationalOrderCard: React.FC<{
         <span>{orderSourceLabel(source)} · {PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}</span>
         <bdi dir="ltr">{formatUiDate(order.createdAt, { hour: '2-digit', minute: '2-digit', hour12: false })}</bdi>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2"><StatusBadge tone={payment.tone}>{payment.label}</StatusBadge><span className="flex min-h-11 items-center gap-1 text-xs text-nw-primary"><CheckCircle2 className="h-3.5 w-3.5" />فتح ومراجعة الطلب</span></div>
+      <div className="flex flex-wrap items-center justify-between gap-2"><StatusBadge tone={payment.tone}>{payment.label}</StatusBadge></div>
     </button>
   </article>;
 };
@@ -61,7 +61,7 @@ interface OrdersWorkbenchProps {
   returnStates?: ReadonlyMap<string, OrderReturnState>; receivables?: number | null; returnedExtra?: React.ReactNode;
 }
 export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
-  const { orders, activeFilter, counts, summary, searchQuery, sort, page, totalCount, totalPages, selectedOrderId, sourceFor, detail, loading, refreshing, error, listLoadVersion = 0, restoreAfterVersion = 0, onOpen, onFilter, onSearch, onSort, onPage, onRefresh, returnStates, receivables, returnedExtra } = props;
+  const { orders, activeFilter, counts, searchQuery, sort, page, totalCount, totalPages, selectedOrderId, sourceFor, detail, loading, refreshing, error, listLoadVersion = 0, restoreAfterVersion = 0, onOpen, onFilter, onSearch, onSort, onPage, onRefresh, returnStates, receivables, returnedExtra } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const returnPointRef = useRef<{ orderId: string; container: HTMLElement; scrollTop: number } | null>(null);
   const returnPanelRef = useRef<HTMLElement | null>(null);
@@ -102,7 +102,7 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
     }
   }, [selectedOrderId, loading, listLoadVersion, restoreAfterVersion]);
   return <div ref={rootRef} dir="rtl" data-testid="orders-workbench" className="min-w-0 bg-nw-bg text-nw-text">
-    <PageHeader title="الطلبات" description="راجع الطلبات وتابع التجهيز والتوصيل وخدمات ما بعد البيع." actions={<>
+    <PageHeader title="الطلبات" actions={<>
       <UiButton onClick={onRefresh} disabled={refreshing}><RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />تحديث</UiButton>
       <label className="flex min-h-11 items-center gap-2 text-sm text-nw-muted"><span className="sr-only">ترتيب الطلبات</span><select value={sort} onChange={(event) => onSort(event.target.value as OperationalOrdersSort)} className="min-h-11 rounded-xl border border-nw-border bg-nw-surface px-3 text-nw-text"><option value="newest">الأحدث</option><option value="oldest">الأقدم</option></select></label>
     </>} />
@@ -111,7 +111,7 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
         <MainColumn>
           <FilterChips touchSize label="حالات الطلبات" value={activeFilter} onChange={onFilter} options={FILTERS.map((filter) => ({ value: filter.id, label: filter.label, count: counts[filter.id] }))} />
           <SearchField label="البحث في الطلبات" placeholder="ابحث برقم الطلب أو اسم العميل أو الهاتف" value={searchQuery} onChange={(event) => onSearch(event.target.value)} className="w-full sm:max-w-md" />
-          <p className="m-0 text-xs text-nw-muted">بحاجة لمراجعة: {summary.review} · قيد التنفيذ: {summary.active} {receivables != null && <> · ديون لك على الزبائن: <MoneyText amount={receivables} /></>}. تتحدث القائمة تلقائياً.</p>
+          <p className="m-0 text-xs text-nw-muted">{receivables != null && <>الديون على الزبائن: <MoneyText amount={receivables} /> · </>}تتحدث القائمة تلقائياً.</p>
           {activeFilter === 'returned' && returnedExtra}
           {error && <Card role="alert" className="flex items-center gap-2 text-nw-bad"><AlertCircle className="h-4 w-4 shrink-0" />{error}</Card>}
           {loading ? <Card role="status" className="text-center text-nw-muted"><RefreshCw className="mx-auto mb-2 h-6 w-6 animate-spin" />جاري تحميل الطلبات...</Card> : orders.length === 0 ? <Card className="text-center"><h2 className="text-base font-bold">لا توجد طلبات في هذا القسم</h2><p className="text-sm text-nw-muted">غيّر القسم أو البحث لعرض الطلبات.</p></Card> : <>

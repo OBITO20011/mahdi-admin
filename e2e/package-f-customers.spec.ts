@@ -4,7 +4,14 @@ import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import {expect,test,type Page} from './isolated-test';
 import {customersFixture} from './package-f-customers.fixture';
+
 import {cashIds} from './package-f-cash.fixture';
+
+const PRIMARY_CUSTOMER_FILTERS=new Set(['كل العملاء','عليهم دين','متأخرون']);
+async function pickCustomerFilter(page:Page,label:string){
+  if(PRIMARY_CUSTOMER_FILTERS.has(label))await page.getByRole('tab',{name:label,exact:true}).click();
+  else await page.getByRole('combobox',{name:'فلاتر أخرى'}).selectOption({label});
+}
 
 const url=(query='')=>`http://127.0.0.1:4173/e2e/package-f-customers-harness.html?${query}`;
 const shellRequests = [
@@ -51,9 +58,9 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]) {
     await expect(page.getByRole('heading',{name:'العملاء والذمم',exact:true})).toBeVisible();
     await expect(page.getByTestId('customer-aging-summary')).toContainText('5,611.000');
     await expect(page.getByRole('tab',{name:'كل العملاء',exact:true})).toBeVisible();
-    await expect(page.getByRole('tablist',{name:'فئات العملاء'}).getByRole('tab')).toHaveText([
-      'كل العملاء','النشطون','VIP','غير النشطين','المحظورون','عليهم دين','متأخرون','تجاوز الحد','جملة',
-    ]);
+    // Owner UX batch F: three chips; the rarer groups sit in one «المزيد» list.
+    await expect(page.getByRole('tablist',{name:'فئات العملاء'}).getByRole('tab')).toHaveText(['كل العملاء','عليهم دين','متأخرون']);
+    await expect(page.getByRole('combobox',{name:'فلاتر أخرى'}).locator('option')).toHaveText(['المزيد','النشطون','VIP','غير النشطين','المحظورون','تجاوز الحد','جملة']);
     await expect(page.getByTestId('customers-workbench')).toContainText('8 عملاء');
     await expect(page.getByTestId('customers-workbench')).toContainText('يومان');
     await expect(page.getByTestId('customers-workbench')).not.toContainText('البيانات والعناوين والطلبات من Supabase');
@@ -104,7 +111,7 @@ test('existing real CRM adapter preserves every status/search/sort/page request;
   await page.goto(url('live'));
   await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').length).toBe(1);
   for(const [label,value] of [['النشطون','active'],['VIP','vip'],['غير النشطين','inactive'],['المحظورون','blocked'],['كل العملاء','all']]) {
-    await page.getByRole('tab',{name:label,exact:true}).click();
+    await pickCustomerFilter(page,label);
     await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').at(-1)?.args.p_status).toBe(value);
   }
   await page.getByRole('searchbox',{name:'البحث في العملاء'}).fill('079');
@@ -140,7 +147,7 @@ test('four financial chips use the existing RPC,server total and off-page identi
   await page.setViewportSize({width:390,height:900});await page.goto(url('live&theme=dark'));
   await expect(page.getByRole('button',{name:'فتح ملف سوبرماركت الأمل',exact:true}).filter({visible:true})).toBeVisible();
   for(const [label,status] of financial){
-    await page.getByRole('tab',{name:label,exact:true}).click();
+    await pickCustomerFilter(page,label);
     await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').at(-1)?.args).toEqual({p_page:1,p_page_size:8,p_search:null,p_status:status,p_sort:'latest'});
     await expect(page.getByRole('button',{name:`فتح ملف ${serverName(status,1)}`,exact:true}).filter({visible:true})).toBeVisible();
     await expect(page.getByTestId('customers-workbench')).toContainText('17 عميلاً');

@@ -342,7 +342,8 @@ test('current UI entry points keep their modal names and payload shapes', () => 
     dashboardSource,
     /onReceive=\{\(productId\) => openModal\('receive_goods', productId \? \{ productId \} : undefined\)\}/,
   );
-  assert.match(readFileSync('src/features/dashboard/DashboardHome.tsx', 'utf8'), /onReceive\(item\.id\)/);
+  // Owner batch F (2026-11-20) removed the Home stock list; receiving opens from the stock screen and the bottom bar.
+  assert.doesNotMatch(readFileSync('src/features/dashboard/DashboardHome.tsx', 'utf8'), /onReceive\(item\.id\)/);
 });
 
 test('Quick Actions retain their existing tab and no-payload modal behavior', () => {

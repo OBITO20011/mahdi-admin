@@ -15,12 +15,13 @@ const render = (data = homeFixture, shift: React.ComponentProps<typeof Dashboard
 test('Home distinguishes net from gross and preserves actual shift values', () => {
   const html = render();
   assert.ok(html.includes('31,906.250')); // not gross 34,006.250
+  assert.ok(!html.includes('34,006.250'));
   assert.ok(html.includes('1,162.000')); // not gross 1,284.500 for the final chart bar
   assert.ok(html.includes('810.300'));
   assert.ok(html.includes('-12.000'));
   assert.ok(html.includes('المقبوض اليوم'));
   assert.ok(html.includes('تفصيل كاش / CliQ غير متاح'));
-  assert.ok(html.includes('عدد العملاء المتأخرين: غير متاح'));
+  assert.ok(!html.includes('عدد العملاء المتأخرين'));
 });
 
 test('unavailable facts never turn money or chart into fabricated zero', () => {

@@ -61,7 +61,7 @@ test('three OFF purchases reach zero without disclosing counts;actual owner pane
   // @ts-expect-error Isolated Vite module.
   return import('/src/stores/useAppStore.ts').then(({storeEngine})=>storeEngine.openModal('edit_product',storeEngine.getState().products[0]));
  });
- const panel=page.locator('[data-optional-quantity]');await panel.getByLabel('صار عندي — باكيت',{exact:true}).fill('5');
+ const panel=page.locator('[data-optional-quantity]');await panel.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('5');
  await panel.getByRole('button',{name:/حفظ كمية/}).tap();await expect.poll(()=>state.ownerWrites).toBe(1);expect(state.quantity).toBe(5);
  await catalog(page);await page.getByRole('button',{name:'عرض تفاصيل صنف عدّاد وهمي',exact:true}).first().tap();
  await expect(page.getByRole('region',{name:'إضافة باكيت',exact:true}).getByRole('button',{name:/إضافة .* باكيت من/})).toBeEnabled();

@@ -69,7 +69,7 @@ async function aftercareMocks(page:Page){
 
 async function supplierWizardFields(page:Page,intent:'refund'|'replace'){
   await openAftercare(page,intent,'الطرد المشكّل كاملاً');
-  await page.getByLabel('الخربان · عصير برتقال',{exact:true}).fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
+  await page.getByLabel('التالف · عصير برتقال',{exact:true}).fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
   await page.getByRole('button',{name:'على المورد — بانتظار البديل',exact:true}).click();await expect(page.getByLabel('مورد عصير برتقال',{exact:true})).toHaveValue(supplier);
 }
 test('W5 current wizard supplier replacement fields390',async({page},info)=>{
