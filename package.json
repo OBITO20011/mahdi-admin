@@ -13,7 +13,7 @@
     "lint:eslint": "eslint .",
     "lint:eslint:strict": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
-    "test": "tsx --test tests/*.test.ts",
+    "test": "node scripts/testing/run-admin-unit-tests.mjs",
     "test:e2e": "playwright test",
     "test:browser:isolation": "node scripts/testing/verify-browser-network-isolation.mjs",
     "test:pwa:release-update": "node scripts/testing/run-admin-pwa-release-update.mjs",

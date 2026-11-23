@@ -1,4 +1,33 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-financial.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-layout.ts"
+    },
+    {
+      "code": " M",
+      "path": "package.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/on225-owner-fixes-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-admin-unit-tests.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/admin-unit-test-scheduling.test.ts"
+    }
+  ]
 }

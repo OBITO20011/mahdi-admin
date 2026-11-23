@@ -1,44 +1,51 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
-  "owner": "claude",
-  "objective": "Owner 2026-11-23: orders list table fits beside the open order at 1280 laptop width (presentation only: minWidth 650->600, order-number button compact padding); tests, trial dist, Draft PR; merge only after owner OK and 100% green CI.",
-  "baselineSha": "e759aa37f6ec846d80b9cd02b687e858afdf0412",
-  "branch": "claude/on225-orders-table-1280",
+  "status": "PAUSED",
+  "owner": "codex",
+  "objective": "Owner-approved root-cause stabilization of financial390 browser test and Git63 history timeout; preserve all assertions; Draft PR only",
+  "baselineSha": "3745ce70f4ed6b44fadf75d38c32c1f5857ba760",
+  "branch": "codex/on225-test-stability",
   "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-23T11:58:15.040Z",
-  "checkpointedAt": "2026-11-23T00:03:55.432Z",
+  "startedAt": "2026-11-23T15:01:38.710Z",
+  "checkpointedAt": "2026-11-23T15:36:43.536Z",
   "inProgress": [
-    "Commit, push, trial dist, draft PR"
+    "Prepare test-only Draft PR and wait exact-head CI"
   ],
   "completed": [
-    "Orders table fits at 1280/1366 incl. long names; e2e regression; old 1280 assertion updated to the owner-approved fit"
+    "Original financial390 20/20 passed; old flake not naturally reproduced",
+    "Deterministic moving-text RED on both engines, then full financial suite 30/30 green; settled clipping still rejects",
+    "Serialized Git63 test file before all remaining unit files; complete disjoint coverage proved",
+    "2276 unit tests passed: history 5 then remaining 2271; no skips or failures"
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Bounded test infrastructure corrections",
+    "Draft PR and full CI"
+  ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Orders+financial+mobile-ux e2e 93/94 (1 unrelated financial 390 flake, 3/3 on rerun)",
-    "Admin units 2273/2273",
-    "Store 239/239",
-    "Access after 225 regenerated 178/0/15",
-    "Lint pass"
+    "2276/2276 admin units; history child 53.1s with original120s limit",
+    "Financial30/30 Chromium and WebKit incl moving-text and permanent-clipping proof",
+    "Scheduling and historical focused11/11",
+    "Admin TypeScript and changed-file strict lint"
   ],
   "testsRemaining": [
-    "Draft PR CI",
-    "Owner OK"
+    "Gitleaks on committed range",
+    "Draft PR exact-head full CI"
   ],
-  "findings": [],
+  "findings": [
+    "Original intermittent390 failure not reproduced20/20; deterministic motion/layout race proved separately",
+    "Local branch overlay needed exact historical state-pin rebind; corrected focus11/11 and full2276/2276"
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No primary or Claude worktree edits",
-    "No hosted ERP access, deploy, reset, SQL/RPC changes, merge or original owner file edits",
-    "No demo data/Auth/MFA/certificate changes"
+    "No demo-server, demo containers, n8n, hosted ERP or original owner file changes",
+    "No assertion weakening, deadline increase or merge"
   ],
-  "nextExactAction": "Commit, push, update trial admin dist, draft PR; merge after owner OK and 100% green CI.",
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
+  "nextExactAction": "Push test-stability Draft PR and wait exact-head CI; no merge",
+  "workingTreeFingerprint": "9891888486E95CF1EBE300EA3B2944752420C1908B698B0AEE001C2E159FBCD7",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "418531838109d0b214afe1156da9d3badc40d36e65e838d8777cc16203aa15a5"
 }
