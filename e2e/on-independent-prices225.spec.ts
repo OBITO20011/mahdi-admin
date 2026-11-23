@@ -43,7 +43,7 @@ test('ON225 rejects the oversized active price and requests exact loss confirmat
  await expect(single).toHaveValue('0.9');
  await single.fill('0.500');
  await expect(save).toBeDisabled();expect(writes).toHaveLength(0);
- await form.getByRole('button',{name:'الطرد: متاح للبيع',exact:true}).tap();
+ await form.getByRole('checkbox',{name:'إيقاف بيع الطرد مؤقتاً',exact:true}).check();
  await expect(form.getByText(/السعر أقل من التكلفة.*0\.800/)).toBeVisible();
  await expect(parcel).toHaveValue('17');
  await save.tap();
@@ -60,8 +60,37 @@ test('ON225 restores the saved single price without reactivating the parcel or c
  const {form,writes}=await openProduct(page,false);
  await form.getByRole('button',{name:/رجّع السعر الأصلي لـباكيت/}).tap();
  await expect(form.getByLabel('سعر بيع باكيت',{exact:true})).toHaveValue('1');
- await expect(form.getByRole('button',{name:'الطرد: موقوف مؤقتاً',exact:true})).toHaveAttribute('aria-pressed','false');
+ await expect(form.getByRole('checkbox',{name:'إيقاف بيع الطرد مؤقتاً',exact:true})).toBeChecked();
  await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();
  await expect.poll(()=>writes.length).toBe(1);
  expect(writes[0]).toMatchObject({p_sale_price_in_minor_units:1000,p_default_sale_price_in_minor_units:17000,p_parcel_enabled:false,p_restore_original:'single'});
 });
+
+for(const width of [390,1280])for(const enabled of [true,false]){
+ test(`ON225 parcel pause checkbox preserves prices and locked unit ${width} initially ${enabled?'available':'paused'}`,async({page},testInfo)=>{
+  await page.setViewportSize({width,height:900});
+  const {form,writes}=await openProduct(page,enabled);
+  const pause=form.getByRole('checkbox',{name:'إيقاف بيع الطرد مؤقتاً',exact:true});
+  await expect(pause).toBeChecked({checked:!enabled});
+  await expect(form.getByRole('button',{name:/^الطرد: /})).toHaveCount(0);
+  const baseUnit=form.getByLabel('الوحدة الأساسية',{exact:true});
+  await expect(baseUnit).toBeDisabled();
+  await expect(baseUnit).toHaveAccessibleDescription('لا يمكن تغيير الوحدة بعد إنشاء الصنف');
+  await expect(form.getByText('لا يمكن تغيير الوحدة بعد إنشاء الصنف',{exact:true})).toBeVisible();
+  expect(writes).toHaveLength(0);
+  await pause.setChecked(enabled);
+  await expect(pause).toBeChecked({checked:enabled});
+  await expect(form.getByLabel('سعر بيع باكيت',{exact:true})).toHaveValue('0.9');
+  await expect(form.getByLabel('سعر بيع الطرد',{exact:true})).toHaveValue('17');
+  expect(writes).toHaveLength(0);
+  await pause.scrollIntoViewIfNeeded();
+  const box=await pause.boundingBox();expect(box).not.toBeNull();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  const label=pause.locator('..');
+  expect(await label.evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
+  await page.screenshot({path:testInfo.outputPath(`parcel-checkbox-${width}-${enabled}.png`)});
+  await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();
+  await expect.poll(()=>writes.length).toBe(1);
+  expect(writes[0]).toMatchObject({p_sale_price_in_minor_units:900,p_default_sale_price_in_minor_units:17000,p_parcel_enabled:!enabled});
+ });
+}

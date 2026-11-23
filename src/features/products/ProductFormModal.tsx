@@ -1390,12 +1390,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
         {accounting225&&<div className="space-y-2 rounded-lg border border-nw-border p-3" aria-label="أسعار البيع بالمحاسبة">
           {parcelMethodSelected&&<div className="flex flex-wrap gap-2">
-            <UiButton type="button" aria-pressed={accountingParcelEnabled} disabled={!isEditing||isSubmitting} onClick={()=>setAccountingParcelEnabled(!accountingParcelEnabled)}>
-              {accountingParcelEnabled?'الطرد: متاح للبيع':'الطرد: موقوف مؤقتاً'}
-            </UiButton>
+            <label className="flex min-h-11 items-center gap-2 text-sm font-bold">
+              <input type="checkbox" checked={!accountingParcelEnabled} disabled={!isEditing||isSubmitting} onChange={event=>setAccountingParcelEnabled(!event.target.checked)}/>
+              إيقاف بيع الطرد مؤقتاً
+            </label>
             <UiButton type="button" variant="secondary" onClick={()=>{setRestoreOriginal225(undefined);setSalePackagePrice(singleFils*validUnitsPerSalePackage/1000);}}>{'احسب الطرد = العدد × سعر '+(unit||'باكيت')}</UiButton>
           </div>}
-          {parcelMethodSelected&&!accountingParcelEnabled&&<p>سعر الطرد محفوظ. أعد تفعيله من هذا المفتاح عند الحاجة.</p>}
+          {parcelMethodSelected&&!accountingParcelEnabled&&<p>سعر الطرد محفوظ. أزل علامة الإيقاف لإعادة تفعيله عند الحاجة.</p>}
           {accountingContext?.originalUnitPrice!=null&&<UiButton type="button" onClick={()=>restoreAccountingPrice('single')}>رجّع السعر الأصلي لـ{unit} ({formatJod(accountingContext.originalUnitPrice/1000)})</UiButton>}
           {parcelMethodSelected&&accountingContext?.originalParcelPrice!=null&&<UiButton type="button" onClick={()=>restoreAccountingPrice('parcel')}>رجّع السعر الأصلي لـ{salePackage} ({formatJod(accountingContext.originalParcelPrice/1000)})</UiButton>}
           {restoreOriginal225&&<p role="status">سيُستعاد السعر المحفوظ عند حفظ التعديلات.</p>}
@@ -1480,7 +1481,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability salesOnly={salesOnly} familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">
           {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+(salesOnly?' في طرد التغليف':' في طرد الشراء')} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
-          {!salesOnly&&<label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}} disabled={isEditing&&!canEditBaseUnit}>{Array.from(new Set([unit,...units.filter(item=>salesOnly?!item.isHidden:isContentUnitOption(item)).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>}
+          {!salesOnly&&<label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" aria-describedby={isEditing&&!canEditBaseUnit?'product-base-unit-locked':undefined} className={inputClass} value={unit} onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}} disabled={isEditing&&!canEditBaseUnit}>{Array.from(new Set([unit,...units.filter(item=>salesOnly?!item.isHidden:isContentUnitOption(item)).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select>{isEditing&&!canEditBaseUnit&&<span id="product-base-unit-locked" className="mt-1 block font-normal text-nw-muted">لا يمكن تغيير الوحدة بعد إنشاء الصنف</span>}</label>}
         </div>
         {canEditSingleUnit&&<p className="text-xs text-nw-muted">لإضافة وحدة جديدة: المنتجات ← الطرود والوحدات، ثم ارجع للتعديل. لا يُفترض عدد محتوى تلقائياً.</p>}
         {!salesOnly&&canEditSingleUnit&&unit!==openedUnitName&&<label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={unitChangeConfirmed} onChange={event=>setUnitChangeConfirmed(event.target.checked)}/>أؤكد تغيير اسم وحدة البيع دون تغيير السعر</label>}

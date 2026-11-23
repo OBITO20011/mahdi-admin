@@ -625,7 +625,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "61b66d2fc8017840968119fe51c0fe772196e3b8921c391f835847f1ec6dcb23"
+      "sha256": "a894c030809e5ba1d6129225870932e580086a5a1c5469e76e078f465bd4d5d2"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
