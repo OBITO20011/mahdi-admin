@@ -17,6 +17,7 @@ import { storeEngine, type AppState } from '../src/stores/useAppStore';
 import { matchesOperationalOrderFilter, type OperationalOrderFilter } from '../src/utils/orderCalculations';
 import type { OperationalOrdersSort } from '../src/services/supabase/orders.service';
 import { orderListFixture, ordersFixture } from './package-f-orders.fixture';
+import {wizard215Scenario} from './aftercare215-wizard.fixture';
 
 const params = new URLSearchParams(location.search);
 const theme = params.get('theme') === 'dark' ? 'dark' : 'light';
@@ -51,6 +52,9 @@ if(params.has('liteReceipt')){
  fixture[1].accountingTracked=false;fixture[1].publicReceiptUrl='http://127.0.0.1:4174/#receipt=92600000-0000-4000-8000-000000000935';
  fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});
 }
+// Owner item 5 (2026-11-20): completed invoice with the returns panel, for laptop-width overflow checks.
+if(params.has('aftercare')){const {order}=wizard215Scenario('cash');fixture[1]=structuredClone(order);Object.assign(list[1],{id:order.id,status:order.status,orderNumber:order.orderNumber});
+ if(supabase)supabase.auth.getUser=async()=>({data:{user:{id:'92600000-0000-4000-8000-000000000070'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;}
 const Harness = () => {
   const [filter, setFilter] = useState<OperationalOrderFilter>('all');
   const [search, setSearch] = useState('');

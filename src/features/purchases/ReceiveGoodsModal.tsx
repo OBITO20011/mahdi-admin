@@ -47,6 +47,8 @@ interface ReceiveRow {
   unitCost: number; // JOD
   receivingMode:ReceivingUnitMode;
   packageQuantity:number;unitsPerPackage:number;packagePriceJod:number;packageName:string;
+  /** Loose base units of the same PO line, received next to whole parcels. */
+  looseEnabled:boolean;looseQuantity:number;looseUnitCostJod:number;
   productDefaults?:ReceivingProduct;
 }
 
@@ -119,6 +121,7 @@ export const ReceiveGoodsModal = ({
           unitCost: item.purchasePrice,
           receivingMode:'base_unit' as ReceivingUnitMode,
           packageQuantity:0,unitsPerPackage:1,packagePriceJod:0,packageName:'طرد',
+          looseEnabled:false,looseQuantity:0,looseUnitCostJod:item.purchasePrice,
         };
       });
 
@@ -168,6 +171,7 @@ export const ReceiveGoodsModal = ({
       const count=Math.floor(item.thisReceiptQuantity/units);
       return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:units,
         packageQuantity:count,packagePriceJod:minorUnitsToJod(price),packageName:product?.purchaseUnitName??item.packageName,
+        looseEnabled:false,looseQuantity:0,
         thisReceiptQuantity:mode==='package'?count*units:item.thisReceiptQuantity,
         unitCost:mode==='base_unit'?minorUnitsToJod(Math.round(price/units)):item.unitCost};
     }));
@@ -181,8 +185,26 @@ export const ReceiveGoodsModal = ({
       if(field==='quantity')updated.packageQuantity=Math.max(0,Math.floor(Number(value)||0));
       if(field==='price')updated.packagePriceJod=Math.max(0,Number(value)||0);
       if(field==='name')updated.packageName=String(value);
-      updated.packageQuantity=Math.min(updated.packageQuantity,Math.floor(updated.remainingQuantity/updated.unitsPerPackage));
-      updated.thisReceiptQuantity=updated.packageQuantity*updated.unitsPerPackage;
+      updated.packageQuantity=Math.min(updated.packageQuantity,Math.floor((updated.remainingQuantity-updated.looseQuantity)/updated.unitsPerPackage));
+      updated.thisReceiptQuantity=updated.packageQuantity*updated.unitsPerPackage+updated.looseQuantity;
+      return updated;
+    }));
+  };
+  // Parcels and loose units of one PO line stay ONE receipt line (the server
+  // rejects a repeated PO item); its gross is the exact sum of both parts.
+  const loosePriceDefault=(item:ReceiveRow)=>{
+    const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;
+    if(quote)return minorUnitsToJod(quoteForQuantity(quote,1));
+    return item.productDefaults?minorUnitsToJod(item.productDefaults.costPriceInMinorUnits):item.unitCost;
+  };
+  const changeLoose=(index:number,patch:Partial<Pick<ReceiveRow,'looseEnabled'|'looseQuantity'|'looseUnitCostJod'>>)=>{
+    setItems(current=>current.map((item,i)=>{
+      if(i!==index||item.receivingMode!=='package')return item;
+      const updated={...item,...patch};
+      const room=Math.max(0,updated.remainingQuantity-updated.packageQuantity*updated.unitsPerPackage);
+      updated.looseQuantity=updated.looseEnabled?Math.max(0,Math.min(room,Math.floor(Number(updated.looseQuantity)||0))):0;
+      updated.looseUnitCostJod=Math.max(0,Number(updated.looseUnitCostJod)||0);
+      updated.thisReceiptQuantity=updated.packageQuantity*updated.unitsPerPackage+updated.looseQuantity;
       return updated;
     }));
   };
@@ -220,15 +242,20 @@ export const ReceiveGoodsModal = ({
         notes: notes.trim() || undefined,
         items: items
           .filter((i) => i.thisReceiptQuantity > 0)
-          .map((i) => ({
-            purchaseOrderItemId: i.purchaseOrderItemId,
-            productId: i.productId,
-            receivedQuantity: i.thisReceiptQuantity,
-            unitCost: i.unitCost,
-            baseUnitName: i.unit,
-            ...(i.receivingMode==='package'?{packagePricing:{packageQuantity:i.packageQuantity,
-              unitsPerPackage:i.unitsPerPackage,packagePriceInMinorUnits:jodToMinorUnits(i.packagePriceJod)}}:{}),
-          })),
+          .map((i) => {
+            const parcels=i.receivingMode==='package'&&i.packageQuantity>0;
+            const looseOnly=i.receivingMode==='package'&&i.packageQuantity===0;
+            return {
+              purchaseOrderItemId: i.purchaseOrderItemId,
+              productId: i.productId,
+              receivedQuantity: i.thisReceiptQuantity,
+              unitCost: looseOnly?i.looseUnitCostJod:i.unitCost,
+              baseUnitName: i.unit,
+              ...(parcels?{packagePricing:{packageQuantity:i.packageQuantity,
+                unitsPerPackage:i.unitsPerPackage,packagePriceInMinorUnits:jodToMinorUnits(i.packagePriceJod),
+                ...(i.looseQuantity>0?{looseQuantity:i.looseQuantity,looseUnitPriceInMinorUnits:jodToMinorUnits(i.looseUnitCostJod)}:{})}}:{}),
+            };
+          }),
       };
 
       const res = await receivePurchaseOrderInSupabase(input);
@@ -350,12 +377,23 @@ export const ReceiveGoodsModal = ({
                 quantity={item.receivingMode==='package'?item.packageQuantity:item.thisReceiptQuantity}
                 unitsPerPackage={item.receivingMode==='package'?item.unitsPerPackage:1}
                 priceJod={item.receivingMode==='package'?item.packagePriceJod:item.unitCost}
-                packageName={item.packageName} maximum={item.receivingMode==='package'?Math.floor(item.remainingQuantity/item.unitsPerPackage):item.remainingQuantity}
+                packageName={item.packageName} maximum={item.receivingMode==='package'?Math.floor((item.remainingQuantity-item.looseQuantity)/item.unitsPerPackage):item.remainingQuantity}
                 onMode={mode=>changeMode(index,mode)}
                 onQuantity={value=>item.receivingMode==='package'?changePackage(index,'quantity',value):handleQuantityChange(index,value)}
                 onContents={value=>changePackage(index,'contents',value)}
                 onPrice={value=>item.receivingMode==='package'?changePackage(index,'price',value):handleUnitCostChange(index,value)}
                 onPackageName={value=>changePackage(index,'name',value)}/>
+              {item.receivingMode==='package'&&(item.looseEnabled
+                ?<div className="mt-3 min-w-0 space-y-2 rounded-xl border border-nw-border p-3" data-testid="po-loose-units">
+                  <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
+                    <label className="min-w-0 space-y-1 text-sm">كم {item.unit} فرط؟<input enterKeyHint="next" className="w-full" aria-label={`كم ${item.unit} فرط؟`} type="number" inputMode="numeric" step="1" min="0" max={Math.max(0,item.remainingQuantity-item.packageQuantity*item.unitsPerPackage)} disabled={isSubmitting} value={item.looseQuantity} onChange={e=>changeLoose(index,{looseQuantity:Number(e.target.value)})}/></label>
+                    <label className="min-w-0 space-y-1 text-sm">سعر {item.unit} الفرط<input inputMode="decimal" enterKeyHint="next" className="w-full" aria-label={`سعر ${item.unit} الفرط`} type="number" min="0" step="0.001" disabled={isSubmitting} value={item.looseUnitCostJod} onChange={e=>changeLoose(index,{looseUnitCostJod:Number(e.target.value)})}/></label>
+                  </div>
+                  <UiButton variant="plain" type="button" disabled={isSubmitting} onClick={()=>changeLoose(index,{looseEnabled:false})}>إزالة الفرط</UiButton>
+                </div>
+                :<UiButton variant="secondary" type="button" className="mt-3" disabled={isSubmitting||item.remainingQuantity-item.packageQuantity*item.unitsPerPackage<=0} data-testid="po-loose-add"
+                  onClick={()=>changeLoose(index,{looseEnabled:true,looseQuantity:0,looseUnitCostJod:loosePriceDefault(item)})}>+ {item.unit} فرط لنفس الصنف</UiButton>)}
+              {item.receivingMode==='package'&&item.looseQuantity>0&&<p role="status" className="m-0 mt-2 text-sm font-semibold text-nw-info">المجموع: {item.packageQuantity} طرد + {item.looseQuantity} {item.unit} فرط = <bdi>{item.thisReceiptQuantity}</bdi> {item.unit}</p>}
               <ReceivingPurchaseHint status={purchaseRead.status} error={purchaseRead.error} quote={purchaseRead.quotes[item.productId]} unitName={item.unit} units={item.receivingMode==='package'?item.unitsPerPackage:1} priceInMinorUnits={jodToMinorUnits(item.receivingMode==='package'?item.packagePriceJod:item.unitCost)} saleQuote={item.productDefaults?.saleQuote??null} onEditSale={canEditSale&&!isSubmitting?()=>setEditingProductId(item.productId):undefined}/>
             </Card>)}
             <div role="status" className="space-y-1 text-sm font-semibold text-nw-info" aria-label="الكميات الداخلة حسب الصنف">{items.filter(item=>item.thisReceiptQuantity>0).map(item=><p key={item.purchaseOrderItemId}>{item.productName}: {item.thisReceiptQuantity} {item.unit}</p>)}</div>

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-21T14:01:03.414Z",
+  "startedAt": "2026-11-23T01:45:14.631Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-FV97HR",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-4kILmO",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -627,7 +627,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "61b66d2fc8017840968119fe51c0fe772196e3b8921c391f835847f1ec6dcb23"
+      "sha256": "a894c030809e5ba1d6129225870932e580086a5a1c5469e76e078f465bd4d5d2"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -663,7 +663,7 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "21d12f1e7a67b858fb0933f1bb1a082bf3faaabae004913cbeb121d2b3a41ea5"
+      "sha256": "7322919f5085bc549c05f4a1b5bbb27f696156961a51436cdce0ad31e223fa69"
     },
     {
       "file": "src/features/purchases/ReceivingProductPriceEditor.tsx",
@@ -1207,7 +1207,7 @@
     },
     {
       "file": "src/types/purchases.ts",
-      "sha256": "d2864d3985f4aea65cee6aab8d33810e2c90dcb2adec3f1eafef862bcb2b147a"
+      "sha256": "d0612df8b9cc23906ed560fdd6e9001e778d78de855b5a5fa7c42d3ebf4f8564"
     },
     {
       "file": "src/types/reports.ts",
@@ -1363,7 +1363,7 @@
     },
     {
       "file": "src/utils/receivingV2.ts",
-      "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
+      "sha256": "f7b9131a8a59d7342bb652c6ffcf8c530b28f8542873062aabd9aef57262b48a"
     },
     {
       "file": "src/utils/rejectionMessage.ts",
@@ -56567,5 +56567,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-21T14:02:53.317Z"
+  "endedAt": "2026-11-23T01:47:14.332Z"
 }

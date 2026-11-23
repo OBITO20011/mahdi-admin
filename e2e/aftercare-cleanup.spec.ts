@@ -89,3 +89,18 @@ for(const width of [390,1440]){
     await page.screenshot({path:info.outputPath(`supplier-help-${width}.png`),fullPage:true});
   });
 }
+// Owner item 5 (2026-11-20): on a laptop, pressing «تحديث» inside the returns panel of an
+// invoice must not push the page sideways or clip the panel.
+for(const width of [1280,1366])test(`returns panel refresh keeps the invoice inside the laptop screen at${width}`,async({page})=>{
+  await page.setViewportSize({width,height:800});const {context}=wizard215Scenario('cash');let reads=0;
+  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>{reads++;return r.fulfill({json:context});});
+  await page.goto('/e2e/package-f-orders-harness.html?aftercare');
+  const panel=page.getByTestId('phase43-admin-aftercare');await expect(panel).toBeVisible();
+  const fits=()=>page.evaluate(()=>{const panel=document.querySelector('[data-testid="phase43-admin-aftercare"]')!,detail=document.querySelector('[data-testid="order-detail-panel"]')!;
+    const p=panel.getBoundingClientRect(),d=detail.getBoundingClientRect();
+    const wide=Array.from(panel.querySelectorAll('*')).filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&(r.left<p.left-1||r.right>p.right+1);}).length;
+    return {page:document.documentElement.scrollWidth<=innerWidth,detail:(detail as HTMLElement).scrollWidth<=(detail as HTMLElement).clientWidth+1,inside:p.left>=d.left-1&&p.right<=d.right+1,wide};});
+  expect(await fits()).toEqual({page:true,detail:true,inside:true,wide:0});
+  await panel.getByRole('button',{name:'تحديث',exact:true}).click();await expect.poll(()=>reads).toBeGreaterThan(1);await expect(panel).toBeVisible();
+  await expect.poll(fits).toEqual({page:true,detail:true,inside:true,wide:0});
+});

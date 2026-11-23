@@ -148,6 +148,9 @@ export interface ReceivePurchaseOrderInput {
       unitsPerPackage: number;
       packagePriceInMinorUnits: number;
       discountInMinorUnits?: number;
+      /** Loose base units of the same PO line, priced per base unit. */
+      looseQuantity?: number;
+      looseUnitPriceInMinorUnits?: number;
     };
   }[];
 }

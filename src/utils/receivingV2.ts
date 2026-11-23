@@ -43,10 +43,14 @@ export function purchaseReceiptV2Lines(items: ReceivePurchaseOrderInput['items']
       const packages = integer(quote.packageQuantity, 'عدد الطرود', true);
       const units = integer(quote.unitsPerPackage, 'محتوى الطرد', true);
       const price = integer(quote.packagePriceInMinorUnits, 'سعر الطرد');
-      if (integer(packages * units, 'عدد الوحدات', true) !== quantity) {
+      // Optional loose base units of the same PO line travel in this one line:
+      // the server allows each PO item once per receipt.
+      const loose = integer(quote.looseQuantity ?? 0, 'الكمية الفرط');
+      const loosePrice = integer(quote.looseUnitPriceInMinorUnits ?? 0, 'سعر الفرط');
+      if (integer(packages * units + loose, 'عدد الوحدات', true) !== quantity) {
         throw new Error('كمية الطرد لا تطابق الوحدات المستلمة.');
       }
-      const gross = integer(packages * price, 'إجمالي الاستلام');
+      const gross = integer(packages * price + loose * loosePrice, 'إجمالي الاستلام');
       const discount = integer(quote.discountInMinorUnits ?? 0, 'خصم السطر');
       if (discount > gross) throw new Error('خصم السطر يتجاوز إجمالي الاستلام.');
       // Gross is the money authority; the database derives exact WAC from it.

@@ -71,3 +71,20 @@ test('PO package sends exact gross1.000 and physical24;switch to base preserves 
   [expect.objectContaining({line_kind:'base_unit',commercial_quantity:2,gross_amount_in_minor_units:100,line_discount_in_minor_units:0,components:[{product_id:expect.any(String),base_quantity:2}]})],
  ]);
 });
+for(const width of [390,1280])test(`PO parcels plus loose units of one line send ONE exact line (${width})`,async({page})=>{
+ await page.setViewportSize({width,height:900});
+ const captured:Record<string,unknown>[]=[];
+ await page.route('**/rest/v1/rpc/receive_purchase_order_v2',route=>{captured.push(route.request().postDataJSON());return route.fulfill({status:400,json:{message:'ISOLATED_UNIT_PROBE_REJECTION',code:'P0001'}});});
+ await page.goto(url('light','receive'));const row=page.locator('[data-receiving-line]').first();
+ await row.getByRole('radio',{name:'طرد',exact:true}).click();await row.getByLabel('كم طرد؟',{exact:true}).fill('1');
+ await row.getByTestId('po-loose-add').click();
+ await row.getByLabel('كم شوال فرط؟',{exact:true}).fill('5');await row.getByLabel('سعر شوال الفرط',{exact:true}).fill('0.045');
+ await expect(row.getByText('المجموع: 1 طرد + 5 شوال فرط = 29 شوال')).toBeVisible();
+ await checkLayout(page,page.getByTestId('purchasing-workbench'));
+ await page.getByRole('button',{name:'تأكيد الاستلام وزيادة المخزون',exact:true}).click();await expect.poll(()=>captured.length).toBe(1);
+ expect(captured[0].p_lines).toEqual([expect.objectContaining({line_kind:'base_unit',commercial_quantity:29,gross_amount_in_minor_units:1225,line_discount_in_minor_units:0,components:[{product_id:expect.any(String),base_quantity:29}]})]);
+ await row.getByRole('button',{name:'إزالة الفرط',exact:true}).click();
+ await expect(row.getByTestId('po-loose-add')).toBeVisible();
+ await page.getByRole('button',{name:'تأكيد الاستلام وزيادة المخزون',exact:true}).click();await expect.poll(()=>captured.length).toBe(2);
+ expect(captured[1].p_lines).toEqual([expect.objectContaining({commercial_quantity:24,gross_amount_in_minor_units:1000})]);
+});
