@@ -525,7 +525,7 @@
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "5526091d880f6e22e742d68a57656b129213b8eb2741dc54df0e85f2dcc8c535"
+      "sha256": "a7eb7583dccdd2b24a46b99ad328b39606da1f5a5fd29ec7fb86db279488340f"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
