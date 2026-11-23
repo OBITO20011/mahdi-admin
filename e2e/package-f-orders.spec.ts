@@ -105,7 +105,8 @@ for (const theme of ['light', 'dark']) {
     }
     expect(await table.evaluate((element) => {
       const container = element.parentElement!;
-      return getComputedStyle(container).overflowX === 'auto' && container.scrollWidth > container.clientWidth;
+      // Owner 2026-11-23: the box still contains any overflow, but at 1280 the whole list now fits.
+      return getComputedStyle(container).overflowX === 'auto' && container.scrollWidth <= container.clientWidth + 1;
     })).toBe(true);
     await layout(page);
     await accessibility(page);
@@ -268,4 +269,15 @@ test('live controller retains bounded RPC paging/search and selected-only detail
   if (page.viewportSize()!.width < 768) await page.getByRole('button', { name: 'رجوع للطلبات', exact: true }).click();
   await page.getByRole('searchbox', { name: 'البحث في الطلبات' }).fill('الأمل');
   await expect.poll(() => requests.filter((r) => r.path === 'get_operational_orders_page').at(-1)?.body.p_search).toBe('الأمل');
+});
+// Owner 2026-11-23: on a 1280/1366 laptop with an order open, the whole orders list
+// (including «الإجمالي») fits its column without sideways scrolling.
+for(const width of [1280,1366])for(const long of [false,true])test(`orders list fits beside the open order at ${width}${long?' with a long customer name':''}`,async({page})=>{
+  await page.setViewportSize({width,height:800});
+  await page.goto(`/e2e/package-f-orders-harness.html?select${long?'&long':''}`);
+  const box=page.locator('table:has(caption:text("قائمة الطلبات"))').locator('xpath=..');await expect(box).toBeVisible();
+  await expect(page.getByTestId('order-detail-panel')).toBeVisible();
+  expect(await box.evaluate(e=>e.scrollWidth-e.clientWidth)).toBeLessThanOrEqual(1);
+  await expect(box.getByRole('columnheader',{name:'الإجمالي',exact:true})).toBeInViewport({ratio:1});
+  const open=await box.getByRole('button',{name:/^فتح الطلب /}).first().boundingBox();expect(open!.height).toBeGreaterThanOrEqual(44);expect(open!.width).toBeGreaterThanOrEqual(44);
 });
