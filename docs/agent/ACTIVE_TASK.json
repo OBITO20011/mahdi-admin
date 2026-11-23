@@ -1,38 +1,41 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
-  "owner": "codex",
-  "objective": "Owner23Nov product form: pause-parcel checkbox and immutable-unit hint; presentation only with workbook history, tests, local demo dist update and Draft PR; no merge.",
-  "baselineSha": "2933c74a96e4a43a22123efa892c61d1e0d398d4",
-  "branch": "codex/on225-product-form-parcel-checkbox",
+  "status": "ACTIVE",
+  "owner": "claude",
+  "objective": "Owner batch G: item 11 PO receiving parcels+loose in one line (UI-only, exact gross), item 5 laptop aftercare overflow check, item 12 cutover-day steps doc; tests, trial dist update, Draft PR; merge only after owner iPhone OK and 100% green CI.",
+  "baselineSha": "b5970314f47456634df451accf2ad791d058237a",
+  "branch": "claude/on225-owner-fixes-g",
   "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-22T22:26:59.955Z",
+  "startedAt": "2026-11-23T01:02:12.416Z",
   "checkpointedAt": "2026-11-23T00:03:55.432Z",
   "inProgress": [
-    "Final local unit gate before commit and local demo dist-only preview"
+    "Commit, push, trial admin dist update, draft PR"
   ],
-  "completed": [],
+  "completed": [
+    "Item 11 PO parcels+loose one line (UI-only, exact gross)",
+    "Item 5 laptop 1280/1366 refresh check: no overflow; regression test added",
+    "Item 12 cutover-day steps written to owner sheet"
+  ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Main2933c74a FULL green:79success/3conditional skips",
-    "Types Admin+Store and strict lint pass",
-    "Focused15/15;history22/22;access/history10/10",
-    "Chromium+WebKit12/12 new/control cases and46/46 form/OFF regressions",
-    "Actual ON225 golden both browsers pass;one environment-only setup rerun after owned Docker network lifecycle fix",
-    "Current225 access193reads:178success/15empty/0errors;771serviceprobes/18expecteddenials",
-    "Store239/239 units"
+    "Types admin+store and lint pass",
+    "Admin units 2272/2273 + Git63 history rerun alone 5/5 (timeout under load only)",
+    "Store 239/239",
+    "Receiving-units e2e 20/20 Chromium+WebKit",
+    "Aftercare+orders e2e 60/60 Chromium+WebKit",
+    "Access after 225 regenerated: 178 success/15 empty/0 denied"
   ],
   "testsRemaining": [
-    "All Admin units",
-    "Staged/commit Gitleaks",
-    "Local demo admin dist-only preview",
-    "Draft PR exact-head full CI"
+    "Gitleaks staged",
+    "Draft PR exact-head full CI",
+    "Owner iPhone OK"
   ],
   "findings": [
-    "Local first full unit run exposed only task phase mismatch and missing exact new-test history admission; corrected without changing assertions or product behavior."
+    "At 1280 the orders list table is ~50px wider than its column and scrolls horizontally (not changed; reported to owner).",
+    "Docker address pools were exhausted; 19 empty stale test networks removed with owner approval."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -41,7 +44,7 @@
     "No hosted ERP access, deploy, reset, SQL/RPC changes, merge or original owner file edits",
     "No demo data/Auth/MFA/certificate changes"
   ],
-  "nextExactAction": "Claude finished Codex's task: commit 81b53276 pushed, draft PR #126 open, iPhone trial admin dist updated (old build archived in NawasrahLocalValidation/on225-product-form-checkbox-20261123/trial/previous-admin-dist-0c9199d4). Next: wait for 100% green CI on 81b53276 and the owner's OK on the iPhone, then mark ready and merge.",
+  "nextExactAction": "Commit, push, update trial admin dist, open draft PR; merge only after owner iPhone OK and 100% green CI.",
   "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
   "filesTouchedCount": 0,
   "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
