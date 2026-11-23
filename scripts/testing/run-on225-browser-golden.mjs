@@ -197,7 +197,7 @@ async function runDay(browserType,engine,device){
     const unit=form.getByLabel('سعر بيع باكيت',{exact:true}),save=button(form,'حفظ التعديلات');
     await unit.fill('0.500');
     await expect(save).toBeDisabled();
-    await button(form,'الطرد: متاح للبيع').click();
+    await form.getByRole('checkbox',{name:'إيقاف بيع الطرد مؤقتاً',exact:true}).check();
     await saveBelowCost(form,'0.804');
     await assertPrice({unit:500,parcel:11000,enabled:false,originalUnit:1000,originalParcel:12000});
     const loss=await sale('base_unit',1,500);
@@ -211,7 +211,7 @@ async function runDay(browserType,engine,device){
     await expect(detail).not.toContainText('11.000');
     await shopPage.close();
     form=await openProduct();
-    await button(form,'الطرد: موقوف مؤقتاً').click();
+    await form.getByRole('checkbox',{name:'إيقاف بيع الطرد مؤقتاً',exact:true}).uncheck();
     await expect(button(form,'حفظ التعديلات')).toBeDisabled();
     await form.getByLabel('سعر بيع الطرد',{exact:true}).fill('6.000');
     await saveBelowCost(form,'0.804');
@@ -219,7 +219,7 @@ async function runDay(browserType,engine,device){
 
     stage='pause again before restoring the original single price';
     form=await openProduct();
-    await button(form,'الطرد: متاح للبيع').click();
+    await form.getByRole('checkbox',{name:'إيقاف بيع الطرد مؤقتاً',exact:true}).check();
     await saveBelowCost(form,'0.804');
     await assertPrice({unit:500,parcel:6000,enabled:false,originalUnit:1000,originalParcel:12000});
 

@@ -1,41 +1,48 @@
 {
   "schemaVersion": 1,
   "status": "PAUSED",
-  "owner": "claude",
-  "objective": "Owner20Nov ON225 UX simplification batch F UI-only (no migration): owner approved all 8 items — home 4 numbers+shift+alerts, simpler POS cart with one customer field, order detail without duplicates, orders list text, customers 4 filters, quick add product, general Arabic for colloquial copy, minimum 12px text.",
-  "baselineSha": "628f504743dc42424dc2b163693cfa8ad8a1f34f",
-  "branch": "claude/on225-owner-fixes-f",
+  "owner": "codex",
+  "objective": "Owner23Nov product form: pause-parcel checkbox and immutable-unit hint; presentation only with workbook history, tests, local demo dist update and Draft PR; no merge.",
+  "baselineSha": "2933c74a96e4a43a22123efa892c61d1e0d398d4",
+  "branch": "codex/on225-product-form-parcel-checkbox",
   "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-20T12:00:00.000Z",
-  "completed": [
-    "Batch1 #120",
-    "Batch2 #121",
-    "#119 two-stage merged"
-  ],
+  "startedAt": "2026-11-22T22:26:59.955Z",
+  "checkpointedAt": "2026-11-23T00:03:55.432Z",
   "inProgress": [
-    "Batch C items 2/3/6"
+    "Final local unit gate before commit and local demo dist-only preview"
   ],
-  "notStarted": [
-    "Items 9/10/17: owner choosing UI-only vs read-only migration226"
+  "completed": [],
+  "notStarted": [],
+  "filesTouched": [
+    "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Main2933c74a FULL green:79success/3conditional skips",
+    "Types Admin+Store and strict lint pass",
+    "Focused15/15;history22/22;access/history10/10",
+    "Chromium+WebKit12/12 new/control cases and46/46 form/OFF regressions",
+    "Actual ON225 golden both browsers pass;one environment-only setup rerun after owned Docker network lifecycle fix",
+    "Current225 access193reads:178success/15empty/0errors;771serviceprobes/18expecteddenials",
+    "Store239/239 units"
+  ],
   "testsRemaining": [
-    "units,types,lint,full CI"
+    "All Admin units",
+    "Staged/commit Gitleaks",
+    "Local demo admin dist-only preview",
+    "Draft PR exact-head full CI"
   ],
   "findings": [
-    "Items 2/3/6 need no migration: server constraints satisfied by explicit placeholders and zero shop delivery fee."
+    "Local first full unit run exposed only task phase mismatch and missing exact new-test history admission; corrected without changing assertions or product behavior."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No deploy/Frankfurt/Production/hosted access; no historical migration edits."
+    "No primary or Claude worktree edits",
+    "No hosted ERP access, deploy, reset, SQL/RPC changes, merge or original owner file edits",
+    "No demo data/Auth/MFA/certificate changes"
   ],
-  "nextExactAction": "Implement UX batch F items 1-3 (home, POS cart, order detail) UI-only, then items 4-8; regenerate pins/evidence, test, PR, trial build for owner review",
-  "checkpointedAt": "2026-11-19T14:59:05.959Z",
-  "filesTouched": [
-    "docs/agent/ACTIVE_TASK_FILES.json"
-  ],
-  "filesTouchedCount": 18,
-  "filesTouchedManifestSha256": "ad3c06761db3fb4c25e9090717a89d5e3566bde83459cb0dcc000cda16fb4bad",
-  "workingTreeFingerprint": "630AD822718968E962A8DA7DB80749CE5FA8EC11D79BE99D6F1DA26196561406"
+  "nextExactAction": "Claude finished Codex's task: commit 81b53276 pushed, draft PR #126 open, iPhone trial admin dist updated (old build archived in NawasrahLocalValidation/on225-product-form-checkbox-20261123/trial/previous-admin-dist-0c9199d4). Next: wait for 100% green CI on 81b53276 and the owner's OK on the iPhone, then mark ready and merge.",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
 }

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-21T14:01:03.414Z",
+  "startedAt": "2026-11-22T23:08:22.179Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-FV97HR",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-VgknZx",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -627,7 +627,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "61b66d2fc8017840968119fe51c0fe772196e3b8921c391f835847f1ec6dcb23"
+      "sha256": "a894c030809e5ba1d6129225870932e580086a5a1c5469e76e078f465bd4d5d2"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -56567,7 +56567,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-21T14:02:53.317Z",
+  "endedAt": "2026-11-22T23:08:45.462Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -56958,7 +56958,7 @@
       "category": "HISTORICAL_DOCUMENTATION"
     },
     {
-      "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
+      "file": "docs/operations/GO_LIVE_CUTOVER_OFF_ARCHIVE_AR.md",
       "lines": [
         174
       ],
