@@ -30,7 +30,8 @@ function ShiftOwnerSummaryCard({report}:{report:ShiftClosingReport}) {
       setProfit({status:'ready',facts:{netProfit:result.report.sales.netProfit,top:topProfitProducts(result.report.topProducts)}});
     }).catch(()=>{if(active)setProfit({status:'unavailable',reason:'تعذر قراءة الربح الآن'});});
     return()=>{active=false;};
-  },[shift.branchId,days.from,days.to]);
+    // Re-read with the shift report itself (Codex review #2): another shift, or a refreshed open shift.
+  },[shift.id,shift.branchId,days.from,days.to,report.generatedAt]);
   const open=shift.status==='open';
   const difference=reconciliation.cashDiscrepancy;
   const balanced=difference===undefined||Math.abs(difference)<0.001;
@@ -48,11 +49,11 @@ function ShiftOwnerSummaryCard({report}:{report:ShiftClosingReport}) {
     </div>
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
       <div data-testid="shift-summary-profit" className="rounded-xl border border-nw-border bg-nw-ok-bg p-3">
-        <span className="flex items-center gap-1 text-[11px] font-bold text-nw-muted"><TrendingUp className="h-3.5 w-3.5 text-nw-ok"/>ربح الوردية</span>
+        <span className="flex items-center gap-1 text-[11px] font-bold text-nw-muted"><TrendingUp className="h-3.5 w-3.5 text-nw-ok"/>ربح يوم الوردية</span>
         {profit.status==='loading'?<span className="mt-1 block text-xs text-nw-muted">جاري الحساب…</span>
           :profit.status==='ready'?<strong className={`mt-1 block text-base ${profit.facts.netProfit<0?'text-nw-bad':'text-nw-ok'}`}><MoneyText amount={profit.facts.netProfit} currency/></strong>
           :<span className="mt-1 block text-xs text-nw-muted">{profit.reason}</span>}
-        <span className="mt-1 block text-[10px] text-nw-muted">الربح الصافي ليوم الوردية (كل البيع بهذا اليوم، بعد المرتجعات والتلف).</span>
+        <span className="mt-1 block text-[10px] text-nw-muted">صافي ربح كل مبيعات الفرع في يوم الوردية، وليس هذه الوردية وحدها (بعد المرتجعات والتلف).</span>
       </div>
       <div data-testid="shift-summary-net-sales" className="rounded-xl border border-nw-border bg-nw-surface-2 p-3">
         <span className="flex items-center gap-1 text-[11px] font-bold text-nw-muted"><Wallet className="h-3.5 w-3.5 text-nw-info"/>صافي مبيعات الوردية</span>
@@ -66,7 +67,7 @@ function ShiftOwnerSummaryCard({report}:{report:ShiftClosingReport}) {
       </div>
     </div>
     {profit.status==='ready'&&profit.facts.top.length>0&&<div data-testid="shift-summary-top-items" className="rounded-xl border border-nw-border p-3">
-      <h4 className="m-0 mb-2 text-xs font-black text-nw-text">أكثر الأصناف ربحاً</h4>
+      <h4 className="m-0 mb-2 text-xs font-black text-nw-text">أكثر الأصناف ربحاً في يوم الوردية</h4>
       <ol className="m-0 list-none space-y-1 p-0">{profit.facts.top.map((item,index)=><li key={`${item.sku}:${index}`} className="flex items-center justify-between gap-2 text-xs"><span className="min-w-0 break-words">{index+1}. {item.productName}</span><MoneyText amount={item.profit} className="font-bold text-nw-ok"/></li>)}</ol>
     </div>}
     <p className="m-0 text-[10px] text-nw-muted">الكاش وCliQ منفصلين دائماً. حركة الدرج بالتفصيل تحت، وباقي الأرقام للمحاسب.</p>

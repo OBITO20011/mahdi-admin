@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
-  "owner": "codex",
-  "objective": "Owner-approved root-cause stabilization of financial390 browser test and Git63 history timeout; preserve all assertions; Draft PR only",
-  "baselineSha": "3745ce70f4ed6b44fadf75d38c32c1f5857ba760",
-  "branch": "codex/on225-test-stability",
+  "status": "ACTIVE",
+  "owner": "claude",
+  "objective": "Owner 2026-11-25: Codex review display fixes A-E (presentation only): COGS-remainder label, shift profit labelled as day profit + refresh with report, sales-history net box ignores-filters note, returned-orders latest-30 note, general Arabic copy; tests, draft PR; merge only after owner OK and 100% green CI.",
+  "baselineSha": "c4eaf0c65a028777992b3dc7289d7df1eef9f028",
+  "branch": "claude/on225-review-display-fixes",
   "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-23T15:01:38.710Z",
-  "checkpointedAt": "2026-11-23T15:36:43.536Z",
+  "startedAt": "2026-11-24T21:57:09.589Z",
+  "checkpointedAt": "2026-11-24T22:48:39.598Z",
   "inProgress": [
-    "Prepare test-only Draft PR and wait exact-head CI"
+    "Owner 2026-11-25: Codex review display fixes A-E (presentation only): COGS-remainder label, shift profit labelled as day profit + refresh with report, sales-history net box ignores-filters note, returned-orders latest-30 note, general Arabic copy; tests, draft PR; merge only after owner OK and 100% green CI."
   ],
   "completed": [
     "Original financial390 20/20 passed; old flake not naturally reproduced",
@@ -24,28 +24,17 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "2276/2276 admin units; history child 53.1s with original120s limit",
-    "Financial30/30 Chromium and WebKit incl moving-text and permanent-clipping proof",
-    "Scheduling and historical focused11/11",
-    "Admin TypeScript and changed-file strict lint"
-  ],
-  "testsRemaining": [
-    "Gitleaks on committed range",
-    "Draft PR exact-head full CI"
-  ],
-  "findings": [
-    "Original intermittent390 failure not reproduced20/20; deterministic motion/layout race proved separately",
-    "Local branch overlay needed exact historical state-pin rebind; corrected focus11/11 and full2276/2276"
-  ],
+  "testsPassed": [],
+  "testsRemaining": [],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No demo-server, demo containers, n8n, hosted ERP or original owner file changes",
     "No assertion weakening, deadline increase or merge"
   ],
-  "nextExactAction": "Push test-stability Draft PR and wait exact-head CI; no merge",
-  "workingTreeFingerprint": "9891888486E95CF1EBE300EA3B2944752420C1908B698B0AEE001C2E159FBCD7",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "418531838109d0b214afe1156da9d3badc40d36e65e838d8777cc16203aa15a5"
+  "nextExactAction": "Draft PR for review display fixes A-E pushed; wait exact-head CI 100% green, show owner, merge only after owner OK. Owner's next modification list goes on this same branch.",
+  "workingTreeFingerprint": "E10BE715FC1B217F1E49CF130FF921B526254BFB3A45495C2EDA89A585A03DBC",
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "d462e229186e3012545b0be26d3beb4416b7f9133add4efcdb22b35b27730f55"
 }

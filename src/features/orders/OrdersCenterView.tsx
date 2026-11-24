@@ -288,7 +288,7 @@ export const OrdersCenterView: React.FC = () => {
 
   return <OrdersWorkbench orders={orders} activeFilter={activeFilter} counts={counts} summary={summary} searchQuery={searchQuery} sort={sort} page={page} totalCount={totalCount} totalPages={totalPages}
     listLoadVersion={listLoadVersion} restoreAfterVersion={restoreAfterVersion} returnStates={returnStates} receivables={receivables}
-    returnedExtra={<ReturnedAfterSaleOrders onOpen={openOrderDetails} refreshKey={listLoadVersion} />}
+    returnedExtra={<ReturnedAfterSaleOrders onOpen={openOrderDetails} refreshKey={listLoadVersion} searchQuery={debouncedSearchQuery} />}
     selectedOrderId={selectedOrderId} sourceFor={(id) => orders.find(order => order.id === id)?.source} loading={loading} refreshing={refreshing} error={error}
     onOpen={openOrderDetails} onFilter={(value) => { setActiveFilter(value); setPage(1); }}
     onSearch={(value) => { setSearchQuery(value); setCounts({}); setPage(1); }} onSort={(value) => { setSort(value); setPage(1); }} onPage={setPage} onRefresh={() => void handleRefresh()}

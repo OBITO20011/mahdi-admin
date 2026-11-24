@@ -48,7 +48,7 @@ export function SalesHistoryView() {
     </Card>
     {state.loading?<Card role="status">جاري تحميل سجل المبيعات…</Card>:state.error?<Card role="alert"><p>{state.error}</p><UiButton className="mt-3" onClick={()=>void state.reload()}>إعادة المحاولة</UiButton></Card>:!state.data?<Card role="status">سجل المبيعات غير متاح حالياً.</Card>:<>
       <Card data-testid="sales-history-summary"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm text-nw-muted">{period==='day'?'مبيعات اليوم':'مبيعات الفترة'} · {state.data.summary.salesCount} فواتير مؤرخة</p><MoneyText amount={state.data.summary.salesInMinorUnits/1000} currency className="text-2xl font-bold"/></div><p className="text-sm text-nw-muted">{state.data.totalCount} فاتورة في السجل</p></div>
-        {(period==='day'||period==='range')&&<SalesReturnsLine fromDate={period==='day'?today:from} toDate={period==='day'?today:to} refreshKey={state.data}/>}
+        {(period==='day'||period==='range')&&<SalesReturnsLine fromDate={period==='day'?today:from} toDate={period==='day'?today:to} refreshKey={state.data} filtered={method!=='all'||source!=='all'||customer.trim()!==''||number.trim()!==''}/>}
         {state.data.summary.undatedInvoiceCount>0&&<p className="mt-3 text-sm text-nw-muted">{state.data.summary.undatedInvoiceCount} فواتير قديمة بلا وقت بيع مسجّل؛ تظهر بتاريخ الإنشاء ولا تدخل إجمالي المبيعات.</p>}
         <p className="mt-2 text-xs text-nw-muted">الإجمالي للفواتير المكتملة والمرتجعة بحسب وقت البيع، قبل خصم المرتجعات. طريقة الدفع الأصلية لا تتغير بسبب تحصيل لاحق.</p>
       </Card>

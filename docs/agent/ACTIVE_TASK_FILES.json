@@ -2,32 +2,72 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "src/utils/returnedOrdersSearch.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/on225-review-display-fixes.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": " M",
-      "path": "e2e/package-f-financial.spec.ts"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_225.json"
     },
     {
-      "code": " M",
-      "path": "e2e/package-f-layout.ts"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": " M",
-      "path": "package.json"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": " M",
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_225.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
       "path": "scripts/audit/on225-owner-fixes-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-admin-unit-tests.mjs"
+      "code": "M ",
+      "path": "src/features/orders/OrderReturnBadge.tsx"
     },
     {
-      "code": "??",
-      "path": "tests/admin-unit-test-scheduling.test.ts"
+      "code": "M ",
+      "path": "src/features/orders/OrdersCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/reports/ReportsCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/salesHistory/SalesHistoryView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/salesHistory/SalesReturnsLine.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/shifts/ShiftOwnerSummary.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/utils/reportProfitSteps.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/on225-owner-fixes-e.test.ts"
     }
   ]
 }
