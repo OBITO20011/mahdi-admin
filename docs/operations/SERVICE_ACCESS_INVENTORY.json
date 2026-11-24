@@ -521,11 +521,11 @@
     },
     {
       "file": "src/features/orders/OrderReturnBadge.tsx",
-      "sha256": "5d6501ed7a9d20c00d040a6a00e1b293b5d41a833f10df0d955df82d08bb2846"
+      "sha256": "e4321df7c57d535b77af4d43602c65f79ea05fbc83611fa7832d71dafa69358c"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "a7eb7583dccdd2b24a46b99ad328b39606da1f5a5fd29ec7fb86db279488340f"
+      "sha256": "45bb8c2abc2ccacf5784cc68f601f2434d62c89b4a35c3089443ad09f4d8c23f"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
@@ -701,7 +701,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "b3091422e54fa78bb45bdffe25e93cfd8bebc455a1943249304629c1f5c100f6"
+      "sha256": "788739a50e49bca9091b246f1d015b8bc5b4d2f2b15ddbedb865523ea735213c"
     },
     {
       "file": "src/features/reports/SalesOnlyReportsView.tsx",
@@ -713,7 +713,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesHistoryView.tsx",
-      "sha256": "24ddea87fca2769ca05efbd6154b99bbe44fa51a33b7d900728528e3deb130ca"
+      "sha256": "9ef2c5c0fa77e7f9814f5fb77207628951fe4a0b55d02c0c2c71f0f0cbab9107"
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
@@ -721,7 +721,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesReturnsLine.tsx",
-      "sha256": "44d1033f70a779c5b1532e8e0cc1eacb5710c85172e7f26eb9a02aed2d863a67"
+      "sha256": "a2f8b7d6ff466f9af6b9304c25202be9a03e4d5d1e6bb08f5bad7b4d90b90f37"
     },
     {
       "file": "src/features/shifts/CashFlowDetails.tsx",
@@ -761,7 +761,7 @@
     },
     {
       "file": "src/features/shifts/ShiftOwnerSummary.tsx",
-      "sha256": "13ed11226d2559d4498f7e4579436b4b29598a23332dc5b66b63e81a11193dc3"
+      "sha256": "4f0004eb0a519a54a8535ea7d96678c2fb3d29bc2c9744a8b30e79f7fd91edd1"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
@@ -1373,7 +1373,11 @@
     },
     {
       "file": "src/utils/reportProfitSteps.ts",
-      "sha256": "9c33b4c36f73609f74466d7230ce39b40147eeae96b9b542df75b310c69e5c6c"
+      "sha256": "625ed1b33ef56f7e80533eec00a214f551179b117d4ede904a27fd84165c80b3"
+    },
+    {
+      "file": "src/utils/returnedOrdersSearch.ts",
+      "sha256": "b259e55c568af36578c030984a5a9b9c280f064acfee5f98a47b0457cdfe2822"
     },
     {
       "file": "src/utils/roleLabels.ts",

@@ -368,7 +368,7 @@ const FullReportsCenterView: React.FC = () => {
                 <dl className="m-0 space-y-1 text-sm">
                   {profitSteps.map((step) => (
                     <div key={step.key} data-testid={`report-profit-step-${step.key}`} className={`flex justify-between gap-3 ${step.key==='profit'?'border-t border-nw-border pt-1 font-black':''}`}>
-                      <dt className={step.sign==='−'?'text-nw-bad':step.key==='profit'?'text-nw-text':'text-nw-muted'}>{step.sign==='+'?'':`${step.sign} `}{step.label}</dt>
+                      <dt className={step.sign==='−'?'text-nw-bad':step.key==='profit'?'text-nw-text':'text-nw-muted'}>{step.key==='gross'?'':`${step.sign} `}{step.label}</dt>
                       <dd className="m-0"><bdi dir="ltr" className="nw-num">{money(step.amount)}</bdi></dd>
                     </div>
                   ))}

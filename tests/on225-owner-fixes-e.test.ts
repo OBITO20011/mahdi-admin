@@ -6,18 +6,19 @@ import {reportProfitSteps} from '../src/utils/reportProfitSteps';
 const source=(path:string)=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8').replaceAll('\r\n','\n');
 
 test('item 15 design A: profit steps always add up to the server profit', () => {
-  // Trial day 2026-11-20: 50.800 sales, 13.900 returns, 36.900 net, 0 expenses, 18.350 profit.
-  const steps=reportProfitSteps({grossSales:50.8,returnEntitlement:13.9,netSales:36.9,netProfit:18.35},0)!;
+  // Trial day 2026-11-20: 50.800 sales, 13.900 returns, 36.900 net, 18.550 goods cost, 0 expenses, 18.350 profit.
+  const steps=reportProfitSteps({grossSales:50.8,returnEntitlement:13.9,netSales:36.9,cogs:18.55,netProfit:18.35},0)!;
   assert.deepEqual(steps.map(step=>step.key),['gross','returns','cost','expenses','profit']);
   assert.equal(steps.find(step=>step.key==='cost')!.amount,18.55);
   const fils=(value:number)=>Math.round(value*1000);
   const [gross,returns,cost,expenses,profit]=steps.map(step=>fils(step.amount));
   assert.equal(gross-returns-cost-expenses,profit);
   // Float-prone values stay exact; a loss stays negative.
-  const loss=reportProfitSteps({grossSales:0.3,returnEntitlement:0.1,netSales:0.2,netProfit:-0.333},0.033)!;
+  const loss=reportProfitSteps({grossSales:0.3,returnEntitlement:0.1,netSales:0.2,cogs:0.5,netProfit:-0.333},0.033)!;
   assert.equal(loss.find(step=>step.key==='cost')!.amount,0.5);
   assert.equal(loss.at(-1)!.amount,-0.333);
-  assert.equal(reportProfitSteps({grossSales:Number.NaN,returnEntitlement:0,netSales:0,netProfit:0},0),null);
+  assert.equal(reportProfitSteps({grossSales:Number.NaN,returnEntitlement:0,netSales:0,cogs:0,netProfit:0},0),null);
+  assert.equal(reportProfitSteps({grossSales:0,returnEntitlement:0,netSales:0,cogs:Number.NaN,netProfit:0},0),null);
 });
 
 test('item 15 design A: profit and four numbers first, the rest folds away in general wording', () => {

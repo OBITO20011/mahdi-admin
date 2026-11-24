@@ -12,8 +12,10 @@ interface NetFigures {gross:number;returns:number;net:number}
  * All three figures come from the canonical business report for the same Amman days,
  * so they always agree with «التقارير». Roles without reports access, or a failed
  * read, see nothing rather than an unverified net figure.
+ * Codex review 2026-11-23 #3: the figures cover every sale of the branch on those days and
+ * ignore the list filters and search; the box says so, and stands out while a filter is on.
  */
-export function SalesReturnsLine({fromDate,toDate,refreshKey}:{fromDate:string;toDate:string;refreshKey?:unknown}) {
+export function SalesReturnsLine({fromDate,toDate,refreshKey,filtered=false}:{fromDate:string;toDate:string;refreshKey?:unknown;filtered?:boolean}) {
   const branchId=useAppStoreSelector(state=>state.activeBranch.id);
   const {roleName,roles}=useAuthStore();
   const allowed=canUseNavigationAction({type:'tab',destination:'reports'},roleName,roles);
@@ -36,6 +38,7 @@ export function SalesReturnsLine({fromDate,toDate,refreshKey}:{fromDate:string;t
       <div><span className="block text-xs text-nw-muted">المرتجعات</span><MoneyText amount={-figures.returns} className="font-bold text-nw-bad"/></div>
       <div><span className="block text-xs text-nw-muted">الصافي</span><MoneyText amount={figures.net} className="font-bold text-nw-ok"/></div>
     </div>
-    <p className="m-0 mt-2 text-xs text-nw-muted">حسب تقرير نفس الأيام: المرتجعات = كل مرتجع انعمل بهالأيام (كاش، CliQ أو تخفيض دين).</p>
+    <p data-testid="sales-history-net-scope" className={`m-0 mt-2 text-xs ${filtered?'font-bold text-nw-warn':'text-nw-muted'}`}>هذه الأرقام لكل مبيعات الفرع في هذه الأيام، ولا تتأثر بالفلاتر أو البحث.</p>
+    <p className="m-0 mt-1 text-xs text-nw-muted">المرتجعات: كل مرتجع تم في هذه الأيام (كاش أو CliQ أو تخفيض دين).</p>
   </div>;
 }
