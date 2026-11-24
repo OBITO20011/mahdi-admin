@@ -14,6 +14,23 @@ async function audit(page:Page){
  const a=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
  expect(a.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
 }
+test('financial layout waits for moving text and still rejects settled clipping',async({page})=>{
+ await page.setViewportSize({width:390,height:900});
+ await page.goto('/e2e/package-f-financial-harness.html?theme=light');
+ await expect(page.getByText('EXP-10481',{exact:true})).toBeVisible();
+ await page.getByTestId('financial-workbench').evaluate(element=>{
+  const box=document.createElement('div');box.dataset.testid='layout-motion-proof';
+  box.style.cssText='overflow:hidden;width:120px;height:40px';
+  const label=document.createElement('span');label.textContent='1,234.567';label.style.display='inline-block';box.append(label);element.prepend(box);
+  label.animate([{transform:'translateX(400px)'},{transform:'translateX(0)'}],{duration:1500,fill:'forwards'});
+ });
+ const proof=page.getByTestId('layout-motion-proof');
+ await checkLayout(page,proof);
+ expect(await proof.locator('span').evaluate(element=>element.getAnimations().every(animation=>animation.playState==='finished'))).toBe(true);
+ await proof.locator('span').evaluate(element=>{element.style.transform='translateX(400px)';for(const animation of element.getAnimations())animation.cancel();});
+ await expect(checkLayout(page,proof)).rejects.toThrow('Unintended text clipping');
+});
+
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`expenses and report ${theme} ${width}:real readers,Latin money,details,axe and layout`,async({page})=>{
  await page.setViewportSize({width,height:900});
  await page.goto(`/e2e/package-f-financial-harness.html?theme=${theme}`);

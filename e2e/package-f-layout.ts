@@ -1,11 +1,12 @@
 import {expect,type Page} from './isolated-test';
+import {waitForPackageFMotion} from './package-f-accessibility';
 
 type Locator=ReturnType<Page['locator']>;
 
 // Additive guard: existing per-screen containment/axe checks remain intact.
 // Measure every clipping ancestor,not only the text's immediate box.
 export async function checkLayout(page:Page,root:Locator){
- await page.evaluate(()=>document.fonts.ready);
+ await waitForPackageFMotion(page);
  const clipped=await root.evaluate(element=>{
   const failures:string[]=[],walker=document.createTreeWalker(element,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
