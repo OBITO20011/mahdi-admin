@@ -7,7 +7,15 @@
     },
     {
       "code": " M",
+      "path": "docs/operations/ENVIRONMENT_SEPARATION_AR.md"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE225_AR.md"
     },
     {
       "code": " M",
