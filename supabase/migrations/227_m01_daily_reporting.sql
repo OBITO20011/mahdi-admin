@@ -120,29 +120,40 @@ BEGIN
   ), completion_ops AS MATERIALIZED (
     SELECT DISTINCT ON (b.result_snapshot->>'order_id')
       b.result_snapshot->>'order_id' AS order_key,
-      b.result_snapshot, b.completed_at, b.request_identity_snapshot
+      b.completed_at,
+      b.request_identity_snapshot->>'payment_method' AS payment_method,
+      b.result_snapshot->>'customer_payment_number' AS payment_number,
+      b.result_snapshot->>'amount_paid_in_minor_units' AS amount_paid
     FROM public.business_operations b
     WHERE b.operation_type = 'phase3_customer_completion_v1'
       AND b.result_snapshot->>'order_id' = b.request_identity_snapshot->>'order_id'
     ORDER BY b.result_snapshot->>'order_id', b.completed_at, b.id
   ), order_scope AS MATERIALIZED (
-    SELECT o.id, o.customer_id, o.branch_id, o.status, o.payment_method, o.delivery_fee_in_minor_units, o.total_in_minor_units, o.source, o.created_at, o.amount_paid_in_minor_units, o.operation_id, fc.at AS completion_at, creation.operation_type,
-      creation.result_snapshot AS creation_result, creation.completed_at AS creation_recorded_at,
-      completion.result_snapshot AS completion_result,
-      completion.completed_at AS completion_recorded_at,
-      completion.request_identity_snapshot AS completion_request
+    -- Project snapshot scalars before the materialized relation and its joins.
+    SELECT o.id, o.status, o.delivery_fee_in_minor_units, o.total_in_minor_units,
+      fc.at AS completion_at, creation.operation_type,
+      CASE WHEN creation.operation_type = 'phase3_pos_sale_v1' THEN creation.completed_at
+        ELSE COALESCE(completion.completed_at, fc.at) END AS collection_at,
+      CASE WHEN creation.operation_type = 'phase3_pos_sale_v1' THEN creation.result_snapshot->>'paymentMethod'
+        WHEN creation.operation_type = 'phase3_customer_reservation_v1' THEN completion.payment_method
+        WHEN o.payment_method = 'cash_on_delivery' THEN 'cash' ELSE o.payment_method END AS collection_method,
+      CASE WHEN creation.operation_type = 'phase3_pos_sale_v1' THEN creation.result_snapshot->>'amountPaidInMinorUnits'
+        WHEN creation.operation_type = 'phase3_customer_reservation_v1' THEN
+          CASE WHEN NULLIF(completion.payment_number, '') IS NOT NULL THEN '0' ELSE completion.amount_paid END
+        WHEN o.payment_method = 'debt' THEN '0' ELSE o.total_in_minor_units::TEXT END AS collection_amount
     FROM public.orders o
     JOIN first_completion fc ON fc.order_id = o.id
     LEFT JOIN public.business_operations creation ON creation.id = o.operation_id
     LEFT JOIN completion_ops completion ON completion.order_key = o.id::TEXT
     WHERE p_branch_id IS NULL OR o.branch_id = p_branch_id
   ), modern_returns AS MATERIALIZED (
-    SELECT e.*
+    SELECT e.order_id, e.id, e.settled_at, e.debt_reduction_amount_in_minor_units,
+      e.money_refund_amount_in_minor_units, e.refund_method
     FROM public.sales_return_events e JOIN order_scope o ON o.id = e.order_id
     WHERE e.contract_version = 401 AND e.settlement_status = 'settled'
       AND o.operation_type IN ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')
   ), issued AS MATERIALIZED (
-    SELECT e.*
+    SELECT e.operation_id, e.issued_at
     FROM public.sales_replacement_events e JOIN order_scope o ON o.id = e.root_order_id
     WHERE e.issuance_status = 'issued'
   ), return_rows AS (
@@ -162,18 +173,8 @@ BEGIN
     WHERE o.operation_type IS NULL OR o.operation_type NOT IN
       ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')
   ), initial_collections AS (
-    SELECT o.id AS order_id,
-      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN o.creation_recorded_at
-        ELSE COALESCE(o.completion_recorded_at, o.completion_at) END AS at,
-      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN o.creation_result->>'paymentMethod'
-        WHEN o.operation_type = 'phase3_customer_reservation_v1' THEN o.completion_request->>'payment_method'
-        WHEN o.payment_method = 'cash_on_delivery' THEN 'cash' ELSE o.payment_method END AS method,
-      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN (o.creation_result->>'amountPaidInMinorUnits')::BIGINT
-        WHEN o.operation_type = 'phase3_customer_reservation_v1' THEN
-          CASE WHEN NULLIF(o.completion_result->>'customer_payment_number', '') IS NOT NULL THEN 0
-            ELSE (o.completion_result->>'amount_paid_in_minor_units')::BIGINT END
-        WHEN o.payment_method = 'debt' THEN 0 ELSE o.total_in_minor_units END AS amount
-    FROM order_scope o
+    SELECT id AS order_id, collection_at AS at, collection_method AS method, collection_amount::BIGINT AS amount
+    FROM order_scope
   ), money_events AS (
     SELECT order_id, at, method, amount AS collection, 0::BIGINT AS reversal, 0::BIGINT AS refund
     FROM initial_collections WHERE amount > 0
@@ -223,15 +224,14 @@ BEGIN
     SELECT order_id, SUM(debt)::BIGINT AS debt_reduction
     FROM return_rows GROUP BY order_id
   ), positions AS (
-    SELECT o.id, o.customer_id, o.status, o.total_in_minor_units,
-      COALESCE(c.coverage, 0)::BIGINT AS coverage,
-      COALESCE(d.debt_reduction, 0)::BIGINT AS debt_reduction,
+    SELECT o.id, COALESCE(c.coverage, 0)::BIGINT AS coverage,
       GREATEST(o.total_in_minor_units - COALESCE(c.coverage, 0) - COALESCE(d.debt_reduction, 0), 0)::BIGINT AS due
     FROM order_scope o
     LEFT JOIN coverage_by_order c ON c.order_id = o.id
     LEFT JOIN debt_by_order d ON d.order_id = o.id
   ), period_sales AS (
-    SELECT * FROM order_scope WHERE status IN ('completed', 'returned')
+    SELECT id, completion_at, total_in_minor_units, delivery_fee_in_minor_units
+    FROM order_scope WHERE status IN ('completed', 'returned')
       AND completion_at >= p_period_start AND completion_at < p_period_end
   ), sales_totals AS (
     SELECT COALESCE(SUM(total_in_minor_units), 0)::BIGINT AS gross,
@@ -470,6 +470,233 @@ END $function$;
 ALTER FUNCTION public.report227_aftercare_facts_internal(uuid,timestamptz,timestamptz,text,boolean) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.report227_aftercare_facts_internal(uuid,timestamptz,timestamptz,text,boolean) FROM PUBLIC,anon,authenticated,service_role;
 
+CREATE FUNCTION public.report227_invoice_summary_internal(p_branch_id uuid, p_date_from date, p_date_to date)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_period_start TIMESTAMPTZ;
+  v_period_end TIMESTAMPTZ;
+  v_report JSONB;
+  v_movement_summary JSONB;
+  v_registered_discount BIGINT;
+  v_allocated_discount BIGINT;
+BEGIN
+  PERFORM public.assert_erp_role(
+    ARRAY['owner', 'admin', 'manager', 'accountant'],
+    'عرض التقارير المالية والتشغيلية'
+  );
+
+  IF p_branch_id IS NULL THEN
+    RAISE EXCEPTION 'الفرع مطلوب لإنشاء التقرير.';
+  END IF;
+
+  IF p_date_from IS NULL OR p_date_to IS NULL THEN
+    RAISE EXCEPTION 'تاريخ بداية ونهاية التقرير مطلوبان.';
+  END IF;
+
+  IF p_date_to < p_date_from THEN
+    RAISE EXCEPTION 'تاريخ نهاية التقرير يجب ألا يسبق تاريخ البداية.';
+  END IF;
+
+  IF p_date_to - p_date_from > 366 THEN
+    RAISE EXCEPTION 'الفترة القصوى للتقرير هي 367 يوماً.';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM public.branches WHERE id = p_branch_id
+  ) THEN
+    RAISE EXCEPTION 'الفرع المطلوب غير موجود.';
+  END IF;
+
+  v_period_start := p_date_from::TIMESTAMP AT TIME ZONE 'Asia/Amman';
+  v_period_end := (p_date_to + 1)::TIMESTAMP AT TIME ZONE 'Asia/Amman';
+
+  -- A status event admits each order once. The old three readers projected
+  -- different subsets of the same completed orders and invoice snapshots.
+  WITH completed_ids AS (
+    SELECT h.order_id
+    FROM public.order_status_history h
+    JOIN public.orders o ON o.id = h.order_id
+    WHERE o.branch_id = p_branch_id AND h.new_status = 'completed'
+      AND h.created_at >= v_period_start AND h.created_at < v_period_end
+    GROUP BY h.order_id
+  ), completed_orders AS MATERIALIZED (
+    SELECT o.id, o.source, o.subtotal_in_minor_units,
+      COALESCE(o.discount_in_minor_units, 0)::BIGINT AS discount,
+      o.total_in_minor_units, COALESCE(o.payment_method, 'unknown') AS payment_method
+    FROM completed_ids c JOIN public.orders o ON o.id = c.order_id
+    WHERE o.status IN ('completed', 'returned')
+  ), invoice_lines AS MATERIALIZED (
+    SELECT o.id AS order_id, o.discount, i.id, i.created_at, i.product_id,
+      COALESCE(i.product_name_snapshot, 'منتج') AS product_name,
+      COALESCE(i.sku_snapshot, '') AS sku,
+      COALESCE(i.line_total_in_minor_units, 0)::BIGINT AS line_total,
+      COALESCE(i.cogs_in_minor_units, 0)::BIGINT AS cogs,
+      CASE
+        WHEN i.commercial_line_kind = 'configurable_parcel' THEN
+          public.phase35_report_package_count_internal(i.id, i.commercial_line_kind, i.sale_package_quantity, i.units_per_sale_package)
+        WHEN i.commercial_line_kind = 'legacy_single_sku_parcel' THEN COALESCE(i.sale_package_quantity, 0)::BIGINT
+        WHEN i.commercial_line_kind IS NULL AND i.sale_package_quantity IS NOT NULL
+          AND i.units_per_sale_package > 0 THEN i.sale_package_quantity::BIGINT
+        ELSE 0::BIGINT
+      END AS packages,
+      CASE WHEN i.commercial_line_kind = 'configurable_parcel' THEN
+        public.phase35_report_base_unit_count_internal(i.id, i.commercial_line_kind, i.quantity)
+        ELSE COALESCE(i.quantity, 0)::BIGINT END AS base_units
+    FROM completed_orders o JOIN public.order_items i ON i.order_id = o.id
+  ), discount_basis AS (
+    -- The largest sorts use only the identifiers and amounts used by the
+    -- original integer allocation. Zero/negative discounts allocate nothing.
+    SELECT id, order_id, discount,
+      ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY created_at NULLS LAST, id) AS allocation_rank,
+      line_total,
+      SUM(line_total) OVER (PARTITION BY order_id)::BIGINT AS lines_subtotal
+    FROM invoice_lines WHERE discount > 0
+  ), discount_shares AS (
+    SELECT id, order_id, discount, allocation_rank,
+      CASE WHEN lines_subtotal > 0 THEN (discount * line_total) / lines_subtotal ELSE 0 END::BIGINT AS base_discount
+    FROM discount_basis
+  ), discounts AS (
+    SELECT id, base_discount + CASE
+      WHEN allocation_rank <= discount - SUM(base_discount) OVER (PARTITION BY order_id) THEN 1 ELSE 0
+    END AS allocated
+    FROM discount_shares
+  ), order_totals AS (
+    SELECT COUNT(*) FILTER (WHERE COALESCE(source, '') = 'pos')::INTEGER AS pos_count,
+      COUNT(*) FILTER (WHERE COALESCE(source, '') <> 'pos')::INTEGER AS website_count,
+      COALESCE(SUM(subtotal_in_minor_units), 0)::BIGINT AS subtotal,
+      COALESCE(SUM(discount), 0)::BIGINT AS discounts
+    FROM completed_orders
+  ), item_totals AS (
+    SELECT COALESCE(SUM(packages), 0)::BIGINT AS packages,
+      COALESCE(SUM(base_units), 0)::BIGINT AS base_units,
+      COUNT(DISTINCT product_id)::INTEGER AS products
+    FROM invoice_lines
+  ), best_products AS (
+    SELECT product_name, sku, SUM(packages)::BIGINT AS packages,
+      SUM(line_total - COALESCE(d.allocated, 0))::BIGINT AS revenue,
+      SUM(line_total - COALESCE(d.allocated, 0) - cogs)::BIGINT AS profit
+    FROM invoice_lines l LEFT JOIN discounts d ON d.id = l.id
+    GROUP BY product_name, sku
+    ORDER BY revenue DESC, product_name
+    LIMIT 10
+  ), payment_methods AS (
+    SELECT COALESCE(jsonb_agg(jsonb_build_object(
+      'method', payment_method, 'orderCount', order_count, 'amountInMinorUnits', amount
+    ) ORDER BY amount DESC, payment_method), '[]'::JSONB) AS payload
+    FROM (
+      SELECT payment_method, COUNT(*)::INTEGER AS order_count,
+        COALESCE(SUM(total_in_minor_units), 0)::BIGINT AS amount
+      FROM completed_orders GROUP BY payment_method
+    ) grouped_methods
+  ), expense_categories AS (
+    SELECT COALESCE(jsonb_agg(jsonb_build_object(
+      'category', category, 'count', expense_count, 'amountInMinorUnits', amount
+    ) ORDER BY amount DESC, category), '[]'::JSONB) AS payload
+    FROM (
+      SELECT category, COUNT(*)::INTEGER AS expense_count, SUM(amount_in_minor_units)::BIGINT AS amount
+      FROM public.operational_expenses
+      WHERE branch_id = p_branch_id AND NOT COALESCE(is_reversed, false)
+        AND created_at >= v_period_start AND created_at < v_period_end
+      GROUP BY category
+    ) grouped_categories
+  ), period_purchases AS (
+    SELECT COUNT(*)::INTEGER AS receipt_count,
+      COALESCE(SUM(total_in_minor_units), 0)::BIGINT AS total_purchases,
+      COALESCE(SUM(amount_paid_in_minor_units), 0)::BIGINT AS amount_paid,
+      COALESCE(SUM(amount_due_in_minor_units), 0)::BIGINT AS amount_due
+    FROM public.supplier_receipts
+    WHERE branch_id = p_branch_id AND status = 'completed'
+      AND received_at >= v_period_start AND received_at < v_period_end
+  ), current_inventory AS (
+    SELECT COUNT(*) FILTER (WHERE ib.on_hand_quantity > 0)::INTEGER AS stocked_products,
+      COALESCE(SUM(ib.on_hand_quantity), 0)::BIGINT AS base_units_on_hand,
+      COALESCE(SUM(ib.reserved_quantity), 0)::BIGINT AS base_units_reserved,
+      COALESCE(SUM(ib.on_hand_quantity::NUMERIC * COALESCE(p.wac_cost_in_minor_units_exact,
+        p.cost_price_in_minor_units::NUMERIC)), 0)::BIGINT AS inventory_value,
+      COUNT(*) FILTER (WHERE p.is_active AND ib.available_quantity <= p.min_stock_level)::INTEGER AS low_stock_products
+    FROM public.inventory_balances ib
+    JOIN public.warehouses w ON w.id = ib.warehouse_id
+    JOIN public.products p ON p.id = ib.product_id
+    WHERE w.branch_id = p_branch_id
+  )
+  SELECT o.discounts, COALESCE((SELECT SUM(allocated) FROM discounts), 0)::BIGINT,
+    jsonb_build_object(
+      'success', true, 'generatedAt', NOW(),
+      'period', jsonb_build_object('dateFrom', p_date_from, 'dateTo', p_date_to, 'branchId', p_branch_id,
+        'branchName', (SELECT name_ar FROM public.branches WHERE id = p_branch_id)),
+      'sales', jsonb_build_object('posOrderCount', o.pos_count, 'websiteOrderCount', o.website_count,
+        'packageCount', i.packages, 'baseUnitCount', i.base_units, 'uniqueProductCount', i.products,
+        'subtotalInMinorUnits', o.subtotal, 'discountInMinorUnits', o.discounts),
+      'expenses', jsonb_build_object('categories', e.payload),
+      'purchases', jsonb_build_object('receiptCount', p.receipt_count, 'totalInMinorUnits', p.total_purchases,
+        'paidInMinorUnits', p.amount_paid, 'dueInMinorUnits', p.amount_due),
+      'balances', '{}'::JSONB,
+      'inventory', jsonb_build_object('stockedProducts', s.stocked_products, 'baseUnitsOnHand', s.base_units_on_hand,
+        'baseUnitsReserved', s.base_units_reserved, 'valueInMinorUnits', s.inventory_value,
+        'lowStockProducts', s.low_stock_products),
+      'paymentMethods', m.payload,
+      'topProducts', (SELECT COALESCE(jsonb_agg(jsonb_build_object('productName', product_name,
+        'sku', sku, 'packageCount', packages, 'revenueInMinorUnits', revenue, 'profitInMinorUnits', profit)
+        ORDER BY revenue DESC, product_name), '[]'::JSONB) FROM best_products)
+    )
+  INTO v_registered_discount, v_allocated_discount, v_report
+  FROM order_totals o CROSS JOIN item_totals i CROSS JOIN expense_categories e
+  CROSS JOIN period_purchases p CROSS JOIN current_inventory s CROSS JOIN payment_methods m;
+
+  IF v_allocated_discount <> v_registered_discount THEN
+    RAISE EXCEPTION 'تعذر توزيع خصومات التقرير بدقة؛ راجع سلامة إجماليات أصناف الطلبات.';
+  END IF;
+
+  WITH by_product_type AS MATERIALIZED (
+    -- Collapse movements before the product joins and report sorts.
+    SELECT im.product_id, im.movement_type, COUNT(*)::INTEGER AS movement_count,
+      COALESCE(SUM(im.quantity) FILTER (WHERE im.quantity > 0), 0)::BIGINT AS units_in,
+      COALESCE(SUM(ABS(im.quantity)) FILTER (WHERE im.quantity < 0), 0)::BIGINT AS units_out,
+      COALESCE(SUM(im.quantity), 0)::BIGINT AS net_units
+    FROM public.inventory_movements im
+    JOIN public.warehouses w ON w.id = im.warehouse_id
+    WHERE w.branch_id = p_branch_id AND im.created_at >= v_period_start AND im.created_at < v_period_end
+    GROUP BY im.product_id, im.movement_type
+  ), branch_movements AS MATERIALIZED (
+    SELECT m.*, p.name_ar AS product_name, COALESCE(p.sku, '') AS sku
+    FROM by_product_type m JOIN public.products p ON p.id = m.product_id
+  ), by_type AS (
+    SELECT movement_type, SUM(movement_count)::INTEGER AS movement_count,
+      SUM(units_in)::BIGINT AS units_in, SUM(units_out)::BIGINT AS units_out, SUM(net_units)::BIGINT AS net_units
+    FROM branch_movements GROUP BY movement_type
+  ), by_product AS MATERIALIZED (
+    SELECT product_id, product_name, sku, SUM(movement_count)::INTEGER AS movement_count,
+      SUM(units_in)::BIGINT AS units_in, SUM(units_out)::BIGINT AS units_out, SUM(net_units)::BIGINT AS net_units
+    FROM branch_movements GROUP BY product_id, product_name, sku
+  ), best_moved AS (
+    SELECT *, units_in + units_out AS activity_units
+    FROM by_product ORDER BY activity_units DESC, product_name LIMIT 10
+  )
+  SELECT jsonb_build_object(
+    'movementCount', COALESCE(SUM(movement_count), 0)::INTEGER,
+    'affectedProducts', COUNT(*)::INTEGER,
+    'unitsIn', COALESCE(SUM(units_in), 0)::BIGINT, 'unitsOut', COALESCE(SUM(units_out), 0)::BIGINT,
+    'netUnits', COALESCE(SUM(net_units), 0)::BIGINT,
+    'types', (SELECT COALESCE(jsonb_agg(jsonb_build_object(
+      'movementType', movement_type, 'movementCount', movement_count, 'unitsIn', units_in,
+      'unitsOut', units_out, 'netUnits', net_units) ORDER BY movement_count DESC, movement_type), '[]'::JSONB) FROM by_type),
+    'topProducts', (SELECT COALESCE(jsonb_agg(jsonb_build_object(
+      'productName', product_name, 'sku', sku, 'movementCount', movement_count, 'unitsIn', units_in,
+      'unitsOut', units_out, 'netUnits', net_units) ORDER BY activity_units DESC, product_name), '[]'::JSONB) FROM best_moved)
+  )
+  INTO v_movement_summary FROM by_product;
+
+  RETURN v_report || jsonb_build_object('inventoryMovements', v_movement_summary);
+END;
+$function$;
+ALTER FUNCTION public.report227_invoice_summary_internal(uuid,date,date) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.report227_invoice_summary_internal(uuid,date,date) FROM PUBLIC,anon,authenticated,service_role;
+
+
 CREATE FUNCTION public.report227_base_internal(p_branch_id uuid, p_date_from date, p_date_to date)
  RETURNS jsonb
  LANGUAGE plpgsql
@@ -481,7 +708,7 @@ DECLARE
   v_facts JSONB;
 BEGIN
   -- The inner reader authorizes the caller and validates the period first.
-  v_report := public._get_operational_business_report_before_phase6(p_branch_id, p_date_from, p_date_to);
+  v_report := public.report227_invoice_summary_internal(p_branch_id, p_date_from, p_date_to);
   v_facts := public.report227_aftercare_facts_internal(
     p_branch_id,
     p_date_from::TIMESTAMP AT TIME ZONE 'Asia/Amman',
