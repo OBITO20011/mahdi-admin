@@ -85,7 +85,7 @@ test('Home actions and period selector preserve existing intent; net is never gr
   for (const name of ['تسجيل مصروف', 'إجراءات سريعة', 'تفاصيل إضافية']) await expect(page.getByTestId('dashboard-home')).not.toContainText(name);
 });
 
-test('token Header keeps branch, notifications, profile and assistant actions and role gate', async ({ page }) => {
+test('token Header keeps branch, notifications and profile actions; assistant stays hidden', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(url('theme=light'));
   const header = page.locator('.admin-app-header');
@@ -104,8 +104,7 @@ test('token Header keeps branch, notifications, profile and assistant actions an
   await header.getByRole('button', { name: 'الفرع الثاني' }).click();
   await expect(header.getByRole('button', { name: 'اختيار الفرع' })).toContainText('الفرع الثاني');
   await expect(page.getByTestId('header-action')).toHaveText('profile:home:branch-second');
-  await header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' }).click();
-  await expect(page.getByTestId('header-action')).toHaveText('profile:assistant:branch-second');
+  // Owner decision 2026-11-25: the AI assistant is hidden for every role.
   await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toHaveCount(0);
   await page.goto(url('theme=dark&role=cashier'));
   await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toHaveCount(0);
