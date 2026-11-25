@@ -5,7 +5,7 @@ import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 const indexFile='scripts/audit/parcel226-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./parcel226-source-pins.json',import.meta.url),'utf8'));
 const index=JSON.parse(indexText);
-export const parcel226Baseline='14c8fff9dbc37896be138ce288990595c03e237a';
+export const parcel226Baseline='48535f6f9b08b491556a3b3de87c0c8fa614b650';
 assert.equal(index.format,1);
 assert.equal(index.baseline,parcel226Baseline);
 export const parcel226Pins=index.entries;
