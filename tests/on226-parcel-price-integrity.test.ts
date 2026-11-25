@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { assertParcel226CatalogDelta } from '../scripts/operations/parcel226-catalog.mjs';
 
 const read = (path: string) => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const migration = read('supabase/migrations/226_parcel_price_integrity.sql');
@@ -44,4 +45,36 @@ test('current product writes and flavor import are routed to their approved writ
   }
   assert.match(workbook, /rpc\('finalize_import_flavor_identity226'/);
   assert.match(workbook, /else await finalizeOnFlavorIdentity\(c\.metadata!,f\.sku,f\.barcode\|\|null\)/);
+});
+
+test('226 catalog admission rejects changes beyond the named trigger and two ACL revocations', () => {
+  const before = JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_225.json')).catalog;
+  const after = structuredClone(before);
+  const approvedOwner = 'postgres=X/postgres';
+  for (const row of after.functions) {
+    if (row.schema === 'public' && /^update_product_master_v[45]\(/u.test(row.identity)) row.acl = [approvedOwner];
+  }
+  const privateGuard = {
+    schema: 'public', identity: 'assert_on_parcel_size226_internal()', owner: 'postgres', kind: 'f',
+    configuration: ['search_path=pg_catalog, public'], acl: [approvedOwner], definition: 'SECURITY DEFINER',
+  };
+  after.functions.push(privateGuard, {
+    ...privateGuard,
+    identity: 'finalize_import_flavor_identity226(p_flavor_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text)',
+    acl: [approvedOwner, 'authenticated=X/postgres'],
+  });
+  const guard = {schema: 'public', table: 'products', name: 'trg_assert_on_parcel_size226', enabled: 'O',
+    definition: 'DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION assert_on_parcel_size226_internal()'};
+  after.triggers.push(guard);
+  assert.doesNotThrow(() => assertParcel226CatalogDelta(before, after));
+  guard.enabled = 'D';
+  assert.throws(() => assertParcel226CatalogDelta(before, after), /PARCEL226_TRIGGER_ENABLED/);
+  guard.enabled = 'O';
+  privateGuard.acl.push('anon=X/postgres');
+  assert.throws(() => assertParcel226CatalogDelta(before, after), /PARCEL226_FUNCTION_ACL/);
+  privateGuard.acl.pop();
+  const v5 = after.functions.find(row => row.schema === 'public' && row.identity.startsWith('update_product_master_v5('));
+  assert.ok(v5);
+  v5.definition += ' -- changed';
+  assert.throws(() => assertParcel226CatalogDelta(before, after), /PARCEL226_CHANGED_EXISTING_CATALOG/);
 });
