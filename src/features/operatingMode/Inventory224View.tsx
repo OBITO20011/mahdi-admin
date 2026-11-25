@@ -50,7 +50,7 @@ function QuantityEditor({row,event,adding,onSaved,onBusy}:{row:OptionalQuantityR
    {kind==='receive'&&<UiButton type="button" variant="secondary" aria-label="زيادة الكمية المضافة" disabled={busy||failed||(amountValue??0)>=1_000_000_000} onClick={()=>setAmount(String((amountValue??0)+1))}>+</UiButton>}
   </div></label>
   {kind==='receive'&&next!==null&&<p role="status" className="break-words text-sm font-bold text-nw-ok">{count(row.quantity)} + {count(amountValue??0)} = الكمية الجديدة {count(next)} {row.unitName}</p>}
-  <label className="block space-y-2"><span>نبّهني إذا صارت أقل من</span><input className={field} inputMode="numeric" value={threshold} disabled={busy||failed} onChange={e=>setThreshold(e.target.value)}/></label>
+  <label className="block space-y-2"><span>نبّهني إذا أصبحت أقل من</span><input className={field} inputMode="numeric" value={threshold} disabled={busy||failed} onChange={e=>setThreshold(e.target.value)}/></label>
   {!adding&&<label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={enabled} disabled={busy||failed} onChange={e=>setEnabled(e.target.checked)}/>تتبّع الكمية لهذا الصنف</label>}
   {adding&&<p className="rounded-xl bg-nw-warn-bg p-3 text-sm text-nw-warn">بعد التفعيل وحدة «{row.unitName}» بتنقفل لهالصنف وما بتتغيّر.</p>}
   {(amountValue===null||thresholdValue===null||next===null)&&<p role="alert" className="text-nw-bad">أدخل أعداداً صحيحة من صفر إلى مليار.</p>}

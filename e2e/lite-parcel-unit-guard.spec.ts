@@ -93,7 +93,7 @@ for(const kind of ['flavor','ordinary'])test(`OFF product form adds a ${kind} pa
   storeEngine.openModal('edit_product',family);
  },kind);
  const form=page.getByRole('dialog');
- const add=form.getByRole('checkbox',{name:'هاد السعر سعر باكيت، بدي أضيف طرد',exact:true});
+ const add=form.getByRole('checkbox',{name:'هذا السعر سعر باكيت، وأريد إضافة طرد',exact:true});
  await add.check();
  const pack=form.getByLabel('وحدة بيع الطرد المضاف',{exact:false});
  await expect(pack).toHaveValue('طرد');await expect(pack.locator('option[value="باكيت"]')).toHaveCount(0);

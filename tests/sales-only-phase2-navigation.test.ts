@@ -5,7 +5,7 @@ import {allowsOperatingDestination,operatingNavigation} from '../src/features/op
 import {disableFullAccountingWithClient} from '../src/services/supabase/operatingModeCommand';
 
 test('full navigation unchanged;lite excludes stock/suppliers/profit assistant but retains all approved money and commercial paths',()=>{
- assert.deepEqual(operatingNavigation(ADMIN_NAVIGATION_GROUPS,'full'),ADMIN_NAVIGATION_GROUPS);
+ assert.deepEqual(operatingNavigation(ADMIN_NAVIGATION_GROUPS,'full'),ADMIN_NAVIGATION_GROUPS.map(g=>({...g,items:g.items.filter(i=>i.id!=='admin-assistant')})).filter(g=>g.items.length>0));
  const lite=operatingNavigation(ADMIN_NAVIGATION_GROUPS,'sales-only').flatMap(g=>g.items);
  for(const id of ['sales-pos','sales-orders','sales-history','customer-accounts','customer-returns','catalog-products','parcel-configuration','finance-shifts','finance-expenses','finance-withdrawals','finance-cheques','finance-reports','admin-go-live','admin-storefront'])assert.ok(lite.some(i=>i.id===id),id);
  for(const id of ['inventory-current','supplier-receiving','inventory-damage','supplier-replacement','admin-assistant'])assert.ok(!lite.some(i=>i.id===id),id);

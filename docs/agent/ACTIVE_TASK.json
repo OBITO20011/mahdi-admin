@@ -1,37 +1,35 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
-  "owner": "codex",
-  "objective": "Owner-approved cutover batch C: post-RESET alert acceptance, WhatsApp build value, 225 recovery stop points and rollback documentation.",
+  "status": "ACTIVE",
+  "owner": "claude",
+  "objective": "Owner25Nov audit batch A: UI-only fixes - WhatsApp fallback default to shop number, Amman-local receipt time/date defaults, Arabic copy, hide AI assistant. No SQL/RLS/RPC/money math, no hosted access, no merge without owner OK.",
   "baselineSha": "14c8fff9dbc37896be138ce288990595c03e237a",
-  "branch": "codex/on225-cutover-recovery-20261125",
-  "phase": "ON225_CUTOVER_RECOVERY_DOCS",
-  "startedAt": "2026-11-25T05:27:09.432Z",
-  "checkpointedAt": "2026-11-25T05:27:10.769Z",
-  "inProgress": [],
+  "branch": "claude/audit-ui-fixes-a",
+  "phase": "ON225_OWNER_TRIAL_FIXES",
+  "startedAt": "2026-11-25T05:19:39.041Z",
+  "checkpointedAt": "2026-11-25T05:19:39.041Z",
+  "inProgress": [
+    "Owner25Nov audit batch A: UI-only fixes - WhatsApp fallback default to shop number, Amman-local receipt time/date defaults, Arabic copy, hide AI assistant. No SQL/RLS/RPC/money math, no hosted access, no merge without owner OK."
+  ],
   "completed": [
-    "Added owner acceptance and recovery stop instructions; existing activation blocks and official tools remain exact"
+    "Independent read-only PR130 review completed; P3 empty returned-orders panel recorded, no code changes",
+    "UTC midnight issue fixed in4639aa10; current225 literal comparison wiring verified",
+    "75-minute night checklist updated; original SQL and command fences unchanged",
+    "Documentation edit and validation complete; owner review required before any merge"
   ],
   "notStarted": [],
-  "filesTouched": [
-    "docs/agent/ACTIVE_TASK_FILES.json"
-  ],
-  "testsPassed": [
-    "23 focused documentation and 225 contract checks"
-  ],
-  "testsRemaining": [
-    "GitHub CI on draft PR"
-  ],
-  "findings": [
-    "Automatic registration recovery requires durable pre-SQL commitment and safe handling of already-registered source fingerprints; the approved stop procedure is documented instead."
-  ],
+  "filesTouched": [],
+  "testsPassed": [],
+  "testsRemaining": [],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted ERP access, deployment, merge, demo reset, Docker restart, final freeze or M01 change."
+    "No primary or Claude worktree writes; no hostedERP,deploy,merge or demo/17944/n8n changes",
+    "No app,SQL,RLS,RPC,financial calculations or historical migration changes"
   ],
-  "nextExactAction": "Open draft for batch C and await v4/v5 compatibility decision for 226",
-  "workingTreeFingerprint": "C922AC9365F4DA2899253BB82A45A8847E07C2AFE1D78F2E14B7E02C733C2A03",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "929f51d330514b81b7de9387ca05c1dfc5342f989873480dfe1692d3ad518c9c"
+  "nextExactAction": "Inspect the approved task contract and begin the first bounded step.",
+  "workingTreeFingerprint": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "688fd45944c48906595d513d894ab08aa719ab99c6e376b6eb3247bceacaeb41"
 }

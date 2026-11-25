@@ -409,12 +409,12 @@ test('WhatsApp opens only with the saved order number and summary', () => {
   assert.match(url, /^https:\/\/wa\.me\/962799999999\?text=/);
 });
 
-test('store WhatsApp contact targets the configured temporary number', () => {
+test('store WhatsApp fallback targets the shop number', () => {
   const url = buildWhatsAppUrl(
     STORE_PUBLIC_CONFIG.WHATSAPP_NUMBER,
     'طلب محفوظ'
   );
-  assert.match(url, /^https:\/\/wa\.me\/962772838886\?text=/);
+  assert.match(url, /^https:\/\/wa\.me\/962785857700\?text=/);
 });
 
 test('guest RPC is a guarded wrapper around canonical order creation', () => {

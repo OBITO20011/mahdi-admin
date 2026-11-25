@@ -5,8 +5,8 @@ const viteEnvironment: Record<string, string | undefined> =
     }
   ).env ?? {};
 
-// Public business contact only. Deployments can replace it through Vite env.
-const DEFAULT_STORE_WHATSAPP_NUMBER = '0772838886';
+// Public shop WhatsApp (owner 25 Nov 2026). Fallback before settings load or when they fail; Vite env may override.
+const DEFAULT_STORE_WHATSAPP_NUMBER = '0785857700';
 
 export const STORE_PUBLIC_CONFIG = {
   WHATSAPP_NUMBER:
