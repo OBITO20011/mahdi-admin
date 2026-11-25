@@ -56,9 +56,9 @@ export async function captureEvidence(session,{includeTypeAcls=false}={}){
   const catalog=await json(session,stripTransaction(schemaCatalogSql));
   const history=await json(session,historySql);
   const schemas=['public','auth','storage','supabase_migrations','sales_lite1','sales_lite2'];
-  if(['223','224','225'].includes(history.at(-1)))schemas.push('sales_lite3');
+  if(['223','224','225','226'].includes(history.at(-1)))schemas.push('sales_lite3');
   const hasCounterSchema=catalog.schemas.some(schema=>schema.name==='sales_lite3');
-  assert.equal(hasCounterSchema,['223','224','225'].includes(history.at(-1)),'BACKUP_COUNTER_SCHEMA_HISTORY_MISMATCH');
+  assert.equal(hasCounterSchema,['223','224','225','226'].includes(history.at(-1)),'BACKUP_COUNTER_SCHEMA_HISTORY_MISMATCH');
   if(hasCounterSchema){
     assert.deepEqual(catalog.tables.filter(table=>table.schema==='sales_lite3').map(table=>[table.name,table.kind]),[
       ['quantity_counters','r'],['quantity_events','r'],['quantity_requests','r'],

@@ -5,28 +5,33 @@ import path from 'node:path';
 import {sha256 as fileSha256} from '../offsite-backup/offsite-core.mjs';
 import {TARGET,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 const hash=/^[a-f0-9]{64}$/u;
-export async function read225BackupEvidence(filename,ceiling,{now=Date.now(),notBefore=0}={}){
- assert.ok([224,225].includes(ceiling),'UPGRADE225_EXACT_HISTORY_REQUIRED');
+const historyFiles=Object.freeze({224:184,225:185,226:186});
+export const read225BackupEvidence=(filename,ceiling,options)=>readBackupEvidence(filename,ceiling,225,options);
+export const read226BackupEvidence=(filename,ceiling,options)=>readBackupEvidence(filename,ceiling,226,options);
+async function readBackupEvidence(filename,ceiling,target,{now=Date.now(),notBefore=0}={}){
+ assert.ok([target-1,target].includes(ceiling),'UPGRADE'+target+'_EXACT_HISTORY_REQUIRED');
  assertOutsideRepository(path.resolve(filename));
  const evidence=JSON.parse(await readFile(filename,'utf8'));
  assert.equal(evidence.ok,true,'UPGRADE225_SUCCESSFUL_BACKUP_REQUIRED');assert.equal(evidence.projectRef,TARGET.id,'UPGRADE225_BACKUP_PROJECT_MISMATCH');
- assert.equal(evidence.formatVersion,2);assert.equal(evidence.historyCeiling,ceiling);assert.equal(evidence.historyFiles,ceiling===224?184:185);
+ assert.equal(evidence.formatVersion,2);assert.equal(evidence.historyCeiling,ceiling);assert.equal(evidence.historyFiles,historyFiles[ceiling]);
  assert.match(evidence.sha256,hash);assert.match(evidence.sourceEvidenceSha256,hash,'UPGRADE225_BACKUP_SOURCE_COMMITMENT_REQUIRED');
  const finished=Date.parse(evidence.finishedAt);assert.ok(Number.isFinite(finished)&&finished>=notBefore&&finished<=now&&now-finished<=26*3600_000,'UPGRADE225_BACKUP_NOT_CURRENT');
  const archive=path.resolve(evidence.archivePath);assertOutsideRepository(archive);assert.equal(path.basename(archive),evidence.archiveName);assert.match(evidence.archiveName,/^nawasrah-backup-[0-9TZ-]+\.nwb$/u);
  assert.equal((await stat(archive)).size,evidence.archiveBytes,'UPGRADE225_BACKUP_BYTES_CHANGED');assert.equal(await fileSha256(archive),evidence.sha256,'UPGRADE225_BACKUP_HASH_CHANGED');
  return evidence;
 }
-export async function assert225ProtectionComplete({backupFile,restoreFile,upgradeFile,now=Date.now()}){
+export const assert225ProtectionComplete=options=>assertProtectionComplete(options,225);
+export const assert226ProtectionComplete=options=>assertProtectionComplete(options,226);
+async function assertProtectionComplete({backupFile,restoreFile,upgradeFile,now=Date.now()},target){
  for(const file of [backupFile,restoreFile,upgradeFile])assertOutsideRepository(path.resolve(file));
  const upgrade=JSON.parse(await readFile(upgradeFile,'utf8'));
- assert.equal(upgrade.ok,true);assert.equal(upgrade.projectRef,TARGET.id);assert.equal(upgrade.targetCeiling,225);assert.equal(upgrade.protectionPending,true);assert.equal(upgrade.catalogUnexpectedDifferenceCount,0);assert.deepEqual(upgrade.recorded,['225']);
+ assert.equal(upgrade.ok,true);assert.equal(upgrade.projectRef,TARGET.id);assert.equal(upgrade.targetCeiling,target);assert.equal(upgrade.protectionPending,true);assert.equal(upgrade.catalogUnexpectedDifferenceCount,0);assert.deepEqual(upgrade.recorded,[String(target)]);
  assert.match(upgrade.beforeBackup?.sha256,hash);assert.match(upgrade.beforeBackup?.sourceEvidenceSha256,hash);
  const applied=Date.parse(upgrade.endedAt);assert.ok(Number.isFinite(applied)&&applied<=now,'UPGRADE225_APPLY_REPORT_REQUIRED');
- const backup=await read225BackupEvidence(backupFile,225,{now,notBefore:applied});
+ const backup=await readBackupEvidence(backupFile,target,target,{now,notBefore:applied});
  const restore=JSON.parse(await readFile(restoreFile,'utf8'));
  assert.equal(restore.ok,true,'UPGRADE225_SUCCESSFUL_RESTORE_REQUIRED');assert.equal(restore.projectRef,TARGET.id);assert.equal(restore.mode,'isolated-complete-restore');
- assert.equal(restore.historyCeiling,225);assert.equal(restore.historyFiles,185);assert.equal(restore.archiveSha256,backup.sha256);assert.equal(restore.sourceEvidenceSha256,backup.sourceEvidenceSha256);
+ assert.equal(restore.historyCeiling,target);assert.equal(restore.historyFiles,historyFiles[target]);assert.equal(restore.archiveSha256,backup.sha256);assert.equal(restore.sourceEvidenceSha256,backup.sourceEvidenceSha256);
  assert.equal(restore.network,'none');assert.equal(restore.hostedConnectionsMade,false);assert.equal(restore.liveVolumesModified,false);
  for(const key of ['allRowsAndHashesMatch','allSequencesMatch','rolesAndMembershipsMatch','catalogAclOwnerSettingsMatch','historyMatch','storageMetadataMatch'])assert.equal(restore[key],true,'UPGRADE225_STRICT_RESTORE_PROOF_REQUIRED:'+key);
  assert.deepEqual(restore.exceptionsApplied,[]);assert.equal(restore.pgNetSequenceState?.exactRawState,true);assert.deepEqual(restore.pgNetSequenceState?.exceptionsApplied,[]);

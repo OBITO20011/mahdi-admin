@@ -21,7 +21,8 @@ export const reset222Marker='RESET222_IN_PROGRESS.json';
 export const reset223Marker='RESET223_IN_PROGRESS.json';
 export const reset224Marker='RESET224_IN_PROGRESS.json';
 export const reset225Marker='RESET225_IN_PROGRESS.json';
-const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker,217:reset217Marker,219:reset219Marker,220:reset220Marker,222:reset222Marker,223:reset223Marker,224:reset224Marker,225:reset225Marker});
+export const reset226Marker='RESET226_IN_PROGRESS.json';
+const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker,217:reset217Marker,219:reset219Marker,220:reset220Marker,222:reset222Marker,223:reset223Marker,224:reset224Marker,225:reset225Marker,226:reset226Marker});
 const progressFile=session=>`reset${session.reference.migrationCeiling}-progress.json`;
 const within=(root,relative)=>{assert.equal(path.isAbsolute(relative),false,'RESET214_STATE_PATH_INVALID');const p=path.resolve(root,relative),r=path.relative(root,p);assert.ok(r&&!r.startsWith('..')&&!path.isAbsolute(r),'RESET214_STATE_PATH_INVALID');return p;};
 async function readSql(executor,input){const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_SESSION_SQL_FAILED');return r.stdout.trim();}
@@ -106,7 +107,7 @@ export async function validateResetResume(session,executor){
  return session.writeCheck;
 }
 export async function startResetAttempt(session,executor){
- if(session.reference.migrationCeiling===225)await verifyReset225DdlCapability(executor);
+ if([225,226].includes(session.reference.migrationCeiling))await verifyReset225DdlCapability(executor);
  if(!session.resume)await persistResetSession(session,executor);else await validateResetResume(session,executor);
  const originalAttemptId=session.saved.attemptId;
  const progress={ok:false,complete:false,originalAttemptId,attemptId:randomUUID(),resumedFrom:session.resume?session.previousOutput:null,stage:'snapshot-verified',applied:[],recorded:[],destructiveStarted:false};

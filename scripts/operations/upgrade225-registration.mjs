@@ -37,12 +37,14 @@ function parseRemoteHistory(stdout){
  return migrations.map(row=>row.remote).filter(Boolean);
 }
 
-export async function checkRegistration225({cli,reference,mode}){
+export const checkRegistration225=options=>checkRegistration(options,225,185);
+export const checkRegistration226=options=>checkRegistration(options,226,186);
+async function checkRegistration({cli,reference,mode},ceiling,files){
  try{
-  const target=mode==='--verify-only'?'225':'224';
+  const high=mode==='--verify-only',target=String(high?ceiling:ceiling-1);
   const expected=reference.prefixes[target].appliedVersions;
   const {stdout}=await cli(['migration','list','--linked','--output-format','json']);
-  if(expected.length!==(target==='225'?185:184)||expected.at(-1)!==target
+  if(expected.length!==(high?files:files-1)||expected.at(-1)!==target
    || !isDeepStrictEqual(parseRemoteHistory(stdout),expected))throw new Error('Unexpected history');
   return {ceiling:Number(target),files:expected.length};
  }catch{
@@ -55,12 +57,14 @@ export function saveRegistration225(file,state){
  writeAtomicUtf8(file,JSON.stringify(state,null,2)+'\n');
 }
 
-export async function readPendingRegistration225(file,workdir){
+export const readPendingRegistration225=(file,workdir)=>readPendingRegistration(file,workdir,225);
+export const readPendingRegistration226=(file,workdir)=>readPendingRegistration(file,workdir,226);
+async function readPendingRegistration(file,workdir,ceiling){
  try{
   const real=await realpath(file);
   const run=path.dirname(real);
   if(path.basename(real)!==registrationState225Name||path.dirname(run)!==await realpath(workdir)
-   || !/^upgrade225-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/u.test(path.basename(run)))throw new Error('Invalid state path');
+   || !new RegExp(`^upgrade${ceiling}-\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}-\\d{3}Z$`,'u').test(path.basename(run)))throw new Error('Invalid state path');
   const state=JSON.parse(await readFile(real,'utf8'));
   if(state.status!==pending225Registration)throw new Error('Registration is not pending');
   return {file:real,state};
@@ -90,7 +94,9 @@ async function checkWorkspaceMigrations(workdir,reference,inputsFor,mode){
 
 // Keep earlier owner shells byte-identical. Both linked operations use this
 // one 225 session and the original owner confirmation and hidden prompt.
-export async function runUpgrade225Owner(args,configuration){
+export const runUpgrade225Owner=(args,configuration)=>runVersionedUpgradeOwner(args,configuration,225);
+export const runUpgrade226Owner=(args,configuration)=>runVersionedUpgradeOwner(args,configuration,226);
+async function runVersionedUpgradeOwner(args,configuration,ceiling){
  const at=args.indexOf('--workdir');
  const modes=at<0?args:args.filter((_arg,index)=>index!==at&&index!==at+1);
  const [mode='--dry-run']=modes;
@@ -106,15 +112,15 @@ export async function runUpgrade225Owner(args,configuration){
  assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
  const reference=await configuration.loadReference(root,path.join(workdir,configuration.referenceName));
  const connection=connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
- const output=path.join(workdir,'upgrade225-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));
- const report={mode:mode==='--apply'?'owner-apply225':mode.slice(2),startedAt:new Date().toISOString(),projectRef:TARGET.id,remoteWriteAttempted:false};
+ const output=path.join(workdir,'upgrade'+ceiling+'-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));
+ const report={mode:mode==='--apply'?'owner-apply'+ceiling:mode.slice(2),startedAt:new Date().toISOString(),projectRef:TARGET.id,remoteWriteAttempted:false};
  let env,guard;
  try{
   assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
   const ca=verifiedSupabaseCa();
   const terminal=createInterface({input:process.stdin,output:process.stdout});
   try{
-   const target=await terminal.question('225 والمواءمة فقط؛ لا تفعيل إشعارات. اكتب '+TARGET.id+': ');
+   const target=await terminal.question(ceiling+' والمواءمة فقط؛ لا تفعيل إشعارات. اكتب '+TARGET.id+': ');
    assert.equal(target,TARGET.id,'OWNER_CONFIRMATION_REQUIRED');
   }finally{terminal.close();}
   env={...process.env,PGPASSWORD:await ownerPassword(),PGSSLMODE:'verify-full',PGSSLROOTCERT:ca.path,
@@ -155,7 +161,7 @@ export async function runUpgrade225Owner(args,configuration){
   await execute({executor,reference,output,report,workdir,
    repair:async version=>{await cli(['migration','repair','--linked','--status','applied',version]);},
    finalDryRun:async()=>{
-    await checkRegistration225({cli,reference,mode:'--verify-only'});
+    await configuration.registration.preflight({cli,reference,mode:'--verify-only'});
     const dry=await cli(['db','push','--linked','--dry-run','--skip-vault']);
     assert.match(dry.stdout+dry.stderr,/up to date/iu,'PENDING_MIGRATIONS');
    }});

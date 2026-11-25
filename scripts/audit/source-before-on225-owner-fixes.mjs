@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
+import {sourceBeforeParcel226,restoreParcel226Hashes,pathsBeforeParcel226} from './source-before-parcel226.mjs';
 
 const indexFile='scripts/audit/on225-owner-fixes-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./on225-owner-fixes-source-pins.json',import.meta.url),'utf8'));
@@ -18,6 +19,7 @@ for(const [file,pin] of Object.entries(on225OwnerFixesPins)){
 }
 
 export function sourceBeforeOn225OwnerFixes(file,text){
+ text=sourceBeforeParcel226(file,text);
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -27,19 +29,19 @@ export function sourceBeforeOn225OwnerFixes(file,text){
 
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function restoreOn225OwnerFixesHashes(rows){
- return rows.flatMap(row=>{
+ return restoreParcel226Hashes(rows).flatMap(row=>{
   const pin=on225OwnerFixesPins[row.file];
   if(!pin||row.sha256!==pin.after)return[row];
-  assert.equal(sha256(current(row.file)),pin.after,'ON225_OWNER_FIXES_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeParcel226(row.file,current(row.file))),pin.after,'ON225_OWNER_FIXES_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 
 /** @param {string[]} files */
 export function pathsBeforeOn225OwnerFixes(files){
- return files.filter(file=>{
+ return pathsBeforeParcel226(files).filter(file=>{
   if(file===indexFile)return current(file)!==indexText;
   const pin=on225OwnerFixesPins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(sourceBeforeParcel226(file,current(file)))!==pin.after;
  });
 }

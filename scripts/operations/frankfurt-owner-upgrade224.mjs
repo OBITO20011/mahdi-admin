@@ -148,7 +148,7 @@ export async function run224(args,{preflight=registeredBackupPreflight,manifest=
  if(forward.includes('--apply')||forward.includes('--resume-registration'))await preflight(root);
  if(forward.includes('--verify-only'))protection=await assert224ProtectionComplete({backupFile:extra['--backup-evidence'],restoreFile:extra['--restore-evidence'],upgradeFile:extra['--upgrade-report']});
  await manifest();
- if(operationalSchema.ceiling===225)assertSupportedUpgrade225(224);
+ if([225,226].includes(operationalSchema.ceiling))assertSupportedUpgrade225(224);
  else assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade224','UPGRADE_ADAPTER_NOT_CURRENT');
  const loadBeforeBackup=()=>read224BackupEvidence(extra['--backup-evidence'],223);
  return runOwner(forward,{loadReference:readReady224Reference,referenceName:ready224ReferenceName,

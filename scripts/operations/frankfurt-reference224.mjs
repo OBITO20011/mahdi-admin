@@ -70,7 +70,7 @@ export function assertReady224Reference(reference,manifest,proofText,source){
 
 export async function readReady224Reference(root,filename){
  let manifest=await operationalManifest();
- if(operationalSchema.ceiling===225){assertSupportedUpgrade225(224);manifest=manifest.filter(unit=>Number(unit.name.slice(0,3))<=224);}
+ if([225,226].includes(operationalSchema.ceiling)){assertSupportedUpgrade225(224);manifest=manifest.filter(unit=>Number(unit.name.slice(0,3))<=224);}
  return assertReady224Reference(JSON.parse(await readFile(filename,'utf8')),manifest,
   await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_224.json'),'utf8'),await inventory({projectSource:sourceBeforeOnPrices225}));
 }
