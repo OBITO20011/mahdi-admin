@@ -1169,7 +1169,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "4913246240bad052d5fb23dc993419117f5698df59786fb188175a2519777d2b"
+      "sha256": "98394d3e7e7e9b11855d7cbc96c652da3bc95644628779e83d4c191ea510fc6c"
     },
     {
       "file": "src/stores/useAuthStore.ts",
