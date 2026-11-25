@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Validate the 226 parcel guard, access and protection chain on draft PR 134",
-  "baselineSha": "2522cf3522e5eb635c7e676c6b0aa4ac3021baf2",
+  "baselineSha": "851d61d418f90bc9c103d2d0ba2b9954be06fe7e",
   "branch": "codex/on226-parcel-integrity",
   "phase": "ON226_PARCEL_INTEGRITY",
   "startedAt": "2026-11-25T15:25:43.921Z",
