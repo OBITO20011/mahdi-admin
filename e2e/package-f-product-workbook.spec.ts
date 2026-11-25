@@ -30,13 +30,17 @@ test('actual generated workbook previews20columns and flavor autoSKU/leading zer
  const panel=page.getByTestId('product-workbook-preview');await expect(panel).toContainText('CHO-001-ليمون');await expect(panel).toContainText('0000000000001');await expect(panel).toContainText('رمز تلقائي');await expect(panel).toContainText('1 صنف بلا مخزون');expect(await fixture(page)).toEqual([]);await checkLayout(page,page.locator('main'));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('family save confirms final identities before stock export,packet units preserved',async({page})=>{
- await page.goto(url());await load(page,file(true,{}, {opening_stock:'25'}));const save=page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'});await expect(save).toBeEnabled();await save.click();await expect(page.getByTestId('saved')).toBeVisible();
+ await page.goto(url());await load(page,file(true,{packet_price:'1.000',sale_package_price:'11.000'}, {opening_stock:'25'}));const save=page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'});await expect(save).toBeEnabled();await save.click();await expect(page.getByTestId('saved')).toBeVisible();
  const rows=await fixture(page);expect(rows).toHaveLength(2);expect(rows.find((r:any)=>r.flavor_master_product_id)?.barcode).toBe('000123');expect(rows.some((r:any)=>r.sku==='TPL-ليمون')).toBe(true);
+ for(const row of rows){expect(Number(row.sale_price_in_minor_units)).toBe(1000);expect(Number(row.default_sale_price_in_minor_units)).toBe(11000);}
+ const calls=await page.evaluate(()=>(window as any).__workbookFixture.calls);
+ expect(calls.filter((c:any)=>c.name==='finalize_import_flavor_identity226')).toHaveLength(1);
+ expect(calls.some((c:any)=>/^update_product_master_v[45]$/.test(c.name))).toBe(false);
  const[download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:/تنزيل ملف البضاعة الموجودة/}).click()]);const downloaded=await readXlsxFirstSheet(await readFile((await download.path())!));expect(downloaded[1]).toEqual(['TPL-ليمون','','2','1']);
 });
 test('unknown create resumes after reload same journal/UUID,no second family',async({page})=>{
  await page.goto(url());await load(page);await expect(page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'})).toBeEnabled();await page.evaluate(()=>(window as any).__workbookFixture.loseCreate());await page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'}).click();await expect(page.getByRole('alert')).toContainText('IMP-01');const ids=(await fixture(page)).map((r:any)=>r.id);
- await page.reload();await load(page);const resume=page.getByRole('button',{name:'استئناف المحاولة ومطابقة بياناتها'});await expect(resume).toBeEnabled();await resume.click();await expect(page.getByTestId('saved')).toBeVisible();expect((await fixture(page)).map((r:any)=>r.id)).toEqual(ids);expect(await page.evaluate(()=>(window as any).__workbookFixture.calls.filter((c:any)=>c.name==='create_product_family_with_flavors_v2').length)).toBe(0);
+ await page.reload();await load(page);const resume=page.getByRole('button',{name:'استئناف المحاولة ومطابقة بياناتها'});await expect(resume).toBeEnabled();await resume.click();await expect(page.getByTestId('saved')).toBeVisible();expect((await fixture(page)).map((r:any)=>r.id)).toEqual(ids);expect(await page.evaluate(()=>(window as any).__workbookFixture.calls.filter((c:any)=>c.name==='create_product_family_with_flavors_v4').length)).toBe(0);
 });
 test('invalid method/duplicate family identifier cannot save;finishedsetup refuses import',async({page})=>{
  await page.goto(url());await load(page,file(true,{packet_price:''},{sku:'TPL'}));await expect(page.getByRole('alert')).toContainText('مطلوب');await expect(page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'})).toBeDisabled();expect(await fixture(page)).toEqual([]);

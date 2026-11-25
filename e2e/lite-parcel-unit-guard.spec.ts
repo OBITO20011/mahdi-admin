@@ -41,10 +41,22 @@ test('OFF converted product saves flavors without rewriting capacity or price',a
  await page.getByRole('button',{name:'حفظ إعداد الطرد',exact:true}).tap();await expect(page.getByText('تم حفظ إعداد الطرد.',{exact:true})).toBeVisible();
  expect(writes).toEqual([{p_family_product_id:family,p_composition_mode:'configurable_mix',p_is_active:true,p_units_per_parcel:7,p_allowed_product_ids:[flavor]}]);
 });
-test('ON preserves the existing editable configuration writer',async({page})=>{
+test('ON requires the product writer for package size and saves only the matching size',async({page})=>{
  const writes=await fixture(page);await page.goto('/e2e/lite-parcel-unit-guard-harness.html?full');
- const input=page.getByLabel('كم حبة بالطرد');await expect(input).toHaveJSProperty('readOnly',false);await input.fill('7');
- await page.getByRole('button',{name:'حفظ إعداد الطرد',exact:true}).tap();await expect(page.getByText('تم حفظ إعداد الطرد.',{exact:true})).toBeVisible();expect(writes[0].p_units_per_parcel).toBe(7);
+ const input=page.getByLabel('كم باكيت بالطرد');await expect(input).toHaveJSProperty('readOnly',true);
+ await expect(page.getByText(/اضبط عدد الطرد من نموذج المنتج/)).toBeVisible();
+ await input.evaluate(el=>(el as HTMLInputElement).readOnly=false);await input.fill('7');
+ await page.getByRole('button',{name:'حفظ إعداد الطرد',exact:true}).tap();
+ await expect(page.getByRole('alert')).toContainText('نموذج المنتج');expect(writes).toHaveLength(0);
+});
+test('ON saves flavor configuration for a 1.000 / 11.000 parcel without rewriting its price',async({page})=>{
+ const writes=await fixture(page,{units:12,sale:'صندوق',parcelPrice:11000,unitPrice:1000});
+ await page.goto('/e2e/lite-parcel-unit-guard-harness.html?full');
+ await page.getByRole('checkbox',{name:'الطرد المشكّل مفعّل للبيع',exact:true}).check();
+ await page.getByRole('checkbox',{name:'نكهة وهمية',exact:true}).check();
+ await page.getByRole('button',{name:'حفظ إعداد الطرد',exact:true}).tap();
+ await expect(page.getByText('تم حفظ إعداد الطرد.',{exact:true})).toBeVisible();
+ expect(writes).toEqual([{p_family_product_id:family,p_composition_mode:'configurable_mix',p_is_active:true,p_units_per_parcel:12,p_allowed_product_ids:[flavor]}]);
 });
 test('unverified operating mode cannot save parcel configuration',async({page})=>{
  const writes=await fixture(page);await page.goto('/e2e/lite-parcel-unit-guard-harness.html?unverified');await expect(page.getByRole('button',{name:'حفظ إعداد الطرد',exact:true})).toBeDisabled();expect(writes).toHaveLength(0);
