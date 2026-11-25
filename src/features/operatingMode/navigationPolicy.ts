@@ -3,12 +3,16 @@ import type {AdminNavigationGroup} from '../more/adminNavigation.config';
 
 // A presentation filter only; it never replaces existing role/RPC guards.
 const accountingTabs=new Set(['purchases','assistant']);
+// Owner decision 25 Nov 2026: the AI assistant is hidden in every mode; its code stays for a later return.
+const hiddenTabs=new Set(['assistant']);
+const hiddenItem=(item:{action:{type:string;destination:string}})=>item.action.type==='tab'&&hiddenTabs.has(item.action.destination);
 const accountingModals=new Set(['adjust_stock','damage_stock_selection','supplier_replacement','receive_goods','warehouse_transfer','stock_count','inventory_opening_setup']);
 export function allowsOperatingDestination(type:'tab'|'modal',destination:string,mode:OperatingMode):boolean {
+ if(type==='tab'&&hiddenTabs.has(destination))return false;
  return mode==='full'||!(type==='tab'?accountingTabs:accountingModals).has(destination);
 }
 export function operatingNavigation(groups:readonly AdminNavigationGroup[],mode:OperatingMode,owner=false):AdminNavigationGroup[]{
- if(mode==='full')return [...groups];
+ if(mode==='full')return groups.map(group=>({...group,items:group.items.filter(item=>!hiddenItem(item))})).filter(group=>group.items.length>0);
  return groups.map(group=>({...group,
   ...(group.id==='products-inventory'?{label:'المنتجات والطرود'}:{}),
   items:group.items.filter(item=>allowsOperatingDestination(item.action.type,item.action.destination,mode)&&(owner||item.id!=='inventory-current')).map(item=>{

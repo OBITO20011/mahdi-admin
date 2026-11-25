@@ -22,6 +22,7 @@ import {
   ReceivingProduct,
 } from '../../types/directReceiving';
 import { Supplier, Unit, Warehouse, Branch } from '../../types';
+import { ammanDateInput, ammanDateTimeInput, ammanDateTimeInputToIso } from '../../utils/ammanTime';
 import {
   fetchSuppliersForReceivingFromSupabase,
   fetchProductsForReceivingFromSupabase,
@@ -84,10 +85,10 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   const [selectedBranchId, setSelectedBranchId] = useState<string>('');
   const [supplierInvoiceNumber, setSupplierInvoiceNumber] = useState<string>('');
   const [supplierInvoiceDate, setSupplierInvoiceDate] = useState<string>(
-    new Date().toISOString().split('T')[0]
+    () => ammanDateInput()
   );
   const [receivedAt, setReceivedAt] = useState<string>(
-    new Date().toISOString().slice(0, 16)
+    () => ammanDateTimeInput()
   );
   const [deliveryFeeJod, setDeliveryFeeJod] = useState<number>(0);
   const [taxJod, setTaxJod] = useState<number>(0);
@@ -481,6 +482,12 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       }
     }
 
+    const receivedAtIso = receivedAt ? ammanDateTimeInputToIso(receivedAt) : undefined;
+    if (receivedAt && !receivedAtIso) {
+      setToast('راجع تاريخ ووقت الاستلام الفعلي.', 'error');
+      return;
+    }
+
     // Validate direct payment
     if (amountPaidJod > grandTotalJod) {
       setToast(
@@ -501,7 +508,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         branchId: selectedBranchId || undefined,
         supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
         supplierInvoiceDate: supplierInvoiceDate || undefined,
-        receivedAt: receivedAt || undefined,
+        receivedAt: receivedAtIso,
         deliveryFeeInMinorUnits: jodToMinorUnits(deliveryFeeJod),
         // Receipt-level discount is intentionally disabled. Supplier discounts
         // stay attached to their product lines so inventory cost remains exact.

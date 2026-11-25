@@ -35,7 +35,7 @@ test('OFF feature control exposes only enabled/off switching and describes the s
     featureState,nextState:featureState,disabled:false,onToggle(){},children:React.createElement('p',null,'التأكيد الحالي'),
   }));
   assert.match(render('OFF'),/role="switch"[\s\S]*aria-checked="false"/u);
-  assert.match(render('OFF'),/الزبائن والكاشير ما بيشوفوا أي طرد مشكّل/u);
+  assert.match(render('OFF'),/لن يرى الزبائن أو الكاشير أي طرد مشكّل/u);
   assert.match(render('OWNER_PILOT'),/موقوف للزبائن \(تجربة المالك\)/u);
   assert.match(render('ENABLED'),/aria-checked="true"/u);
   assert.doesNotMatch(render('ENABLED'),/الزبائن والكاشير/u);

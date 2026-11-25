@@ -13,7 +13,7 @@
     },
     {
       "file": "src/components/common/Header.tsx",
-      "sha256": "1a9ace2c21a59a6ed018514084b50921426cf9d3bec38112bc1a02c7fae6a9c8"
+      "sha256": "d782d95d3290029d51efe4ee8efbc154be02821b17f9583700f76e02bd7a2094"
     },
     {
       "file": "src/components/common/Modal.tsx",
@@ -281,7 +281,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "180124a4a7f85e9cc5c3d86421dfa05714489e776f75406c689f91088bdcf475"
+      "sha256": "9c5b30148c56040593f5a84e7956228772f589a7021cd520204c0221967469c9"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/more/OffParcelFeatureControl.tsx",
-      "sha256": "1d7cd2a123f4a28c00d47de66b3ca425de23c62e838b2599ae6c3e395a668a4c"
+      "sha256": "68922246454dc23130b5d9f616e4bfd0dc1dffd3f7f25ce1296cd2152770d383"
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
@@ -421,7 +421,7 @@
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
-      "sha256": "007a5bb78dee403bc97a974206a415240906026389ff190dae24d2938a1a9878"
+      "sha256": "b96e4abf289eea494acb6fe38f4659c5b49fdb73eb7eb0ccb4177b7a636f4682"
     },
     {
       "file": "src/features/more/PromotionCodesModal.tsx",
@@ -441,7 +441,7 @@
     },
     {
       "file": "src/features/operatingMode/Inventory224View.tsx",
-      "sha256": "850ffb7857075c86df8e42692ffd7e235598d3b52aefeadc8fb000030c720854"
+      "sha256": "fc04ccd86e3c43e5c110b969dab2822d33394efb626457c0cc19271464c4f90a"
     },
     {
       "file": "src/features/operatingMode/LowOptionalQuantityList.tsx",
@@ -457,7 +457,7 @@
     },
     {
       "file": "src/features/operatingMode/navigationPolicy.ts",
-      "sha256": "766cbc8cc86d9fe9f689f378c0759e43582740827a279c860d4ae5a3c4059176"
+      "sha256": "485d4f8c9b7aa7c482e0efebda8082ea4742fff550b7f5893e9bf127e1e53fa6"
     },
     {
       "file": "src/features/operatingMode/openingEpoch.ts",
@@ -481,7 +481,7 @@
     },
     {
       "file": "src/features/operatingMode/OptionalQuantityPanel.tsx",
-      "sha256": "a117e92c51fbea3cff175e6a33a44c3917932f30a849d627de3a3fa7aa965bd6"
+      "sha256": "8232c20155519ef3f91577188cbecae2341c9507e833ec7c319438c72f62a87f"
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
@@ -625,7 +625,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "a894c030809e5ba1d6129225870932e580086a5a1c5469e76e078f465bd4d5d2"
+      "sha256": "132232f380c47077d1fec1accecd7a62c7305affb2f59b5e44fe69464f013911"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -653,7 +653,7 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "fc174d1cf8359f7702aae27cb04fd74399011e5056c1f5bf4d341055ea7e65ff"
+      "sha256": "9e1a1e7fb6f81077c7d113e78e00c0d687bea13c654deb8654f5e5ff76434021"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
@@ -677,7 +677,7 @@
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
-      "sha256": "89ae723824cfe24e011f239d9e2a2fc75ba357a5ae105559e3184a0143b49127"
+      "sha256": "c394bad2fbd2f4396613715e10b71d603bea4dd33353f5e55f75f9c9c9c30877"
     },
     {
       "file": "src/features/receipts/saleReceipt.ts",
@@ -1228,6 +1228,10 @@
       "sha256": "f43f57360672f030839a4d6f58309e75058aa4e695cc9f56c76769fd87041b09"
     },
     {
+      "file": "src/utils/ammanTime.ts",
+      "sha256": "7985a7ebf668b6a5519bbb484be074c0941258fe90a9fd5c1a0193d2b6101dee"
+    },
+    {
       "file": "src/utils/businessError.ts",
       "sha256": "6fd4660f387b8f9bdadb82fba150d3e84e378508eac6f7f55eb5a00cb6e8698f"
     },
@@ -1585,7 +1589,7 @@
     },
     {
       "file": "customer-web/src/config/store.ts",
-      "sha256": "52793eb1406ad350d08eeaa38b31513993ba906e3dd043b9d6951e17573bff10"
+      "sha256": "38608a5653872d486bec25a79eb205242524ee65425180b4ff04a8de7dea9bee"
     },
     {
       "file": "customer-web/src/config/supabase-public-config.ts",

@@ -25,6 +25,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
+import { ammanDateInput } from '../../utils/ammanTime';
 
 interface SupplierPaymentModalProps {
   isOpen: boolean;
@@ -56,7 +57,7 @@ export const SupplierPaymentModal = ({
   const [amount, setAmount] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<string>('cash');
   const [referenceNumber, setReferenceNumber] = useState<string>('');
-  const [paymentDate, setPaymentDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [paymentDate, setPaymentDate] = useState<string>(() => ammanDateInput());
   const [notes, setNotes] = useState<string>('');
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

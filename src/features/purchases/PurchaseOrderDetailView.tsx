@@ -193,7 +193,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
 
   const handleCancelPO = async () => {
     if (!po) return;
-    if (!window.confirm('هل أنت تأكد من رغبتك في إلغاء طلب الشراء هذا؟')) return;
+    if (!window.confirm('هل أنت متأكد من رغبتك في إلغاء طلب الشراء هذا؟')) return;
     setIsActionLoading(true);
     setActionError(null);
     const res = await cancelPurchaseOrderInSupabase(po.id);
@@ -840,7 +840,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                 </div>
 
                 <p className="text-xs text-nw-text leading-relaxed bg-nw-bg p-3 rounded-2xl border border-nw-border">
-                  هل أنت تأكد من إغلاق/حذف أمر الشراء رقم{' '}
+                  هل أنت متأكد من إغلاق/حذف أمر الشراء رقم{' '}
                   <span className="font-bold text-nw-warn font-mono">{po.purchaseOrderNumber}</span>؟
                 </p>
 

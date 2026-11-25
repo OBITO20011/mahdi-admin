@@ -14,7 +14,7 @@ export function OffParcelFeatureControl({featureState,nextState,disabled,onToggl
     </UiButton>
     {featureState!=='ENABLED'&&<aside role="status" className="rounded-lg border border-nw-warn bg-nw-warn-bg p-3 text-sm font-bold text-nw-warn">
       {featureState==='OWNER_PILOT'&&<p>موقوف للزبائن (تجربة المالك)</p>}
-      <p>الزبائن والكاشير ما بيشوفوا أي طرد مشكّل</p>
+      <p>لن يرى الزبائن أو الكاشير أي طرد مشكّل</p>
     </aside>}
     {children}
   </fieldset>;

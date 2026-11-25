@@ -427,7 +427,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
               </div>
               <div>
                 <h3 className="font-extrabold text-nw-text text-sm">لديك تغييرات غير محفوظة!</h3>
-                <p className="text-sm text-nw-muted">هل أنت تأكد من الخروج وإلغاء التعديلات؟</p>
+                <p className="text-sm text-nw-muted">هل أنت متأكد من الخروج وإلغاء التعديلات؟</p>
               </div>
             </div>
             <div className="flex gap-2 pt-2">

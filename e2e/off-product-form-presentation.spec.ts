@@ -96,7 +96,7 @@ for(const width of [390,1280]){
     const base=form.getByLabel('الوحدة الأساسية',{exact:true});
     await expect(base.locator('..')).toContainText('وحدة البيع المفرد (باكيت)');
     await base.selectOption('طرد');
-    await form.getByRole('checkbox',{name:'هاد السعر سعر باكيت، بدي أضيف طرد',exact:true}).check();
+    await form.getByRole('checkbox',{name:'هذا السعر سعر باكيت، وأريد إضافة طرد',exact:true}).check();
     await form.getByLabel('كم باكيت بالطرد المضاف',{exact:false}).fill('8');
     await expect(form.getByRole('alert').filter({hasText:'وحدة الطرد نفس وحدة المفرد'})).toBeVisible();
     await expect(form.getByRole('button',{name:'حفظ التعديلات',exact:true})).toBeDisabled();
@@ -135,7 +135,7 @@ for(const width of [390,1280]){
     const toggle=modal.getByRole('switch',{name:'تشغيل الطرد المشكّل',exact:true});
     await expect(toggle).not.toBeChecked();
     await expect(modal.getByText('موقوف للزبائن (تجربة المالك)',{exact:true})).toBeVisible();
-    await expect(modal.getByText('الزبائن والكاشير ما بيشوفوا أي طرد مشكّل',{exact:true})).toBeVisible();
+    await expect(modal.getByText('لن يرى الزبائن أو الكاشير أي طرد مشكّل',{exact:true})).toBeVisible();
     await expect(modal.getByRole('option',{name:'تجربة المالك فقط',exact:true})).toHaveCount(0);
     await toggle.click();
     expect(featureWrites).toHaveLength(0);
@@ -145,13 +145,13 @@ for(const width of [390,1280]){
     await save.click();
     await expect(modal.getByText('تم تغيير حالة الميزة.',{exact:true})).toBeVisible();
     await expect(toggle).toBeChecked();
-    await expect(modal.getByText('الزبائن والكاشير ما بيشوفوا أي طرد مشكّل',{exact:true})).toHaveCount(0);
+    await expect(modal.getByText('لن يرى الزبائن أو الكاشير أي طرد مشكّل',{exact:true})).toHaveCount(0);
     expect(featureWrites).toEqual(['ENABLED']);
     await toggle.click();
     await modal.getByRole('checkbox',{name:'أؤكد تغيير الحالة إلى متوقفة',exact:true}).check();
     await save.click();
     await expect(toggle).not.toBeChecked();
-    await expect(modal.getByText('الزبائن والكاشير ما بيشوفوا أي طرد مشكّل',{exact:true})).toBeVisible();
+    await expect(modal.getByText('لن يرى الزبائن أو الكاشير أي طرد مشكّل',{exact:true})).toBeVisible();
     expect(featureWrites).toEqual(['ENABLED','OFF']);
     await toggle.scrollIntoViewIfNeeded();
     await page.screenshot({path:testInfo.outputPath('global-feature-'+width+'.png')});

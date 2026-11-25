@@ -19,7 +19,7 @@ async function editor(page:Page,query:string){
 
 test('OFF adding a discounted parcel keeps the actual unit price and requires confirmation of both',async({page})=>{
  const {form,writes}=await editor(page,'unit-parcel');
- await form.getByRole('checkbox',{name:'هاد السعر سعر باكيت، بدي أضيف طرد',exact:true}).check();
+ await form.getByRole('checkbox',{name:'هذا السعر سعر باكيت، وأريد إضافة طرد',exact:true}).check();
  await form.getByLabel('كم باكيت بالطرد المضاف',{exact:false}).fill('24');
  const price=form.getByLabel('سعر الطرد المضاف',{exact:true});await expect(price).toHaveValue('20.4');
  await price.fill('20');await expect(form.getByText(/خصم.*0\.400/)).toBeVisible();

@@ -39,7 +39,7 @@ test('actual product form enables an optional counter with Arabic input and exac
  const c=await setup(page,'sales-only&unit-parcel');await c.edit();const section=page.locator('[data-optional-quantity]'),row=section.locator('[data-optional-quantity-row]');
  await expect(row.getByRole('checkbox',{name:'تتبّع الكمية',exact:true})).not.toBeChecked();
  await row.getByRole('checkbox',{name:'تتبّع الكمية',exact:true}).check();
- await row.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('٣');await row.getByLabel('نبّهني إذا صارت أقل من — باكيت',{exact:true}).fill('٢');expect(c.writes).toHaveLength(0);
+ await row.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('٣');await row.getByLabel('نبّهني إذا أصبحت أقل من — باكيت',{exact:true}).fill('٢');expect(c.writes).toHaveLength(0);
  await row.getByRole('button',{name:/حفظ كمية/}).tap();await expect(row.getByLabel('الكمية الحالية — باكيت',{exact:true})).toHaveValue('3');
  await expect.poll(()=>c.writes.length).toBe(1);expect(c.writes[0]).toMatchObject({p_enabled:true,p_quantity:3,p_low_threshold:2,p_expected_revision:0,p_product_id:inventoryProducts[0].id});
  expect(c.writes[0].p_key).toMatch(/^[0-9a-f-]{36}$/u);await expect(row.getByRole('checkbox',{name:'تتبّع الكمية'})).toBeChecked();
@@ -74,7 +74,7 @@ test('first counter activation freezes base-unit conversion but leaves adding a 
  await panel.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await panel.getByLabel('الكمية الحالية — باكيت',{exact:true}).fill('3');
  await panel.getByRole('button',{name:/حفظ كمية/}).tap();await expect.poll(()=>c.writes.length).toBe(1);
  await expect(unit).toBeDisabled();await expect(panel).toContainText('وحدة الأساس ثابتة بعد أول تفعيل');
- await expect(page.getByRole('checkbox',{name:/بدي أضيف طرد/})).toBeEnabled();
+ await expect(page.getByRole('checkbox',{name:/وأريد إضافة طرد/})).toBeEnabled();
  await expect(page.getByRole('group',{name:'تعريف محتوى وحدة البيع',exact:true})).toHaveCount(0);
  await panel.getByRole('checkbox',{name:'تتبّع الكمية'}).uncheck();await panel.getByRole('button',{name:/حفظ كمية/}).tap();
  await expect.poll(()=>c.writes.length).toBe(2);await expect(unit).toBeDisabled();

@@ -1,14 +1,16 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
-  "owner": "codex",
-  "objective": "Owner25Nov: read-only reviewPR130 then UTC-midnight audit; documentation-only single-night cutover checklist DraftPR. No app/DB/hosted/demo/merge.",
-  "baselineSha": "7f8108205191dad42f22829a71c9161858498300",
-  "branch": "codex/go-live-night-checklist-20261125",
-  "phase": "ON225_CUTOVER_DOCUMENTATION",
-  "startedAt": "2026-11-25T02:44:56.280Z",
-  "checkpointedAt": "2026-11-25T02:57:04.933Z",
-  "inProgress": [],
+  "status": "ACTIVE",
+  "owner": "claude",
+  "objective": "Owner25Nov audit batch A: UI-only fixes - WhatsApp fallback default to shop number, Amman-local receipt time/date defaults, Arabic copy, hide AI assistant. No SQL/RLS/RPC/money math, no hosted access, no merge without owner OK.",
+  "baselineSha": "14c8fff9dbc37896be138ce288990595c03e237a",
+  "branch": "claude/audit-ui-fixes-a",
+  "phase": "ON225_OWNER_TRIAL_FIXES",
+  "startedAt": "2026-11-25T05:19:39.041Z",
+  "checkpointedAt": "2026-11-25T05:19:39.041Z",
+  "inProgress": [
+    "Owner25Nov audit batch A: UI-only fixes - WhatsApp fallback default to shop number, Amman-local receipt time/date defaults, Arabic copy, hide AI assistant. No SQL/RLS/RPC/money math, no hosted access, no merge without owner OK."
+  ],
   "completed": [
     "Independent read-only PR130 review completed; P3 empty returned-orders panel recorded, no code changes",
     "UTC midnight issue fixed in4639aa10; current225 literal comparison wiring verified",
@@ -16,32 +18,18 @@
     "Documentation edit and validation complete; owner review required before any merge"
   ],
   "notStarted": [],
-  "filesTouched": [
-    "docs/agent/ACTIVE_TASK_FILES.json"
-  ],
-  "testsPassed": [
-    "PR130 focused6/6 and10000 independent integer-fils cases",
-    "UTC-midnight and partition-normalization7/7",
-    "Documentation and historical guard28/28",
-    "BASE_CI:7f810820 79success/3skipped/0failed",
-    "Documentation proof:20items/links/SQL-command identity/pin scope"
-  ],
-  "testsRemaining": [
-    "Staged Gitleaks before commit; DraftPR CI after push"
-  ],
-  "findings": [
-    "P3 OrderReturnBadge.tsx:32 hides the panel when returned invoice list is empty; no fix authorized",
-    "No critical financial or permission regression established in PR130",
-    "No hosted/demo/Docker operations; no final cutover references built"
-  ],
+  "filesTouched": [],
+  "testsPassed": [],
+  "testsRemaining": [],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No primary or Claude worktree writes; no hostedERP,deploy,merge or demo/17944/n8n changes",
     "No app,SQL,RLS,RPC,financial calculations or historical migration changes"
   ],
-  "nextExactAction": "Push documentation-only commit and open DraftPR; await owner review, no merge",
-  "workingTreeFingerprint": "0EA4105AC7475EA91F52134DA833D6FFD88B0F6FE1A5579AC077C4163982728D",
+  "nextExactAction": "Inspect the approved task contract and begin the first bounded step.",
+  "workingTreeFingerprint": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
   "filesTouchedCount": 3,
   "filesTouchedManifestSha256": "688fd45944c48906595d513d894ab08aa719ab99c6e376b6eb3247bceacaeb41"
 }

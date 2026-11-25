@@ -1421,7 +1421,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               setSingleContentsCount('');
               setUnitConversionConfirmed(false);
             }}/>
-            {'هاد السعر سعر '+(openedUnitName||'باكيت')+'، بدي أضيف طرد'}
+            {'هذا السعر سعر '+(openedUnitName||'باكيت')+'، وأريد إضافة طرد'}
           </label>
           {defineFlavorParcel && <>
             <label className="block space-y-1 text-sm font-bold">وحدة بيع الطرد المضاف
@@ -1460,7 +1460,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         </fieldset>}
         {canEditBaseUnit&&!defineFlavorParcel&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
           <legend className="px-1 text-sm font-bold">تعريف محتوى وحدة البيع</legend>
-          <p className="text-sm font-bold">{'هاد السعر سعر '+(openedUnitName||'باكيت')+'، بدي أعرّف محتواه'}</p>
+          <p className="text-sm font-bold">{'هذا السعر سعر '+(openedUnitName||'باكيت')+'، وأريد تحديد محتواه'}</p>
           <p className="text-sm text-nw-muted">حوّل {openedUnitName} إلى عدد حقيقي من وحدات المحتوى. يبقى سعر {openedUnitName} نفسه والبيع بها فقط؛ يمكن تفعيل المفرد لاحقاً. الفواتير السابقة تبقى بوحداتها وأسعارها المسجّلة.</p>
           {singleContentsCount!==''&&Number(singleContentsCount)>=2&&<label className="block space-y-1 text-sm font-bold">سعر {contentUnit||'باكيت'} المرجعي بعد تعريف المحتوى
             <input aria-label="سعر الوحدة المرجعي بعد تعريف المحتوى" className={numberInputClass} type="number" min="0.001" step="0.001" inputMode="decimal" value={convertedUnitPrice===null?conversionUnitPrice:convertedUnitPrice}

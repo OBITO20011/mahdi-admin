@@ -15,6 +15,7 @@ import { useAuthStore } from '../../stores/useAuthStore';
 import { UserAvatar } from '../ui';
 import {Menu} from 'lucide-react';
 import {useNavigationDrawer} from '../layout/navigationDrawerContext';
+import {allowsOperatingDestination} from '../../features/operatingMode/navigationPolicy';
 
 export const Header: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {
   const drawer=useNavigationDrawer();
@@ -46,7 +47,7 @@ export const Header: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode=
   } = useAppStoreActions();
   const { roleName } = useAuthStore();
   // Same role gate as before; on desktop the SideNav carries the assistant.
-  const canUseAssistant = operatingMode==='full'&&['owner', 'admin', 'manager', 'accountant'].includes(
+  const canUseAssistant = operatingMode==='full'&&allowsOperatingDestination('tab','assistant',operatingMode)&&['owner', 'admin', 'manager', 'accountant'].includes(
     roleName || '',
   );
 
