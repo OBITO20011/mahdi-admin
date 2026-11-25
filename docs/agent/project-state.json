@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "ON225_OWNER_TRIAL_FIXES",
+  "currentPhase": "ON226_PARCEL_INTEGRITY",
   "phaseON225_CUTOVER_WORKBOOKImplementationAllowed": true,
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
@@ -324,5 +324,6 @@
   "phaseD1_225_DIAGNOSTICSImplementationAllowed": true,
   "phaseON225_OWNER_TRIAL_FIXESImplementationAllowed": true,
   "phaseON225_CUTOVER_EVIDENCEImplementationAllowed": true,
-  "phaseON225_TWO_STAGE_CUTOVERImplementationAllowed": true
+  "phaseON225_TWO_STAGE_CUTOVERImplementationAllowed": true,
+  "phaseON226_PARCEL_INTEGRITYImplementationAllowed": true
 }

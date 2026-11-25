@@ -12,14 +12,22 @@
     "Validate the 226 parcel guard, access and protection chain on draft PR 134"
   ],
   "completed": [
-    "Added owner acceptance and recovery stop instructions; existing activation blocks and official tools remain exact"
+    "Migration 226 and the product/parcel application paths implemented.",
+    "Isolated 226 table/service evidence, fresh/incremental equality, upgrade, registration resume, and retained RESET validated."
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
-  "testsRemaining": [],
+  "testsPassed": [
+    "193 table probes, zero denial or error",
+    "768 service probes",
+    "226 reference, upgrade and RESET local chain",
+    "Focused regression tests and Gitleaks"
+  ],
+  "testsRemaining": [
+    "Full exact-head GitHub CI"
+  ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
