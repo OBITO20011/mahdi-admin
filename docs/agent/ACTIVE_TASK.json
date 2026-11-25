@@ -1,35 +1,33 @@
 {
   "schemaVersion": 1,
   "status": "ACTIVE",
-  "owner": "claude",
-  "objective": "Owner25Nov audit batch A: UI-only fixes - WhatsApp fallback default to shop number, Amman-local receipt time/date defaults, Arabic copy, hide AI assistant. No SQL/RLS/RPC/money math, no hosted access, no merge without owner OK.",
-  "baselineSha": "14c8fff9dbc37896be138ce288990595c03e237a",
-  "branch": "claude/audit-ui-fixes-a",
-  "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-25T05:19:39.041Z",
-  "checkpointedAt": "2026-11-25T05:19:39.041Z",
+  "owner": "codex",
+  "objective": "Validate the 226 parcel guard, access and protection chain on draft PR 134",
+  "baselineSha": "2522cf3522e5eb635c7e676c6b0aa4ac3021baf2",
+  "branch": "codex/on226-parcel-integrity",
+  "phase": "ON226_PARCEL_INTEGRITY",
+  "startedAt": "2026-11-25T15:25:43.921Z",
+  "checkpointedAt": "2026-11-25T15:25:45.869Z",
   "inProgress": [
-    "Owner25Nov audit batch A: UI-only fixes - WhatsApp fallback default to shop number, Amman-local receipt time/date defaults, Arabic copy, hide AI assistant. No SQL/RLS/RPC/money math, no hosted access, no merge without owner OK."
+    "Validate the 226 parcel guard, access and protection chain on draft PR 134"
   ],
   "completed": [
-    "Independent read-only PR130 review completed; P3 empty returned-orders panel recorded, no code changes",
-    "UTC midnight issue fixed in4639aa10; current225 literal comparison wiring verified",
-    "75-minute night checklist updated; original SQL and command fences unchanged",
-    "Documentation edit and validation complete; owner review required before any merge"
+    "Added owner acceptance and recovery stop instructions; existing activation blocks and official tools remain exact"
   ],
   "notStarted": [],
-  "filesTouched": [],
+  "filesTouched": [
+    "docs/agent/ACTIVE_TASK_FILES.json"
+  ],
   "testsPassed": [],
   "testsRemaining": [],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No primary or Claude worktree writes; no hostedERP,deploy,merge or demo/17944/n8n changes",
-    "No app,SQL,RLS,RPC,financial calculations or historical migration changes"
+    "No hosted ERP access, deployment, merge, demo reset, Docker restart, final freeze or M01 change."
   ],
-  "nextExactAction": "Inspect the approved task contract and begin the first bounded step.",
-  "workingTreeFingerprint": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "688fd45944c48906595d513d894ab08aa719ab99c6e376b6eb3247bceacaeb41"
+  "nextExactAction": "Verify all exact-head CI jobs for draft PR 134, including the 226 reference, upgrade and RESET; stop for review when green.",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
 }

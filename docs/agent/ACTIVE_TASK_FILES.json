@@ -1,25 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/ENVIRONMENT_SEPARATION_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/UPGRADE225_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/on225-owner-fixes-source-pins.json"
-    }
-  ]
+  "files": []
 }
