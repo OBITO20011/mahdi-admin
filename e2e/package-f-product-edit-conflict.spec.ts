@@ -5,7 +5,7 @@ import {test,expect,type Page} from './isolated-test';
 
 const url=(query:string)=>'/e2e/package-f-product-edit-conflict-harness.html?'+query;
 const productId='88888888-8888-4888-8888-000000000001',flavorId='88888888-8888-4888-8888-000000000006';
-type Row={id:string;name_ar:string;default_sale_price_in_minor_units:number;is_active:boolean;flavor_name_ar?:string;barcode?:string;updated_at:string};
+type Row={id:string;name_ar:string;default_sale_price_in_minor_units:number;sale_price_in_minor_units:number;is_active:boolean;flavor_name_ar?:string;barcode?:string;updated_at:string};
 type Call={name:string;args:Record<string,unknown>};
 const db=(page:Page)=>page.evaluate(()=>(window as unknown as {__db:()=>Row[]}).__db());
 const calls=(page:Page,name:string)=>page.evaluate(n=>(window as unknown as {__editCalls:Call[]}).__editCalls.filter(c=>c.name===n),name);
@@ -147,4 +147,46 @@ for(const width of [390,1440]){
   await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1&role=manager'));
   await expect(page.getByText('السماح بالطرد المشكّل وإعداده للمالك فقط.')).toBeVisible();expect(await calls(page,'get_admin_parcel_configuration_context_v1')).toHaveLength(0);
  });
+}
+
+for (const scenario of [
+  {mode: 'OFF', id: productId, query: 'visibility=off&plain', writer: 'update_product_master_v6'},
+  {mode: 'ON flavor', id: flavorId, query: 'visibility=on&flavorDetail', writer: 'update_product_flavor_v2'},
+]) {
+  test('226 visibility hides and shows without repricing in ' + scenario.mode, async ({page}) => {
+    await page.setViewportSize({width: 390, height: 844});
+    const detailUrl = url('view=detail&' + scenario.query);
+    await page.goto(detailUrl + '&reset=1');
+    const original = await row(page, scenario.id);
+    const beforePrices = [original.sale_price_in_minor_units, original.default_sale_price_in_minor_units];
+    expect(beforePrices).toEqual([1001, 11001]);
+
+    for (const active of [false, true]) {
+      const previous = await row(page, scenario.id);
+      await page.getByRole('button', {name: active ? 'إظهار المنتج' : 'إخفاء المنتج', exact: true}).click();
+      await page.getByRole('button', {name: 'نعم، تأكيد', exact: true}).click();
+      await expect(page.getByTestId('product-edit-closed')).toBeVisible();
+      const [write, ...otherWrites] = await calls(page, scenario.writer);
+      expect(otherWrites).toEqual([]);
+      expect(write.args.p_is_active).toBe(active);
+      expect(write.args.p_expected_updated_at).toBe(previous.updated_at);
+      const saved = await row(page, scenario.id);
+      expect(saved.is_active).toBe(active);
+      expect([saved.sale_price_in_minor_units, saved.default_sale_price_in_minor_units]).toEqual(beforePrices);
+
+      if (scenario.mode === 'OFF') {
+        expect(write.args.p_product_id).toBe(productId);
+        expect(write.args.p_sale_price_in_minor_units).toBe(1001);
+        expect(write.args.p_default_sale_price_in_minor_units).toBe(11001);
+        expect(await calls(page, 'get_product_pricing_context225')).toHaveLength(0);
+      } else {
+        expect(write.args.p_flavor_product_id).toBe(flavorId);
+        expect(write.args.p_barcode).toBe(original.barcode);
+        expect(write.args).not.toHaveProperty('p_sale_price_in_minor_units');
+        expect(await calls(page, 'update_product_master_v7')).toHaveLength(0);
+        expect((await db(page)).find(item => item.id !== flavorId && item.id !== productId)?.is_active).toBe(true);
+      }
+      if (!active) await page.goto(detailUrl);
+    }
+  });
 }

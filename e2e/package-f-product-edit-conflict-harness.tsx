@@ -24,13 +24,17 @@ if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.en
 type Row=Record<string,unknown>&{id:string;updated_at:string};
 const unitIds:Record<string,string>={'باكيت':'77777777-7777-4777-8777-000000000001','كرتونة':'77777777-7777-4777-8777-000000000002'};
 const unit=(name:string,code:string)=>({id:unitIds[name],name_ar:name,code});
+const flavorId='88888888-8888-4888-8888-000000000006';
+const operatingMode=params.get('visibility')==='off'?'sales-only':'full';
 const familyId='88888888-8888-4888-8888-000000000005',categoryId='77777777-7777-4777-8777-000000000010';
 const seed=():Row[]=>{
   const base={...inventoryProducts[0],category_id:categoryId,image_url:'',warehouse_id:'inventory-warehouse',base_unit:unit('باكيت','PKT'),
-    purchase_unit:unit('كرتونة','CTN'),sale_unit:unit('كرتونة','CTN'),parcel_only:params.has('parcelOnly'),updated_at:'2026-10-15T09:00:00.000001+00:00'};
+    purchase_unit:unit('كرتونة','CTN'),sale_unit:unit('كرتونة','CTN'),parcel_only:params.has('parcelOnly'),
+    ...(params.has('visibility')?{units_per_sale_unit:12,sale_price_in_minor_units:1001,wholesale_price_in_minor_units:1001,default_sale_price_in_minor_units:11001}:{}),
+    updated_at:'2026-10-15T09:00:00.000001+00:00'};
   return [base,
     {...base,id:familyId,name_ar:'عائلة شيبس',sku:'MIX-001',barcode:'',is_flavor_master:true,updated_at:'2026-10-15T09:00:00.000002+00:00'},
-    {...base,id:'88888888-8888-4888-8888-000000000006',name_ar:'عائلة شيبس - جبنة',sku:'MIX-CH',barcode:'6251234500600',
+    {...base,id:flavorId,name_ar:'عائلة شيبس - جبنة',sku:'MIX-CH',barcode:'6251234500600',
       flavor_master_product_id:familyId,flavor_name_ar:'جبنة',flavor_sort_order:1,updated_at:'2026-10-15T09:00:00.000003+00:00'}];
 };
 const KEY='nawasrah-edit-conflict-db';
@@ -66,9 +70,10 @@ client.rpc=(name,args={})=>{
   if(name==='get_admin_product_page')return Promise.resolve({data:{products:rows,total_count:rows.length,metrics:{low_stock:0,out_of_stock:0}},error:null});
   // The store's product refresh reads through search_admin_products.
   if(name==='search_admin_products')return Promise.resolve({data:args.p_product_id?rows.filter(r=>r.id===args.p_product_id):rows,error:null});
+  if(name==='lite1_operating_mode')return Promise.resolve({data:{contractVersion:'sales-only-phase2-v1',fullAccounting:operatingMode==='full'},error:null});
   if(name==='get_product_pricing_context225'){
     const row=rows.find(r=>r.id===args.p_product_id)!;
-    return Promise.resolve({data:{contractVersion:'on-independent-prices225-v1',mode:'full',productId:row.id,requestedProductId:row.id,updatedAt:row.updated_at,parcelEnabled:true,originalUnitPrice:null,originalParcelPrice:null,currentWacInMinorUnitsExact:String(row.cost_price_in_minor_units)},error:null});
+    return Promise.resolve({data:{contractVersion:'on-independent-prices225-v1',mode:'full',productId:row.flavor_master_product_id??row.id,requestedProductId:row.id,updatedAt:row.updated_at,parcelEnabled:true,originalUnitPrice:null,originalParcelPrice:null,currentWacInMinorUnitsExact:String(row.cost_price_in_minor_units)},error:null});
   }
   if(name==='get_product_cost_state_v1'){
     const row=rows.find(r=>r.id===args.p_product_id)!;
@@ -86,7 +91,7 @@ client.rpc=(name,args={})=>{
     return Promise.resolve({data:{success:true,idempotentReplay:false,correctionId:'c1',newCostPriceInMinorUnits:Math.round(exact),
       newExactInMinorUnits:exact.toFixed(6)},error:null});
   }
-  if(name==='update_product_master_v7'){
+  if(name==='update_product_master_v7'||name==='update_product_master_v6'){
     const row=rows.find(r=>r.id===args.p_product_id)!;
     if(args.p_expected_updated_at!==row.updated_at)return Promise.resolve(conflict(row));
     Object.assign(row,{parcel_only:args.p_parcel_only??row.parcel_only,name_ar:args.p_name_ar,sku:args.p_sku,barcode:args.p_barcode??'',description:args.p_description,
@@ -132,13 +137,13 @@ function Harness(){
   const [open,setOpen]=React.useState(true);
   const view=params.get('view')??'form';
   // The editor keeps the product exactly as it was when the tab opened it.
-  const [opened]=React.useState(()=>products.find(p=>p.id===((view==='detail'&&!params.has('plain')||params.has('familyForm'))?familyId:inventoryProducts[0].id))!);
+  const [opened]=React.useState(()=>products.find(p=>p.id===(params.has('flavorDetail')?flavorId:(view==='detail'&&!params.has('plain')||params.has('familyForm'))?familyId:inventoryProducts[0].id))!);
   return <main dir="rtl" data-testid="product-edit-workbench" className="min-h-[100dvh] bg-nw-bg font-sans text-nw-text">
     {!open&&<p role="status" data-testid="product-edit-closed" className="p-4">أُغلق النموذج بعد الحفظ.</p>}
     {toast&&<p data-testid="product-edit-toast" className="p-4 text-sm">{toast.message}</p>}
     <Modal isOpen={open} onClose={()=>setOpen(false)} title={view==='detail'?'تفاصيل المنتج':'تعديل المنتج'} maxWidth="max-w-2xl">
       <div data-testid="product-edit-surface">
-        {view==='detail'?<ProductDetailModal product={opened} onClose={()=>setOpen(false)}/>
+        {view==='detail'?<ProductDetailModal product={opened} operatingMode={operatingMode} onClose={()=>setOpen(false)}/>
           :<ProductFormModal initialProduct={opened} onClose={()=>setOpen(false)}/>}
       </div>
     </Modal>
