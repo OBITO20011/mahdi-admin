@@ -1085,9 +1085,12 @@ export async function updateProductInSupabase(
     saleUnitIdToUse =
       saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
+    if (!input.accountingPrice225 && input.independentSalePrice === undefined) {
+      return { success: false, error: 'تعذّر التحقق من كاتب السعر المعتمد. أعد تحميل بيانات الصنف.' };
+    }
     const client=supabase;
     const request=(proof?:PriceLossConfirmation225)=>client.rpc(
-      input.accountingPrice225?'update_product_master_v7':input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {
+      input.accountingPrice225?'update_product_master_v7':'update_product_master_v6', {
       ...productPriceParams(input,proof),
       ...(input.accountingPrice225?{p_parcel_enabled:input.accountingPrice225.parcelEnabled??null,p_restore_original:input.accountingPrice225.restoreOriginal??null}:{}),
       p_parcel_only: input.parcelOnly ?? null,

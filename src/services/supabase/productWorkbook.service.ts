@@ -8,7 +8,7 @@ import {createProductImportAttempt,resumeProductImport,type ProductImportAttempt
 import {fetchGoLiveStatus}from'./goLive.service';
 import {normalizeImportDisplayText as display}from'../../features/goLive/importDisplayText';
 type Row=Record<string,unknown>;
-type ProductPriceWriter='legacy'|'lite'|'accounting225';
+type ProductPriceWriter='lite'|'accounting225';
 export type ConfirmWorkbookPriceLoss=(confirmation:PriceLossConfirmation225,row:WorkbookProduct)=>Promise<boolean>;
 const fullPriceRow=(plan:ProductWorkbookPlan,row:WorkbookProduct)=>plan.operatingMode!=='sales-only'&&row.singlePriceInMinorUnits!==undefined;
 async function result225(call:(proof?:PriceLossConfirmation225)=>PromiseLike<{data:unknown;error:unknown}>,confirm:((proof:PriceLossConfirmation225)=>Promise<boolean>)|undefined){
@@ -53,9 +53,15 @@ export async function readProductImportSnapshot(id:string):Promise<ProductImport
  return{id:str(row.id),sku:str(row.sku),barcode:str(row.barcode),metadata:row,flavors:children.map(r=>{const c=record(r);return{id:str(c.id),name:str(c.flavor_name_ar),sku:str(c.sku),barcode:str(c.barcode),metadata:c};})};
 }
 async function findTemporary(sku:string){const rows=await result(db().from('products').select('id').eq('sku',sku).limit(2));assert(Array.isArray(rows));assert(rows.length<=1);return rows.length?readProductImportSnapshot(str(record(rows[0]).id)):null;}
-async function write(row:Row,change:Row,method:boolean|null,writer:ProductPriceWriter='legacy'){
+async function write(row:Row,change:Row,method:boolean|null,writer:ProductPriceWriter){
  const value={...row,...change};const args={p_product_id:row.id,p_expected_updated_at:row.updated_at,p_sku:value.sku,p_barcode:value.barcode,p_name_ar:value.name_ar,p_description:value.description,p_category_id:value.category_id,p_brand_id:value.brand_id,p_unit_id:value.unit_id,p_purchase_unit_id:value.purchase_unit_id,p_units_per_purchase_unit:value.units_per_purchase_unit,p_default_purchase_price_in_minor_units:value.default_purchase_price_in_minor_units,p_sale_unit_id:value.sale_unit_id,p_units_per_sale_unit:value.units_per_sale_unit,p_default_sale_price_in_minor_units:value.default_sale_price_in_minor_units,p_cost_price_in_minor_units:value.cost_price_in_minor_units,p_min_stock_level:value.min_stock_level,p_max_stock_level:value.max_stock_level,p_is_active:value.is_active,p_image_url:null,p_parcel_only:method};
- assert(record(await result(db().rpc(writer==='accounting225'?'update_product_master_v7':writer==='lite'?'update_product_master_v6':'update_product_master_v5',{...args,...(writer!=='legacy'?{p_sale_price_in_minor_units:value.sale_price_in_minor_units}:{})}))).success===true);
+ assert(record(await result(db().rpc(writer==='accounting225'?'update_product_master_v7':'update_product_master_v6',{...args,p_sale_price_in_minor_units:value.sale_price_in_minor_units}))).success===true);
+}
+async function finalizeOnFlavorIdentity(row:Row,sku:string,barcode:string|null){
+ const saved=record(await result(db().rpc('finalize_import_flavor_identity226',{
+  p_flavor_product_id:row.id,p_expected_updated_at:row.updated_at,p_sku:sku,p_barcode:barcode,
+ })));
+ assert(saved.success===true&&saved.productId===row.id,'PRODUCT_IMPORT_READBACK_DIFFER');
 }
 export async function productImportContext(actor:string){const{data,error}=await db().auth.getUser();assert(!error&&data.user?.id===actor,'PRODUCT_IMPORT_ACTOR_CHANGED');return{actor,project:sanitizedSupabaseUrl};}
 export const productImportStorageKey=(actor:string,project:string)=>'nawasrah:product-workbook:v1:'+actor+':'+project;
@@ -70,7 +76,7 @@ async function inspectContext(plan:ProductWorkbookPlan,actor:string,storage:Stor
  assert(!plan.errors.length&&plan.products.length>0,'PRODUCT_IMPORT_PLAN_INVALID');const context=await productImportContext(actor),key=productImportStorageKey(actor,context.project),planHash=await hash(JSON.stringify(plan.operatingMode==='sales-only'?{operatingMode:'sales-only',products:plan.products}:plan.products));
  if(plan.operatingMode==='sales-only'){const mode=await fetchOperatingMode();assert(mode.mode==='sales-only'&&mode.installed,'PRODUCT_IMPORT_MODE_CHANGED');}
  const attempt=loadProductImportAttempt(storage,key);if(attempt&&(attempt.planHash!==planHash||attempt.actor!==actor||attempt.project!==context.project))throw Error('PRODUCT_IMPORT_ATTEMPT_MISMATCH');
- if(plan.products.some(row=>fullPriceRow(plan,row)))assert(await readOnPriceCapability225(),'PRODUCT_IMPORT_MODE_CHANGED');
+ if(plan.operatingMode!=='sales-only')assert(await readOnPriceCapability225(),'PRODUCT_IMPORT_MODE_CHANGED');
  const reference=await fetchProductWorkbookReference();
  // Only exact IDs belonging to this already-bound attempt may be excluded from
  // the existing-identifier check; a new file cannot adopt an existing product.
@@ -109,9 +115,12 @@ async function saveProductWorkbookUnlocked(plan:ProductWorkbookPlan,actor:string
    }assert(record(data).success===true);},
   finalize:async(row,entry:ProductImportEntry)=>{if(plan.operatingMode==='sales-only'){const mode=await fetchOperatingMode();assert(mode.mode==='sales-only'&&mode.installed,'PRODUCT_IMPORT_MODE_CHANGED');}let current=await readProductImportSnapshot(entry.masterId!);assertFamily(row,current);assert(current.sku===entry.temporarySku||current.sku===row.data.sku);
    const target=wanted(row,reference);let final=false;try{compare(current.metadata!,target);final=true;}catch{/* Exact initial metadata may still need the reviewed enrichment phase. */}
-   if(!final){const m=current.metadata!;for(const k of ['brand_id','description','max_stock_level'])assert(str(m[k])===''||str(m[k])===str(target[k]),'PRODUCT_IMPORT_CONCURRENT_CHANGE');await write(m,target,target.parcel_only as boolean,fullPriceRow(plan,row)?'accounting225':plan.operatingMode==='sales-only'?'lite':'legacy');}
+   if(!final){const m=current.metadata!;for(const k of ['brand_id','description','max_stock_level'])assert(str(m[k])===''||str(m[k])===str(target[k]),'PRODUCT_IMPORT_CONCURRENT_CHANGE');await write(m,target,target.parcel_only as boolean,plan.operatingMode==='sales-only'?'lite':'accounting225');}
    current=await readProductImportSnapshot(entry.masterId!);assertFamily(row,current);
-   for(const f of row.flavors){const c=unique(current.flavors.filter(c=>c.name===f.name));assert(entry.flavorIds?.[f.name]===c.id,'PRODUCT_IMPORT_FLAVOR_ID_CHANGED');if(c.sku===f.sku&&c.barcode===f.barcode)continue;assert(c.sku===entry.flavorSkus?.[f.name]&&c.barcode==='','PRODUCT_IMPORT_CONCURRENT_CHANGE');compare(c.metadata!,target,coreFor(row).filter(k=>k!=='name_ar'));await write(c.metadata!,{sku:f.sku,barcode:f.barcode||null},null,plan.operatingMode==='sales-only'?'lite':'legacy');}
+   for(const f of row.flavors){const c=unique(current.flavors.filter(c=>c.name===f.name));assert(entry.flavorIds?.[f.name]===c.id,'PRODUCT_IMPORT_FLAVOR_ID_CHANGED');if(c.sku===f.sku&&c.barcode===f.barcode)continue;assert(c.sku===entry.flavorSkus?.[f.name]&&c.barcode==='','PRODUCT_IMPORT_CONCURRENT_CHANGE');compare(c.metadata!,target,coreFor(row).filter(k=>k!=='name_ar'));
+    if(plan.operatingMode==='sales-only')await write(c.metadata!,{sku:f.sku,barcode:f.barcode||null},null,'lite');
+    else await finalizeOnFlavorIdentity(c.metadata!,f.sku,f.barcode||null);
+   }
   },assertFinal});
 }
 export const productImportErrorText=(error:unknown)=>{
