@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 
 const indexFile='scripts/audit/parcel226-source-pins.json';
@@ -30,10 +31,16 @@ export function restoreParcel226Hashes(rows){
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
-export function pathsBeforeParcel226(files){
+export function pathsBeforeParcel226(files,reference){
  return files.filter(file=>{
   if(file===indexFile)return current(file)!==indexText;
   const pin=parcel226Pins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  if(!pin||sha256(current(file))!==pin.after)return true;
+  if(pin.before===null)return false;
+  if(!reference)return true;
+  try{
+   const before=execFileSync('git',['show',reference+':'+file],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});
+   return sha256(canonicalLf(before))!==pin.before;
+  }catch{return true;}
  });
 }

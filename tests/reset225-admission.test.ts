@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {reset225Arguments} from '../scripts/operations/frankfurt-owner-reset225.mjs';
 import {assertReset225DdlCapability,reset225DdlCapabilitySql} from '../scripts/operations/reset225-ddl-capability.mjs';
-import {assertCleanCounts,cleanSeedCounts} from '../scripts/operations/reset225-foundation.mjs';
+import {assertCleanCounts,assertExternalDependents,cleanSeedCounts} from '../scripts/operations/reset225-foundation.mjs';
 import {reset224Marker,reset225Marker} from '../scripts/operations/reset225-session.mjs';
 
 test('RESET225 requires its own reference and retains the prior unfinished-attempt marker',()=>{
@@ -40,4 +40,13 @@ test('versioned225 protection starts from exact reviewed224 sources without chan
   const source=readFileSync('scripts/operations/'+entry.source,'utf8').replace(/\r\n/gu,'\n');
   assert.equal(createHash('sha256').update(source).digest('hex'),entry.sourceSha256,entry.source);
  }
+});
+
+test('RESET225 and RESET226 keep the exact reviewed storage policy on the same versioned allowlist',()=>{
+ const metadata={class:'pg_policy',schema:'storage',relation:'storage.objects',policy:'ERP staff can read own product image metadata',description:'reviewed metadata policy'};
+ for(const version of [225,226]){
+  assert.doesNotThrow(()=>assertExternalDependents([metadata],version));
+  assert.throws(()=>assertExternalDependents([{...metadata,policy:'unknown'}],version),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/u);
+ }
+ assert.throws(()=>assertExternalDependents([metadata],227),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/u);
 });

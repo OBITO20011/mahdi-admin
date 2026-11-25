@@ -1,3 +1,4 @@
+import {pathsBeforeParcel226} from '../scripts/audit/source-before-parcel226.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync,existsSync} from 'node:fs';
@@ -74,7 +75,7 @@ test('CI inverse preserves literal old sources and old pins; unknown byte,null a
  assert.match(execFileSync(process.execPath,['scripts/testing/build-inventory224-history.mjs','--check'],{encoding:'utf8'}),/"ok":true/u);
  const sql='supabase/migrations/225_on_independent_prices.sql';
  const supabaseChanges=execFileSync('git',['diff','--name-only',baseline,'--','supabase'],{encoding:'utf8'}).trim().split(/\r?\n/u);
- assert.deepEqual(supabaseChanges,[sql]);
+ assert.deepEqual(pathsBeforeParcel226(supabaseChanges),[sql]);
  const sqlSource=readFileSync(sql,'utf8');
  assert.equal(sourceBeforeOnPrices225(sql,sqlSource),null);
  assert.equal(sourceBeforeOnPrices225(sql,sqlSource+'\nUNKNOWN_BYTE'),sqlSource+'\nUNKNOWN_BYTE');

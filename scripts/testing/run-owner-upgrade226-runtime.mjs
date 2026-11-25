@@ -20,9 +20,6 @@ import {upgrade226WithExecutor,run226} from '../operations/frankfurt-owner-upgra
 import {checkRegistration226,pending225Registration} from '../operations/upgrade225-registration.mjs';
 import {read226BackupEvidence,assert226ProtectionComplete} from '../operations/upgrade225-protection.mjs';
 import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
-import {readNotificationSnapshot} from '../operations/frankfurt-notification-hold.mjs';
-import {upgrade220ServerBindingSql} from '../operations/upgrade220-runtime-state.mjs';
-import {manifestDigest,sha256} from './maintenance-db-contract.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
 const project='nawasrah-owner-upgrade226-test',container='supabase_db_'+project,executor=executorFor(['--container',container]);
 const output=await mkdtemp(path.join(process.env.RUNNER_TEMP??tmpdir(),'nawasrah-owner-upgrade226-')),report={output,hostedAccess:false,ok:false,timings:{}};
