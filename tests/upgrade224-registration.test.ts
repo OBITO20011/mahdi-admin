@@ -1,3 +1,4 @@
+import {pathsBeforeParcel226} from '../scripts/audit/source-before-parcel226.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {operationalManifest} from '../scripts/operations/operational-schema.mjs';
@@ -91,7 +92,7 @@ test('historical projection admits only approved registration bytes and preserve
   assert.equal(sourceBeforeUpgradeRegistration(file,current+'\nunknown'),current+'\nunknown',file);
   if(pin.beforeText!==null)assert.equal(pin.beforeText,canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
  }
- const names=pathsBeforeRestoreFrozen220(execFileSync('git',['diff','--name-only',baseline,'--','supabase','scripts/audit'],{encoding:'utf8'}).split(/\r?\n/u).filter(Boolean));
+ const names=pathsBeforeRestoreFrozen220(pathsBeforeParcel226(execFileSync('git',['diff','--name-only',baseline,'--','supabase','scripts/audit'],{encoding:'utf8'}).split(/\r?\n/u).filter(Boolean),baseline));
  const unchangedBefore225=['scripts/audit/run-service-access-diagnostic.mjs','scripts/audit/run-table-access-diagnostic.mjs'];
  for(const file of unchangedBefore225){
   assert.equal(sourceBeforeOnPrices225(file,canonicalLf(readFileSync(file,'utf8'))),canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
