@@ -17,7 +17,7 @@ const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
 // so its literal config, labels, container and cleanup guard always agree.
 const cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const exclude='gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor';
-const docker=(...args)=>exec('docker',args,{windowsHide:true,maxBuffer:32*1024**2});
+const docker=(...args)=>exec('docker',args,{windowsHide:true,timeout:18000,maxBuffer:32*1024**2});
 // CLI start/stop also touches shared Docker/CLI resources. Different TCP ports
 // are insufficient evidence that those commands may overlap. Refuse overlap;
 // never retry a command or delete a crashed process's guard automatically.
@@ -29,7 +29,7 @@ async function cliLease(project){
 }
 export async function startInventory225Local(ceiling,purpose='reference'){
  assert.ok([224,225,226].includes(ceiling),'INVENTORY225_LOCAL_CEILING');
- const projects={reference:'nawasrah-inv225-reference-test',tables:'nawasrah-table-audit-c225-test',services:'nawasrah-service-audit-c225-test',upgrade:'nawasrah-owner-upgrade225-test',reset:'nawasrah-reset225-resume-test'};
+ const projects={reference:'nawasrah-inv225-reference-test',tables:'nawasrah-table-audit-c225-test',services:'nawasrah-service-audit-c225-test',upgrade:'nawasrah-owner-upgrade225-test',upgrade226:'nawasrah-owner-upgrade226-test',reset:'nawasrah-reset225-resume-test'};
  assert.ok(Object.hasOwn(projects,purpose),'INVENTORY225_FIXED_TEST_PURPOSE');
  const project=projects[purpose],container='supabase_db_'+project;
  const manifest=(await operationalManifest()).filter(m=>Number(m.name.slice(0,3))<=ceiling);
@@ -44,7 +44,7 @@ export async function startInventory225Local(ceiling,purpose='reference'){
  await mkdir(path.join(local,'supabase'));
  let config=withIsolatedSupabasePorts(await readFile(path.join(root,'supabase/config.toml'),'utf8'));
  config=config.replace(/^project_id\s*=.*$/mu,'project_id = "'+project+'"');
- const offset={reference:8000,tables:9000,services:7000,upgrade:10000,reset:11000}[purpose];
+ const offset={reference:8000,tables:9000,services:7000,upgrade:10000,upgrade226:10000,reset:11000}[purpose];
  for(const setting of isolatedSupabasePortSettings)config=config.replaceAll(String(setting.port),String(setting.port-offset));
  await waitForDatabasePorts(databasePortsFromConfig(config));
  await writeFile(path.join(local,'supabase/config.toml'),config);
@@ -61,11 +61,11 @@ export async function startInventory225Local(ceiling,purpose='reference'){
  const inspect=async()=>JSON.parse((await docker('inspect',container)).stdout)[0];
  const assertOwned=async()=>{const d=await inspect();assert.equal(d.Id,ownedId);assert.equal(d.Config.Labels['com.supabase.cli.project'],project);assert.equal(path.resolve(d.Config.Labels['com.supabase.cli.workdir']),local);return d;};
  const assertRemoved=async()=>{assert.ok(!(await docker('ps','-a','--format','{{.Names}}')).stdout.split(/\r?\n/u).some(n=>n.endsWith('_'+project)),'INVENTORY225_OWN_CONTAINER_REMAINS');assert.ok(!(await docker('volume','ls','--format','{{.Name}}')).stdout.split(/\r?\n/u).some(n=>n.endsWith('_'+project)),'INVENTORY225_OWN_VOLUME_REMAINS');};
- const stopOwned=async()=>{assert.ok(ownedId,'INVENTORY225_CLEANUP_OWNED_ID_REQUIRED');await assertOwned();await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:16*1024**2});await assertRemoved();};
+ const stopOwned=async()=>{assert.ok(ownedId,'INVENTORY225_CLEANUP_OWNED_ID_REQUIRED');await assertOwned();await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,timeout:65000,maxBuffer:16*1024**2});await assertRemoved();};
  const stop=async()=>{const release=await cliLease(project);try{await stopOwned();}finally{await release();}};
  const release=await cliLease(project);
  try{
-  await exec(process.execPath,[cli,'start','--workdir',local,'--exclude',exclude],{cwd:root,windowsHide:true,maxBuffer:32*1024**2});
+  await exec(process.execPath,[cli,'start','--workdir',local,'--exclude',exclude],{cwd:root,windowsHide:true,timeout:360000,maxBuffer:32*1024**2});
   const d=await inspect();assert.equal(d.Config.Labels['com.supabase.cli.project'],project);assert.equal(path.resolve(d.Config.Labels['com.supabase.cli.workdir']),local);ownedId=d.Id;
   for(const network of Object.keys(d.NetworkSettings.Networks))await docker('network','disconnect',network,container);
   const executor=executorFor(['--container',container]);

@@ -1,5 +1,6 @@
 import {assertResetCeiling as assertReset225Ceiling} from '../scripts/operations/reset225-foundation.mjs';
 import {reset225Arguments} from '../scripts/operations/frankfurt-owner-reset225.mjs';
+import {reset226Arguments} from '../scripts/operations/frankfurt-owner-reset226.mjs';
 import {assertResetCeiling as assertReset224Ceiling} from '../scripts/operations/reset224-foundation.mjs';
 import {reset224Arguments} from '../scripts/operations/frankfurt-owner-reset224.mjs';
 import {assertExternalDependents,assertResetCeiling as assertReset220Ceiling} from '../scripts/operations/reset220-foundation.mjs';
@@ -36,11 +37,12 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
   assert.ok(readFileSync(`scripts/operations/${operationalSchema[key]}.mjs`,'utf8').includes('operationalManifest()'));
  }
  assert.equal(ownerPlan().supportedSchemaCeiling,state.migrationCeiling);assert.equal(ownerPlan().archiveFormatVersion,2);
- const core=readFileSync(`scripts/operations/trial-reset${state.migrationCeiling}-core.mjs`,'utf8');
+ const core=readFileSync('scripts/operations/trial-reset225-core.mjs','utf8');
  assert.ok(core.includes(`const policy${state.migrationCeiling}={ceiling:${state.migrationCeiling},files:${manifest.length},`),'RESET_REBUILD_ADAPTER_MUST_ADVANCE_WITH_MIGRATION');
  assert.ok(readFileSync('scripts/backup/complete-backup.mjs','utf8').match(/assertOperationalHistory\(before.history\)/gu)!.length===2);
- assert.equal(state.migrationCeiling,225);assert.equal(manifest.length,185);
- assert.equal(reset225Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(state.migrationCeiling,226);assert.equal(manifest.length,186);
+ assert.equal(reset226Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset225Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through225-ready.json');
  assert.equal(reset224Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through224-ready.json');
  assert.equal(reset223Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through223-ready.json');
  assert.equal(reset222Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through222-ready.json');
@@ -56,8 +58,10 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
  assert.equal(assertResetCeiling({migrationCeiling:217,manifest,manifestDigest:operationalSchema.manifestSha256}),179);
  assert.throws(()=>assertResetCeiling({migrationCeiling:218,manifest}),/RESET_REFERENCE_CEILING/);
  assert.equal(assertResetCeiling({migrationCeiling:219,manifest:manifest.filter((m:{name:string})=>Number(m.name.slice(0,3))<=219)}),180);
- assert.throws(()=>assertReset225Ceiling({migrationCeiling:225,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
- const prefix224=manifest.slice(0,-1),reference224={migrationCeiling:224,manifest:prefix224,manifestDigest:manifestDigest(prefix224)};
+ assert.throws(()=>assertReset225Ceiling({migrationCeiling:226,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
+ const prefix225=manifest.slice(0,-1),reference225={migrationCeiling:225,manifest:prefix225,manifestDigest:manifestDigest(prefix225)};
+ assert.equal(assertReset225Ceiling(reference225),185);assert.doesNotThrow(()=>assertSupportedResetReference(reference225));
+ const prefix224=manifest.slice(0,-2),reference224={migrationCeiling:224,manifest:prefix224,manifestDigest:manifestDigest(prefix224)};
  assert.equal(assertReset224Ceiling(reference224),184);
  assert.doesNotThrow(()=>assertSupportedResetReference(reference224));
  assert.throws(()=>assertSupportedResetReference({...reference224,manifestDigest:'0'.repeat(64)}),/RESET_HISTORICAL_REFERENCE_MANIFEST_CHANGED/);

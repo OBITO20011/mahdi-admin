@@ -66,6 +66,9 @@ test('226 catalog admission rejects changes beyond the named trigger and two ACL
   const guard = {schema: 'public', table: 'products', name: 'trg_assert_on_parcel_size226', enabled: 'O',
     definition: 'DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION assert_on_parcel_size226_internal()'};
   after.triggers.push(guard);
+  after.constraints.push({schema: 'public', table: 'products', name: 'trg_assert_on_parcel_size226',
+    type: 't', local: true, match: ' ', onDelete: ' ', onUpdate: ' ', noInherit: true, validated: true,
+    deferrable: true, definition: 'TRIGGER DEFERRABLE INITIALLY DEFERRED', inheritanceCount: 0, initiallyDeferred: true});
   assert.doesNotThrow(() => assertParcel226CatalogDelta(before, after));
   guard.enabled = 'D';
   assert.throws(() => assertParcel226CatalogDelta(before, after), /PARCEL226_TRIGGER_ENABLED/);

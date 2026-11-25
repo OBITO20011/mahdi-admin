@@ -47,6 +47,13 @@ export function assertParcel226CatalogDelta(before, after) {
   assert.equal(guards.length, 1, 'PARCEL226_EXACT_TRIGGER');
   assert.equal(guards[0].enabled, 'O', 'PARCEL226_TRIGGER_ENABLED');
   assert.match(guards[0].definition, /DEFERRABLE INITIALLY DEFERRED.*assert_on_parcel_size226_internal\(/u, 'PARCEL226_TRIGGER_DEFINITION');
-  assert.deepEqual({...after, functions, triggers: after.triggers.filter(row => !isGuard(row))},
+  assert.deepEqual(after.constraints.filter(isGuard), [{
+    name: 'trg_assert_on_parcel_size226', type: 't', local: true, match: ' ', table: 'products',
+    schema: 'public', onDelete: ' ', onUpdate: ' ', noInherit: true, validated: true,
+    deferrable: true, definition: 'TRIGGER DEFERRABLE INITIALLY DEFERRED', inheritanceCount: 0,
+    initiallyDeferred: true,
+  }], 'PARCEL226_TRIGGER_CONSTRAINT');
+  assert.deepEqual({...after, functions, constraints: after.constraints.filter(row => !isGuard(row)),
+    triggers: after.triggers.filter(row => !isGuard(row))},
     before, 'PARCEL226_CHANGED_EXISTING_CATALOG');
 }

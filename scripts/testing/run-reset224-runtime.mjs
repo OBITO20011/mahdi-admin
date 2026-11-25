@@ -28,7 +28,7 @@ import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-prob
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 assert.equal(process.argv.length,3,'LOCAL224_REFERENCE_REQUIRED');
-if(operationalSchema.ceiling===225){
+if([225,226].includes(operationalSchema.ceiling)){
  // RESET224 verifies its own complete 688-function document. Run the exact
  // 224 guard at its last shipped source. The only fixture adjustment holds
  // monitoring before the DDL fingerprint probe; all assertions stay literal.
