@@ -1,40 +1,47 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
-  "owner": "claude",
-  "objective": "Owner 2026-11-25: Codex review display fixes A-E (presentation only): COGS-remainder label, shift profit labelled as day profit + refresh with report, sales-history net box ignores-filters note, returned-orders latest-30 note, general Arabic copy; tests, draft PR; merge only after owner OK and 100% green CI.",
-  "baselineSha": "c4eaf0c65a028777992b3dc7289d7df1eef9f028",
-  "branch": "claude/on225-review-display-fixes",
-  "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-24T21:57:09.589Z",
-  "checkpointedAt": "2026-11-24T22:48:39.598Z",
-  "inProgress": [
-    "Owner 2026-11-25: Codex review display fixes A-E (presentation only): COGS-remainder label, shift profit labelled as day profit + refresh with report, sales-history net box ignores-filters note, returned-orders latest-30 note, general Arabic copy; tests, draft PR; merge only after owner OK and 100% green CI."
-  ],
+  "status": "IDLE",
+  "owner": "codex",
+  "objective": "Owner25Nov: read-only reviewPR130 then UTC-midnight audit; documentation-only single-night cutover checklist DraftPR. No app/DB/hosted/demo/merge.",
+  "baselineSha": "7f8108205191dad42f22829a71c9161858498300",
+  "branch": "codex/go-live-night-checklist-20261125",
+  "phase": "ON225_CUTOVER_DOCUMENTATION",
+  "startedAt": "2026-11-25T02:44:56.280Z",
+  "checkpointedAt": "2026-11-25T02:57:04.933Z",
+  "inProgress": [],
   "completed": [
-    "Original financial390 20/20 passed; old flake not naturally reproduced",
-    "Deterministic moving-text RED on both engines, then full financial suite 30/30 green; settled clipping still rejects",
-    "Serialized Git63 test file before all remaining unit files; complete disjoint coverage proved",
-    "2276 unit tests passed: history 5 then remaining 2271; no skips or failures"
+    "Independent read-only PR130 review completed; P3 empty returned-orders panel recorded, no code changes",
+    "UTC midnight issue fixed in4639aa10; current225 literal comparison wiring verified",
+    "75-minute night checklist updated; original SQL and command fences unchanged",
+    "Documentation edit and validation complete; owner review required before any merge"
   ],
-  "notStarted": [
-    "Bounded test infrastructure corrections",
-    "Draft PR and full CI"
-  ],
+  "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
-  "testsRemaining": [],
-  "findings": [],
+  "testsPassed": [
+    "PR130 focused6/6 and10000 independent integer-fils cases",
+    "UTC-midnight and partition-normalization7/7",
+    "Documentation and historical guard28/28",
+    "BASE_CI:7f810820 79success/3skipped/0failed",
+    "Documentation proof:20items/links/SQL-command identity/pin scope"
+  ],
+  "testsRemaining": [
+    "Staged Gitleaks before commit; DraftPR CI after push"
+  ],
+  "findings": [
+    "P3 OrderReturnBadge.tsx:32 hides the panel when returned invoice list is empty; no fix authorized",
+    "No critical financial or permission regression established in PR130",
+    "No hosted/demo/Docker operations; no final cutover references built"
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No demo-server, demo containers, n8n, hosted ERP or original owner file changes",
-    "No assertion weakening, deadline increase or merge"
+    "No primary or Claude worktree writes; no hostedERP,deploy,merge or demo/17944/n8n changes",
+    "No app,SQL,RLS,RPC,financial calculations or historical migration changes"
   ],
-  "nextExactAction": "Draft PR for review display fixes A-E pushed; wait exact-head CI 100% green, show owner, merge only after owner OK. Owner's next modification list goes on this same branch.",
-  "workingTreeFingerprint": "E10BE715FC1B217F1E49CF130FF921B526254BFB3A45495C2EDA89A585A03DBC",
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "d462e229186e3012545b0be26d3beb4416b7f9133add4efcdb22b35b27730f55"
+  "nextExactAction": "Push documentation-only commit and open DraftPR; await owner review, no merge",
+  "workingTreeFingerprint": "0EA4105AC7475EA91F52134DA833D6FFD88B0F6FE1A5579AC077C4163982728D",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "688fd45944c48906595d513d894ab08aa719ab99c6e376b6eb3247bceacaeb41"
 }
