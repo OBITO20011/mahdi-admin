@@ -63,7 +63,7 @@ try{
    const key=[row.script,row.mode,row.phase].filter(Boolean).join(':');
    if(!executed.has(key)){
     const runOffline=cwd=>run(cwd,['--require',guard,row.script,...(row.phase?[row.phase]:[]),row.mode,'--workdir',workdir],'offline-'+path.basename(row.script)+(row.phase??''),{...process.env,NODE_OPTIONS:''});
-    const historicalReset=operationalSchema.ceiling===225&&row.script==='scripts/operations/frankfurt-owner-reset224.mjs';
+    const historicalReset=[225,226].includes(operationalSchema.ceiling)&&row.script==='scripts/operations/frankfurt-owner-reset224.mjs';
     if(historicalReset){assert.equal(row.mode,'--plan');await operationalManifest();}
     const result=historicalReset?await withLegacy224OwnerTools(root,runOffline):await runOffline(root);
     const final=JSON.parse(result.stdout.trim().split(/\r?\n/u).at(-1));assert.equal(final.ok,true,'CUTOVER_OFFLINE_COMMAND_REJECTED:'+key);

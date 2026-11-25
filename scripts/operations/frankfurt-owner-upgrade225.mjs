@@ -16,6 +16,7 @@ import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {persistCatalogComparison} from './frankfurt-catalog-verification.mjs';
 import {registeredBackupPreflight} from './backup-task-preflight.mjs';
 import {operationalManifest,operationalSchema} from './operational-schema.mjs';
+import {assertSupportedUpgrade226} from './supported-upgrades226.mjs';
 import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {captureEvidence} from '../backup/complete-backup.mjs';
 import {read225BackupEvidence,assert225ProtectionComplete} from './upgrade225-protection.mjs';
@@ -148,7 +149,9 @@ export async function run225(args,{preflight=registeredBackupPreflight,manifest=
  const {forward,extra}=upgrade225Arguments(args);let protection;
  if(forward.includes('--apply')||forward.includes('--resume-registration'))await preflight(root);
  if(forward.includes('--verify-only'))protection=await assert225ProtectionComplete({backupFile:extra['--backup-evidence'],restoreFile:extra['--restore-evidence'],upgradeFile:extra['--upgrade-report']});
- await manifest();assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade225','UPGRADE_ADAPTER_NOT_CURRENT');
+ await manifest();
+ if(operationalSchema.ceiling===226)assertSupportedUpgrade226(225);
+ else assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade225','UPGRADE_ADAPTER_NOT_CURRENT');
  const loadBeforeBackup=()=>read225BackupEvidence(extra['--backup-evidence'],224);
  return runOwner(forward,{loadReference:readReady225Reference,referenceName:ready225ReferenceName,
   pipeline:async options=>upgrade225WithExecutor({...options,backupEvidence:await loadBeforeBackup()}),

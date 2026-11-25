@@ -83,7 +83,7 @@ try{
  stage='negative-stale-restore';await assert.rejects(()=>verifyUsing('negative-stale-restore'),/SOURCE_CHANGED_SINCE_RESTORE/u);report.negatives.push('stale-restore');
  };
  await operationalManifest();
- if(operationalSchema.ceiling===225)await withLegacy224OwnerTools(root,async checkout=>{
+ if([225,226].includes(operationalSchema.ceiling))await withLegacy224OwnerTools(root,async checkout=>{
   const historical=await import(pathToFileURL(path.join(checkout,'scripts/operations/frankfurt-owner-upgrade220.mjs')).href);
   await verifyCases(historical.run220);
  });else await verifyCases(run220);

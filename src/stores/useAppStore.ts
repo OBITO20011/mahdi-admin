@@ -44,6 +44,7 @@ import {
   fetchProductsFromSupabase,
   createProductWithOpeningStockInSupabase,
   updateProductInSupabase,
+  updateProductFlavorInSupabase,
   type SupabaseRpcResult,
 } from '../services/supabase/products.service';
 import {readOnPriceContext225,type AccountingPrice225Write} from '../services/supabase/onPrices225.service';
@@ -1225,6 +1226,10 @@ class StoreEngine {
       expectedUpdatedAt: options.expectedUpdatedAt ?? current.updatedAt,
     });
 
+    return this.finishProductUpdate(result, current.nameAr);
+  }
+
+  private async finishProductUpdate(result: SupabaseRpcResult, productName: string) {
     if (!result.success) {
       this.setToast(result.error || 'فشل تحديث المنتج في Supabase.', 'error');
       if (result.errorDetails?.code === 'PRODUCT_EDIT_CONFLICT') {
@@ -1239,7 +1244,7 @@ class StoreEngine {
       this.refreshInventoryMovementsFromSupabase(),
       this.refreshStockNotificationsFromSupabase(),
     ]);
-    this.setToast(result.message || `تم تحديث المنتج ${current.nameAr} بنجاح.`);
+    this.setToast(result.message || `تم تحديث المنتج ${productName} بنجاح.`);
     return result;
   }
 
@@ -1257,15 +1262,41 @@ class StoreEngine {
     const prod = this.state.products.find((p) => p.id === id);
     if (!prod) return { success: false, error: 'المنتج غير موجود.' };
 
-    const updates:Partial<Product>={status:prod.status==='hidden'?'active':'hidden'};
-    try{
-      const mode=await fetchOperatingMode();
-      const pricing=mode.mode==='full'&&mode.installed?await readOnPriceContext225(id):null;
-      if(pricing?.productId===id)return this.updateProduct(id,updates,{
-        expectedUpdatedAt:prod.updatedAt,
-        accountingPrice225:{singlePriceInMinorUnits:Math.round(prod.retailPrice*1000),parcelEnabled:pricing.parcelEnabled},
+    const isActive = prod.status === 'hidden';
+    const updates: Partial<Product> = {
+      status: isActive ? 'active' : 'hidden',
+      parcelOnly: prod.parcelOnly,
+    };
+    const expectedUpdatedAt = prod.updatedAt;
+    try {
+      const mode = await fetchOperatingMode();
+      if (!mode.installed) throw Error('OPERATING_MODE_UNVERIFIED');
+
+      if (prod.flavorMasterProductId) {
+        if (!prod.flavorNameAr?.trim()) throw Error('PRODUCT_FLAVOR_NAME_MISSING');
+        const result = await updateProductFlavorInSupabase({
+          flavorProductId: id,
+          expectedUpdatedAt,
+          flavorNameAr: prod.flavorNameAr,
+          barcode: prod.barcode,
+          isActive,
+        });
+        return this.finishProductUpdate(result, prod.nameAr);
+      }
+
+      if (mode.mode === 'sales-only') {
+        return this.updateProduct(id, updates, {expectedUpdatedAt, independentSalePrice: prod.retailPrice});
+      }
+
+      const pricing = await readOnPriceContext225(id);
+      if (pricing?.productId !== id) throw Error('PRICES225_CAPABILITY_UNVERIFIED');
+      return this.updateProduct(id, updates, {
+        expectedUpdatedAt,
+        accountingPrice225: {
+          singlePriceInMinorUnits: Math.round(prod.retailPrice * 1000),
+          parcelEnabled: pricing.parcelEnabled,
+        },
       });
-      return this.updateProduct(id,updates);
     }catch{
       const error='تعذر التحقق من إعداد الأسعار؛ لم تتغير حالة المنتج.';
       this.setToast(error,'error');

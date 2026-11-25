@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
-import {operationalManifest} from './operational-schema.mjs';
+import {operationalManifestThrough} from './operational-schema.mjs';
+import {sourceBeforeParcel226} from '../audit/source-before-parcel226.mjs';
 import {assertReady224Catalog} from './inventory224-catalog.mjs';
 import {assertReady225CandidateCatalog as assertReady225Catalog,price225Migration as inventory225Migration,assertPrice225Additive as assertInventory225CatalogDelta} from './on-prices225-catalog.mjs';
 import {manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
@@ -67,6 +68,6 @@ export function assertReady225Reference(reference,manifest,proofText,source){
 }
 
 export async function readReady225Reference(root,filename){
- return assertReady225Reference(JSON.parse(await readFile(filename,'utf8')),await operationalManifest(),
-  await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_225.json'),'utf8'),await inventory());
+ return assertReady225Reference(JSON.parse(await readFile(filename,'utf8')),await operationalManifestThrough(225),
+  await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_225.json'),'utf8'),await inventory({projectSource:sourceBeforeParcel226}));
 }

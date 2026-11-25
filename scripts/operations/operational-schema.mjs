@@ -16,6 +16,12 @@ export async function operationalManifest(){
  const manifest=await migrationManifest(root);
  return assertOperationalManifest(manifest);
 }
+export async function operationalManifestThrough(ceiling){
+ assert.ok([operationalSchema.ceiling,...operationalSchema.legacyArchiveCeilings].includes(ceiling),'OPERATIONAL_PREFIX_UNSUPPORTED');
+ const prefix=(await operationalManifest()).filter(unit=>Number(unit.name.slice(0,3))<=ceiling);
+ assert.equal(Number(prefix.at(-1).name.slice(0,3)),ceiling,'OPERATIONAL_PREFIX_MISSING');
+ return prefix;
+}
 export async function assertOperationalHistory(history){
  assert.ok(Array.isArray(history),'OPERATIONAL_HISTORY_REQUIRED');
  const ceiling=Number(history.at(-1));

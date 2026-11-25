@@ -10,7 +10,7 @@ export const reset225CronStatements=Object.freeze([
 ].map(spec=>Object.freeze(spec)));
 export const reset225CronIdentitySql="SELECT coalesce(jsonb_agg(jsonb_build_object('name',e.extname,'version',e.extversion,'schema',n.nspname,'owner',pg_get_userbyid(e.extowner))),'[]') FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace WHERE e.extname='pg_cron';";
 export function reset225CronIdentity(reference){
- assert.equal(reference.migrationCeiling,225,'RESET225_CRON_SCOPE_REQUIRED');
+ assert.ok([225,226].includes(reference.migrationCeiling),'RESET225_CRON_SCOPE_REQUIRED');
  const rows=(reference.catalog?.extensions??[]).filter(e=>e.name==='pg_cron');
  assert.equal(rows.length,1,'RESET225_CRON_REFERENCE_REQUIRED');
  const {name,version,schema,owner}=rows[0];
@@ -52,6 +52,7 @@ export function guardedReset225CronUnits(units,reference){
  return {units:prepared,replaced,identity};
 }
 export async function verifyReset225MigrationManifest(root,reference){
- const actual=assertOperationalManifest(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=225);assert.deepEqual(actual,reference.manifest,'RESET225_FINAL_MIGRATION_SOURCE_CHANGED');
+ assert.ok([225,226].includes(reference.migrationCeiling),'RESET225_CRON_SCOPE_REQUIRED');
+ const actual=assertOperationalManifest(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=reference.migrationCeiling);assert.deepEqual(actual,reference.manifest,'RESET225_FINAL_MIGRATION_SOURCE_CHANGED');
  return {files:actual.length,manifestDigest:sha256(JSON.stringify(actual)),namesAndHashesUnchanged:true};
 }

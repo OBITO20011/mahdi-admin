@@ -41,7 +41,7 @@ export async function buildReady224Reference(args){
  const output=capture.output,read=name=>readFile(path.join(output,name+'.json'),'utf8').then(JSON.parse);
  assert.deepEqual(await read('fresh-incremental-differences'),[]);
  let manifest=await operationalManifest();
- if(operationalSchema.ceiling===225){assertSupportedUpgrade225(224);manifest=manifest.filter(unit=>Number(unit.name.slice(0,3))<=224);}
+ if([225,226].includes(operationalSchema.ceiling)){assertSupportedUpgrade225(224);manifest=manifest.filter(unit=>Number(unit.name.slice(0,3))<=224);}
  assert.equal(capture.manifestSha256,manifestDigest(manifest));
  const versionHistory=manifest.map(m=>m.name.slice(0,3));
  const prefix=(captured,versions)=>({...captured,catalogSha256:sha256(JSON.stringify(captured.catalog)),appliedVersions:versions});

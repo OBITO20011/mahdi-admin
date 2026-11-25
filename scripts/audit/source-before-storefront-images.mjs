@@ -1,3 +1,4 @@
+import {pathsBeforeParcel226} from './source-before-parcel226.mjs';
 import{sourceBeforeCartFlight,restoreCartFlightHashes,pathsBeforeCartFlight}from'./source-before-cart-flight.mjs';
 // Frozen history only. Current runtime diagnostics never project these sources.
 import {readFileSync} from 'node:fs';
@@ -17,7 +18,7 @@ export function sourceBeforeStorefrontImages(file,text){
 export function restoreStorefrontImagesHashes(rows){return restoreCartFlightHashes(rows).flatMap(row=>{
  const pin=entries[row.file];return !pin||pin.after!==row.sha256?[row]:pin.before===null?[]:[{...row,sha256:pin.before}];
 });}
-export function pathsBeforeStorefrontImages(files,reference){return pathsBeforeCartFlight(files,reference).filter(file=>{
+export function pathsBeforeStorefrontImages(files,reference){return pathsBeforeCartFlight(pathsBeforeParcel226(files,reference),reference).filter(file=>{
  if(!entries[file])return true;
  const before=sourceBeforeStorefrontImages(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));if(before===null)return false;if(!reference)return true;
  try{return hash(execFileSync('git',['show',reference+':'+file],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}))!==hash(before);}catch{return true;}

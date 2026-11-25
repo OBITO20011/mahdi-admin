@@ -4,40 +4,46 @@ import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {executeInput} from './build-empty-supabase.mjs';
 import {frozen220TriggerAclProfile,hasFrankfurt220TriggerAcl} from './frozen220-trigger-acl.mjs';
-import {operationalManifest} from './operational-schema.mjs';
+import {operationalManifestThrough} from './operational-schema.mjs';
 import {canonicalLf,canonicalDefinitionLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
+import {sourceBeforeParcel226} from '../audit/source-before-parcel226.mjs';
 
 const root=path.resolve(import.meta.dirname,'../..');
 const publicFunctions=catalog=>catalog.functions.filter(row=>row.schema==='public');
 
-export async function functionReference225(executor,reference,beforeCatalog){
+export const functionReference225=(executor,reference,beforeCatalog)=>functionReference(executor,reference,beforeCatalog,225,705);
+export const functionReference226=(executor,reference,beforeCatalog)=>functionReference(executor,reference,beforeCatalog,226,707);
+async function functionReference(executor,reference,beforeCatalog,ceiling,count){
+ const reset='RESET'+ceiling;
+ const changed='CURRENT'+ceiling+'_FUNCTION_REFERENCE_CHANGED';
  const source=await readFile(path.join(root,'scripts/testing/generate-db-functions.mjs'),'utf8');
  const query=source.match(/const query = `(BEGIN READ ONLY;[\s\S]+?ROLLBACK;)`;/u)?.[1];
  assert.ok(query&&query.includes("n.nspname='public'")&&!query.includes('${'));
  const response=await executeInput(executor,query);
- assert.equal(response.code,0,'FUNCTION_REFERENCE225_READ_FAILED');
+ assert.equal(response.code,0,'FUNCTION_REFERENCE'+ceiling+'_READ_FAILED');
  const functions=JSON.parse(response.stdout.trim()).map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}));
- assert.equal(functions.length,705,'EXACT225_PUBLIC_FUNCTIONS_REQUIRED');
- const expected=await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8');
+ assert.equal(functions.length,count,'EXACT'+ceiling+'_PUBLIC_FUNCTIONS_REQUIRED');
+ const file='docs/generated/DB_FUNCTIONS.md',current=await readFile(path.join(root,file),'utf8');
+ const expected=ceiling===225?sourceBeforeParcel226(file,current):current;
  const preservedFunctions=publicFunctions(beforeCatalog);
  const preservedByIdentity=new Map(preservedFunctions.map(row=>[row.identity,row]));
  const referenceAcls=new Map(publicFunctions(reference.catalog).map(row=>[row.identity,row.acl]));
- assert.equal(preservedByIdentity.size,functions.length,'RESET225_FINAL_FUNCTION_ACL_SNAPSHOT_MISMATCH');
- assert.equal(referenceAcls.size,functions.length,'RESET225_FINAL_FUNCTION_ACL_REFERENCE_MISMATCH');
+ assert.equal(preservedByIdentity.size,functions.length,reset+'_FINAL_FUNCTION_ACL_SNAPSHOT_MISMATCH');
+ assert.equal(referenceAcls.size,functions.length,reset+'_FINAL_FUNCTION_ACL_REFERENCE_MISMATCH');
  const verified=functions.map(row=>{
   const preserved=preservedByIdentity.get(row.identity);
-  assert.ok(preserved&&referenceAcls.has(row.identity),'CURRENT225_FUNCTION_REFERENCE_CHANGED');
+  assert.ok(preserved&&referenceAcls.has(row.identity),changed);
   const referenceAcl=referenceAcls.get(row.identity);
   const matchesReference=isDeepStrictEqual(preserved.acl,referenceAcl);
-  assert.ok(matchesReference||hasFrankfurt220TriggerAcl(preserved),'RESET225_FINAL_FUNCTION_ACL_UNAPPROVED:'+row.identity);
-  assert.ok(isDeepStrictEqual(row.acl,preserved.acl),'RESET225_FINAL_FUNCTION_ACL_CHANGED:'+row.identity);
+  assert.ok(matchesReference||hasFrankfurt220TriggerAcl(preserved),reset+'_FINAL_FUNCTION_ACL_UNAPPROVED:'+row.identity);
+  assert.ok(isDeepStrictEqual(row.acl,preserved.acl),reset+'_FINAL_FUNCTION_ACL_CHANGED:'+row.identity);
   return matchesReference?row:{...row,acl:referenceAcl};
  });
  // Validate the complete profiles using the raw rows, before comparing the projected reference.
  const restoredFunctions=functions.map(({identity,owner,acl})=>({schema:'public',identity,owner,acl}));
  assert.equal(frozen220TriggerAclProfile(restoredFunctions),frozen220TriggerAclProfile(preservedFunctions),
-  'RESET225_FINAL_FUNCTION_ACL_PROFILE_CHANGED');
- assert.ok(renderFunctionReference(await operationalManifest(),verified)===canonicalLf(expected),
-  'CURRENT225_FUNCTION_REFERENCE_CHANGED');
+  reset+'_FINAL_FUNCTION_ACL_PROFILE_CHANGED');
+ assert.ok(renderFunctionReference(await operationalManifestThrough(ceiling),verified)===canonicalLf(expected),
+  changed);
  return functions.length;
 }

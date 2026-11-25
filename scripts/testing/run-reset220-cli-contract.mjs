@@ -9,7 +9,7 @@ for(const args of [['--apply'],['--resume'],['--dry-run'],['--owner-id','not-uui
 assert.ok(process.argv[2],'LOCAL220_REFERENCE_REQUIRED');const workdir=await mkdtemp(path.join(tmpdir(),'nawasrah-reset220-offline-'));
 await operationalManifest();
 const runPlan=cwd=>exec(process.execPath,['scripts/operations/frankfurt-owner-reset220.mjs','--plan','--reference',path.resolve(process.argv[2]),'--workdir',workdir],{cwd,windowsHide:true});
-const r=operationalSchema.ceiling===225?await withLegacy224OwnerTools(root,runPlan):await runPlan(root);
+const r=[225,226].includes(operationalSchema.ceiling)?await withLegacy224OwnerTools(root,runPlan):await runPlan(root);
 const result=JSON.parse(r.stdout.trim());assert.equal(result.ok,true);assert.equal(result.networkAccess,false);
 const report=JSON.parse(await readFile(path.join(result.output,'report.json'),'utf8'));assert.equal(report.migrationCeiling,220);assert.equal(report.migrations,181);assert.equal(report.remoteWriteAttempted,false);assert.equal(report.exactCountsAvailable,false);assert.equal(report.reference.name,'local-reference-through220-ready.json');
 console.log(JSON.stringify({ok:true,offline:true,tests:12,migrations:181,output:result.output}));

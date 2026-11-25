@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 225,
+  "migrationCeiling": 226,
   "managedAccess": false,
   "sources": [
     {
@@ -417,7 +417,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "864adbacf0fef022ee919a681a35de2b89eff53455966b6b0476ae0be3593384"
+      "sha256": "3309b005433e3e63d64eabcd1e83618ae479632f1ac1fed7c069eccfaf164b95"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -1053,11 +1053,11 @@
     },
     {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "adbd93a6f43cc38d6c4feb995176db7bdc2625eb9253a061e809f3c9805be8b3"
+      "sha256": "928605a454ceceed0dc0f1044b7efcf83728fcbe2ae98095810887ec6e897086"
     },
     {
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "sha256": "5b9bc3797d469a81cf402875feec89a68776e955056d942c3a3d032a4a8f013c"
+      "sha256": "aeb3cf8d642aefd1f629b21163d22d77b84bd17ab41b02067e21b6db51a545f1"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -1169,7 +1169,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "4913246240bad052d5fb23dc993419117f5698df59786fb188175a2519777d2b"
+      "sha256": "98394d3e7e7e9b11855d7cbc96c652da3bc95644628779e83d4c191ea510fc6c"
     },
     {
       "file": "src/stores/useAuthStore.ts",

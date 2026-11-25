@@ -57,10 +57,10 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
     setBusy(true);setError('');setMessage('');
     try {
       if(!modeVerified)throw new Error('أعد قراءة وضع التشغيل قبل حفظ إعداد الطرد.');
+      const fresh=await fetchAdminProductById(form.familyProductId);
+      if(!fresh||authorization.current.role!=='owner'||!authorization.current.modeVerified||authorization.current.operatingMode!==operatingMode)throw new Error('تعذر التحقق من وضع التشغيل وتعريف المنتج؛ أعد التحميل.');
+      if(form.units!==fresh.unitsPerSalePackage)throw new Error('عدّل عدد الطرد من نموذج المنتج أولاً، ثم أعد تحميل إعداد النكهات.');
       if(salesOnly){
-        const fresh=await fetchAdminProductById(form.familyProductId);
-        if(!fresh||authorization.current.role!=='owner'||!authorization.current.modeVerified||authorization.current.operatingMode!==operatingMode)throw new Error('تعذر التحقق من وضع التشغيل وتعريف المنتج؛ أعد التحميل.');
-        if(form.units!==fresh.unitsPerSalePackage)throw new Error('عدّل عدد الطرد من نموذج المنتج أولاً، ثم أعد تحميل إعداد النكهات.');
         const sameUnit=fresh.baseUnitId===fresh.saleUnitId||fresh.unit?.trim()===fresh.salePackage?.trim();
         if(form.active&&form.units>1&&(sameUnit||unsafeLiteParcelPrice(true,form.units,fresh.salePackagePrice,fresh.retailPrice)))throw new Error(PARCEL_DEFINITION_MESSAGE);
       }
@@ -127,8 +127,8 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
           </select></label>
           {familySearch&&<p className="text-sm text-nw-muted" role="status">{visibleFamilies.length} نتيجة — العائلة المحددة: {product?.nameAr} — {product?.sku}</p>}
           {form && product && <>
-            <label>{salesOnly?'كم '+contentUnit(form.familyProductId)+' بالطرد':'كم حبة بالطرد'}<input readOnly={salesOnly} inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
-            {!salesOnly&&<p className="text-xs text-nw-muted" data-testid="parcel-mix-product-size">{product.unitsPerParcel>1?`طرد هذا المنتج: ${product.unitsPerParcel} ${contentUnit(form.familyProductId)}`:'لا يوجد طرد معرّف لهذا المنتج — اكتب العدد'}</p>}
+            <label>كم {contentUnit(form.familyProductId)} بالطرد<input readOnly inputMode="numeric" enterKeyHint="next" className={inputClass} type="number" value={form.units}/></label>
+            {!salesOnly&&<p className="text-xs text-nw-muted" data-testid="parcel-mix-product-size">اضبط عدد الطرد من نموذج المنتج، ثم أعد تحميل الإعداد.</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">عدد الطرد ووحدته وسعره تُضبط من نموذج المنتج أولاً؛ هذه الشاشة تختار النكهات فقط. بعد تعديل المنتج أعد تحميل الإعداد.</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">لطرد نكهات حقيقي اختر وحدة بيع مختلفة عن وحدة المحتوى. للحفاظ على سعر الوحدة راجع أن سعر الطرد يساوي العدد × سعر الوحدة؛ الحفظ هنا لا يحوّل الأسعار تلقائياً.</p>}
               <div><label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>الطرد المشكّل مفعّل للبيع</label>

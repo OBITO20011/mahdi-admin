@@ -29,10 +29,11 @@ test('a cash refund larger than the drawer is warned once before settlement, nev
  assert.match(wizard,/\{drawer\.warningNode\}/u);
 });
 
-test('mixed parcel count shows the product parcel size or asks for a count',()=>{
+test('mixed parcel count is read-only and follows the product definition',()=>{
  const modal=raw('src/features/more/ParcelConfigurationModal.tsx');
- assert.match(modal,/طرد هذا المنتج: \$\{product\.unitsPerParcel\} \$\{contentUnit\(form\.familyProductId\)\}/u);
- assert.match(modal,/لا يوجد طرد معرّف لهذا المنتج — اكتب العدد/u);
+ assert.match(modal,/<input readOnly[^>]+value=\{form\.units\}/u);
+ assert.match(modal,/اضبط عدد الطرد من نموذج المنتج، ثم أعد تحميل الإعداد/u);
+ assert.match(modal,/form\.units!==fresh\.unitsPerSalePackage/u);
 });
 
 test('owner withdrawals entry scrolls only its own container and flashes the card',()=>{

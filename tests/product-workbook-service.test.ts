@@ -14,7 +14,7 @@ async function fixture(options:{accounting225?:boolean;lossWarning?:boolean}={})
  const client={auth:{getUser:async()=>({data:{user:{id:actor}},error:null})},from:(table:string)=>{const filters:((r:any)=>boolean)[]=[];let single=false,lo=0,hi=Infinity;
  const run=()=>{const rows=tables[table].filter(r=>filters.every(f=>f(r))).slice(lo,hi+1);return{data:single?rows[0]:rows,error:null};};
  const query:any={select:()=>query,order:()=>query,range:(a:number,b:number)=>{lo=a;hi=b;return query;},eq:(key:string,value:any)=>{filters.push(r=>r[key]===value);return query;},limit:(n:number)=>{hi=n-1;return query;},single:()=>{single=true;return query;},then:(resolve:any)=>Promise.resolve(run()).then(resolve)};return query;},rpc:async(name:string,a:any)=>{calls.push({name,args:structuredClone(a)});
- if(name==='get_product_pricing_context225'){assert.equal(a.p_product_id,null);return options.accounting225?
+ if(name==='get_product_pricing_context225'){assert.equal(a.p_product_id,null);return options.accounting225!==false?
   {data:{contractVersion:'on-independent-prices225-v1',mode:'full'},error:null}:
   {data:null,error:{code:'PGRST202',message:'public.get_product_pricing_context225'},status:404};}
  if(name==='create_product_with_opening_stock_v7'&&options.lossWarning&&!a.p_below_cost_confirmation){
@@ -28,7 +28,14 @@ async function fixture(options:{accounting225?:boolean;lossWarning?:boolean}={})
  if(name==='create_product_with_opening_stock_v6'||name==='create_product_with_opening_stock_v7'){const row=create(a,a.p_sku,a.p_name_ar,a.p_barcode||null);if(loseCreate){loseCreate=false;return{data:null,error:{message:'LOCAL_LOST_RESPONSE'}};}return{data:{success:true,product_id:row.id},error:null};}
  if(name==='import_go_live_products_v1'){for(const p of a.p_rows)create({},p.sku,p.name_ar,p.barcode||null);return{data:{success:true},error:null};}
  if(name==='update_product_flavor_v2'){const row=tables.products.find(p=>p.id===a.p_flavor_product_id);assert.equal(row.updated_at,a.p_expected_updated_at);row.barcode=a.p_barcode;row.updated_at=String(++version);if(loseWrite){loseWrite=false;return{data:null,error:{message:'RAW TOKEN'}};}return{data:{success:true},error:null};}
- if((name==='update_product_master_v5'||name==='update_product_master_v6'||name==='update_product_master_v7')){const row=tables.products.find(p=>p.id===a.p_product_id);assert.equal(row.updated_at,a.p_expected_updated_at);if(row.flavor_master_product_id)assert.equal(a.p_parcel_only,null,'inherited method must not be rewritten');for(const[key,value]of Object.entries(a))if(!['p_product_id','p_expected_updated_at','p_image_url'].includes(key)&&!(key==='p_parcel_only'&&value===null))row[key.slice(2)]=value;row.updated_at=String(++version);if(loseWrite&&(row.flavor_master_product_id||name==='update_product_master_v6')){loseWrite=false;return{data:null,error:{message:'RAW'}};}return{data:{success:true},error:null};}throw Error('UNEXPECTED_RPC');}};
+ if(name==='finalize_import_flavor_identity226'){
+  const row=tables.products.find(p=>p.id===a.p_flavor_product_id);
+  assert.ok(row?.flavor_master_product_id);assert.equal(row.updated_at,a.p_expected_updated_at);
+  row.sku=a.p_sku;row.barcode=a.p_barcode;row.updated_at=String(++version);
+  if(loseWrite){loseWrite=false;return{data:null,error:{message:'RAW'}};}
+  return{data:{success:true,productId:row.id},error:null};
+ }
+ if(name==='update_product_master_v6'||name==='update_product_master_v7'){const row=tables.products.find(p=>p.id===a.p_product_id);assert.equal(row.updated_at,a.p_expected_updated_at);if(row.flavor_master_product_id)assert.equal(a.p_parcel_only,null,'inherited method must not be rewritten');for(const[key,value]of Object.entries(a))if(!['p_product_id','p_expected_updated_at','p_image_url'].includes(key)&&!(key==='p_parcel_only'&&value===null))row[key.slice(2)]=value;row.updated_at=String(++version);if(loseWrite&&(row.flavor_master_product_id||name==='update_product_master_v6')){loseWrite=false;return{data:null,error:{message:'RAW'}};}return{data:{success:true},error:null};}throw Error('UNEXPECTED_RPC');}};
  const module={exports:{}};const context=vm.createContext({__DB:client,get navigator(){return{locks:lockMissing?undefined:{request:async(_name:string,_options:unknown,callback:(lock:unknown)=>unknown)=>callback(lockBusy?null:{mode:'exclusive'})}};},get __OWNER(){return owner;},module,exports:module.exports,crypto:webcrypto,TextEncoder,TextDecoder,structuredClone});vm.runInContext((await bundle).outputFiles[0].text,context);
  const api=module.exports as any;const store=new Map<string,string>();const storage:Storage={get length(){return store.size;},key:i=>[...store.keys()][i]??null,getItem:k=>store.get(k)??null,setItem:(k,v)=>{store.set(k,v);},removeItem:k=>{store.delete(k);},clear:()=>store.clear()};
  const barcodeModule={exports:{}};vm.runInContext((await barcodeBundle).outputFiles[0].text,vm.createContext({__DB:client,module:barcodeModule,exports:barcodeModule.exports,crypto:webcrypto,TextEncoder,TextDecoder,structuredClone}));
@@ -37,9 +44,9 @@ async function fixture(options:{accounting225?:boolean;lossWarning?:boolean}={})
 test('adapter actual source completes ordinary row and a family with exact barcode/SKU and preserved inherited method',async()=>{const ordinary=await fixture();await ordinary.api.saveProductWorkbook(plan(),actor,ordinary.storage);assert.equal(ordinary.tables.products.length,1);assert.equal(ordinary.tables.products[0].sku,'TPL');
  const f=await fixture();await f.api.saveProductWorkbook(plan(true),actor,f.storage);const rows=f.tables.products;assert.equal(rows.length,2);assert.equal(rows[0].sku,'TPL');assert.equal(rows[1].sku,'TPL-ليمون');assert.equal(rows[1].barcode,'000123');assert.equal(rows[1].cost_price_in_minor_units,'500');assert.equal(rows[1].default_sale_price_in_minor_units,'9000');assert.ok(f.calls.every(c=>!c.name.includes('inventory')));});
 test('real adapter lost create/finalize responses resume same IDs and create once;completed recheck writes zero',async()=>{
- for(const phase of ['create','finalize']){const f=await fixture();if(phase==='create')f.loseCreate();else f.loseWrite();await assert.rejects(f.api.saveProductWorkbook(plan(true),actor,f.storage));const ids=f.tables.products.map(p=>p.id);await f.api.saveProductWorkbook(plan(true),actor,f.storage);assert.deepEqual(f.tables.products.map(p=>p.id),ids);assert.equal(f.calls.filter(c=>c.name==='create_product_family_with_flavors_v2').length,1);const count=f.calls.length;await f.api.saveProductWorkbook(plan(true),actor,f.storage);assert.equal(f.calls.length,count);}
+ for(const phase of ['create','finalize']){const f=await fixture();if(phase==='create')f.loseCreate();else f.loseWrite();await assert.rejects(f.api.saveProductWorkbook(plan(true),actor,f.storage));const ids=f.tables.products.map(p=>p.id);await f.api.saveProductWorkbook(plan(true),actor,f.storage);assert.deepEqual(f.tables.products.map(p=>p.id),ids);assert.equal(f.calls.filter(c=>c.name==='create_product_family_with_flavors_v2').length,1);const before=f.calls.length;await f.api.saveProductWorkbook(plan(true),actor,f.storage);assert.deepEqual(f.calls.slice(before).map(call=>call.name),['get_product_pricing_context225']);}
 });
-test('wrong actor/owner gate and untrusted errors cannot write or expose raw messages',async()=>{const f=await fixture();await assert.rejects(f.api.saveProductWorkbook(plan(), 'OTHER',f.storage));f.deny();await assert.rejects(f.api.saveProductWorkbook(plan(),actor,f.storage));assert.equal(f.calls.length,0);assert.doesNotMatch(f.api.productImportErrorText(Error('secret token customer 50.000')),/secret|token|50\.000/u);});
+test('wrong actor/owner gate and untrusted errors cannot write or expose raw messages',async()=>{const f=await fixture();await assert.rejects(f.api.saveProductWorkbook(plan(), 'OTHER',f.storage));assert.equal(f.calls.length,0);f.deny();await assert.rejects(f.api.saveProductWorkbook(plan(),actor,f.storage));assert.deepEqual(f.calls.map(call=>call.name),['get_product_pricing_context225']);assert.doesNotMatch(f.api.productImportErrorText(Error('secret token customer 50.000')),/secret|token|50\.000/u);});
 
 
 test('form barcode second phase persists IDs,does not recreate family or change prices,and resumes a lost response once',async()=>{
@@ -93,13 +100,14 @@ test('ON225 resume keeps independent single and parcel prices on ordinary produc
   assert.ok(f.tables.products.every(p=>p.sale_price_in_minor_units==='900'&&p.default_sale_price_in_minor_units==='17000'));
   assert.equal(f.calls.filter(c=>c.name===(family?'create_product_family_with_flavors_v4':'create_product_with_opening_stock_v7')).length,1);
   assert.equal(f.calls.filter(c=>c.name==='update_product_master_v7').length,1);
+  assert.equal(f.calls.filter(c=>c.name==='finalize_import_flavor_identity226').length,family?1:0);
   assert.equal(f.calls.filter(c=>c.name==='import_go_live_products_v1').length,0);
   if(family)assert.equal(f.tables.products[1].barcode,'000123');
  }
 });
 
 test('a loss needs explicit consent before resending exact server confirmation, and an unsupported server never writes',async()=>{
- const older=await fixture();
+ const older=await fixture({accounting225:false});
  await assert.rejects(older.api.saveProductWorkbook(on225plan(),actor,older.storage),/PRODUCT_IMPORT_MODE_CHANGED/);
  assert.deepEqual(older.calls.map(c=>c.name),['get_product_pricing_context225']);
  assert.equal(older.storage.length,0);

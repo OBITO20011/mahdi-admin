@@ -1,13 +1,14 @@
 import {test,expect} from './isolated-test';
 const family='11111111-1111-4111-8111-111111111111',child='22222222-2222-4222-8222-222222222222';
 test('owner saves exact parcel flavor/quantity and must confirm feature activation',async({page})=>{
-  let featureState='OFF';let configuration:unknown=null;let allowedProductIds:string[]=[];let units=5;
+  let featureState='OFF';let configuration:unknown=null;let allowedProductIds:string[]=[];const units=5;
   let writes=0;const context=()=>({featureState,products:[{familyProductId:family,nameAr:'عائلة الاختبار',sku:'D3',isFlavorMaster:true,unitsPerParcel:units,parcelPriceInMinorUnits:10000,
     configuration,allowedProductIds,components:[{productId:family,nameAr:'عائلة الاختبار',sku:'D3',flavorNameAr:null},{productId:child,nameAr:'نكهة الاختبار',sku:'D3-A',flavorNameAr:'نكهة الاختبار'}]}]});
   await page.route('**/rest/v1/rpc/get_admin_parcel_configuration_context_v1',route=>route.fulfill({json:context()}));
+ await page.route('**/rest/v1/rpc/search_admin_products',route=>route.fulfill({json:[{id:family,name_ar:'عائلة الاختبار',units_per_sale_unit:5}]}));
   await page.route('**/rest/v1/rpc/save_product_parcel_configuration_v1',route=>{
-    const body=route.request().postDataJSON();expect(body).toEqual({p_family_product_id:family,p_composition_mode:'configurable_mix',p_is_active:true,p_units_per_parcel:6,p_allowed_product_ids:[child]});
-    writes++;units=6;allowedProductIds=[child];configuration={id:'33333333-3333-4333-8333-333333333333',family_product_id:family,composition_mode:'configurable_mix',is_active:true,configuration_revision:1};
+    const body=route.request().postDataJSON();expect(body).toEqual({p_family_product_id:family,p_composition_mode:'configurable_mix',p_is_active:true,p_units_per_parcel:5,p_allowed_product_ids:[child]});
+    writes++;allowedProductIds=[child];configuration={id:'33333333-3333-4333-8333-333333333333',family_product_id:family,composition_mode:'configurable_mix',is_active:true,configuration_revision:1};
     return route.fulfill({json:{success:true,configuration,unitsPerParcel:units,allowedProductIds}});
   });
   await page.route('**/rest/v1/rpc/set_configurable_parcel_feature_state_v1',route=>{
@@ -16,7 +17,7 @@ test('owner saves exact parcel flavor/quantity and must confirm feature activati
   await page.goto('/e2e/package-d-settings-harness.html');
   await page.getByText('متقدم: حالة الطرد المشكّل',{exact:true}).click();
   await expect(page.getByText('حالة الطرد المشكّل — متوقفة')).toBeVisible();expect(writes).toBe(0);
-  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('الطرد المشكّل مفعّل للبيع',{exact:true}).check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();
+  await expect(page.getByLabel('كم باكيت بالطرد')).toHaveValue('5');await expect(page.getByLabel('كم باكيت بالطرد')).not.toBeEditable();await page.getByLabel('الطرد المشكّل مفعّل للبيع',{exact:true}).check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();
   await page.getByRole('button',{name:'حفظ إعداد الطرد'}).click();await expect(page.getByRole('status')).toHaveText('تم حفظ إعداد الطرد.');
   await page.getByLabel('حالة الميزة',{exact:true}).selectOption('ENABLED');await expect(page.getByRole('button',{name:'تأكيد تغيير حالة الميزة'})).toBeDisabled();expect(writes).toBe(1);
   await page.getByLabel('أؤكد تغيير الحالة إلى مفعّلة للجميع').check();await page.getByRole('button',{name:'تأكيد تغيير حالة الميزة'}).click();
@@ -31,6 +32,7 @@ test('uncertain settings save requires authoritative reload before another mutat
   const data={featureState:'OFF',products:[{familyProductId:family,nameAr:'عائلة',sku:'D3',isFlavorMaster:true,unitsPerParcel:5,parcelPriceInMinorUnits:10000,
     configuration:null,allowedProductIds:[],components:[{productId:child,nameAr:'نكهة',sku:'D3-A',flavorNameAr:'نكهة'}]}]};
   await page.route('**/rest/v1/rpc/get_admin_parcel_configuration_context_v1',route=>route.fulfill({json:data}));
+ await page.route('**/rest/v1/rpc/search_admin_products',route=>route.fulfill({json:[{id:family,name_ar:'عائلة الاختبار',units_per_sale_unit:5}]}));
   await page.route('**/rest/v1/rpc/save_product_parcel_configuration_v1',route=>{writes++;return route.abort('failed');});
   await page.goto('/e2e/package-d-settings-harness.html');
   await page.getByRole('button',{name:'حفظ إعداد الطرد'}).click();await expect(page.getByRole('alert')).toBeVisible();

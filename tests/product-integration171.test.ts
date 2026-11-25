@@ -60,7 +60,7 @@ test('historical171 real evidence has exact current-source query coverage,no err
 test('all frontend RPC callsites exclude unversioned product writers,not only products.service',async()=>{
  const source=await serviceInventory();
  for(const name of ['update_product_master_v3','update_product_flavor_v1'])assert.ok(!source.functionNames.includes(name),name);
- for(const name of ['update_product_master_v5','update_product_flavor_v2','get_product_cost_state_v1','correct_product_cost_v1'])assert.ok(source.functionNames.includes(name),name);
+ for(const name of ['update_product_master_v6','update_product_master_v7','update_product_flavor_v2','get_product_cost_state_v1','correct_product_cost_v1'])assert.ok(source.functionNames.includes(name),name);
  const workflow=readFileSync('.github/workflows/quality.yml','utf8');
  assert.match(workflow,/run-frankfurt-upgrade171-runtime.mjs/u);assert.match(workflow,/Require real application table access through198/u);
 });

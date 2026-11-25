@@ -5,7 +5,8 @@ import {mkdir,readFile,realpath,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {assertReady225Reference,ready225ReferenceName} from './frankfurt-reference225.mjs';
-import {operationalManifest} from './operational-schema.mjs';
+import {operationalManifestThrough} from './operational-schema.mjs';
+import {sourceBeforeParcel226} from '../audit/source-before-parcel226.mjs';
 import {assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {inventory} from '../audit/table-access-inventory.mjs';
 import {manifestDigest,canonicalLf,sha256,canonicalDefinitionLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
@@ -38,7 +39,7 @@ export async function buildReady225Reference(args){
  assert.equal(capture.hostedAccess,false);
  const output=capture.output,read=name=>readFile(path.join(output,name+'.json'),'utf8').then(JSON.parse);
  assert.deepEqual(await read('fresh-incremental-differences'),[]);
- const manifest=await operationalManifest();
+ const manifest=await operationalManifestThrough(225);
  assert.equal(capture.manifestSha256,manifestDigest(manifest));
  const versionHistory=manifest.map(m=>m.name.slice(0,3));
  const prefix=(captured,versions)=>({...captured,catalogSha256:sha256(JSON.stringify(captured.catalog)),appliedVersions:versions});
@@ -47,10 +48,10 @@ export async function buildReady225Reference(args){
   225:prefix(await read('catalog225-incremental'),versionHistory),
  };
  const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_225.json'),'utf8'));
- const proof=JSON.parse(proofText),source=await inventory(),final=prefixes[225];
+ const proof=JSON.parse(proofText),source=await inventory({projectSource:sourceBeforeParcel226}),final=prefixes[225];
  const functions=(await read('public225-functions')).map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}));
  const functionText=canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8'));
- assert.equal(renderFunctionReference(manifest,functions),functionText,'EXACT225_FUNCTION_REFERENCE');
+ assert.equal(renderFunctionReference(manifest,functions),sourceBeforeParcel226('docs/generated/DB_FUNCTIONS.md',functionText),'EXACT225_FUNCTION_REFERENCE');
  const reference={
   format:35,migrationCeiling:225,manifest,manifestDigest:manifestDigest(manifest),...final,prefixes,
   functions:functions.length,postgresVersion:capture.postgresVersion,catalogQuerySha256:sha256(schemaCatalogSql),

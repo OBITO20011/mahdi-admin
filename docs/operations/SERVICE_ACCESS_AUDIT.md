@@ -1,4 +1,4 @@
-# إضافة جرد الخدمات والإعدادات —2026-10-15
+# وصول الخدمات — دليل 226 محلي
 
 ## إضافة التحقيق: RPC وStorage وRealtime والإعدادات خارج migrations
 
@@ -6,17 +6,17 @@
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-248 موضعSDK .rpc و5 موضعRESTGateway،249 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+249 موضعSDK .rpc و5 موضعRESTGateway،249 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة225 محلية جديدة: 771 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛18 رفض42501،165 نجاحمعrollback،588 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة226 محلية جديدة: 768 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛18 رفض42501،165 نجاحمعrollback،585 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
 | الدالة/مصدر الاستدعاء | الدور | EXECUTE محلي / نتائج dispatch |
 |---|---|---|
-| lite1_pos_options2؛src/features/pos/PosView.tsx:192 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_pos_parcel_options225؛src/features/pos/PosView.tsx:193 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:195 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| lite1_pos_options2؛src/features/pos/PosView.tsx:193 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_pos_parcel_options225؛src/features/pos/PosView.tsx:194 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:196 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | report_admin_runtime_incident؛src/lib/errorMonitoring.ts:33 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_push_subscription_status؛src/services/pushNotifications.service.ts:48 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | save_push_subscription؛src/services/pushNotifications.service.ts:107 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -178,18 +178,17 @@
 | create_product_family_with_flavors_v3؛src/services/supabase/products.service.ts:890 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | update_product_flavor_v2؛src/services/supabase/products.service.ts:968 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
 | reorder_product_flavors_v1؛src/services/supabase/products.service.ts:1003 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_product_master_v7؛src/services/supabase/products.service.ts:1089 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
-| update_product_master_v5؛src/services/supabase/products.service.ts:1089 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
-| update_product_master_v6؛src/services/supabase/products.service.ts:1089 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_product_master_v7؛src/services/supabase/products.service.ts:1092 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
+| update_product_master_v6؛src/services/supabase/products.service.ts:1092 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | update_product_master_v7؛src/services/supabase/productWorkbook.service.ts:58 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
 | update_product_master_v6؛src/services/supabase/productWorkbook.service.ts:58 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_product_master_v5؛src/services/supabase/productWorkbook.service.ts:58 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
-| create_product_family_with_flavors_v4؛src/services/supabase/productWorkbook.service.ts:96 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_family_with_flavors_v3؛src/services/supabase/productWorkbook.service.ts:97 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_family_with_flavors_v2؛src/services/supabase/productWorkbook.service.ts:97 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_with_opening_stock_v7؛src/services/supabase/productWorkbook.service.ts:101 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_with_opening_stock_v6؛src/services/supabase/productWorkbook.service.ts:102 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| import_go_live_products_v1؛src/services/supabase/productWorkbook.service.ts:108 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| finalize_import_flavor_identity226؛src/services/supabase/productWorkbook.service.ts:61 | authenticated | owner:22023؛ admin:P0001؛ cashier:P0001 |
+| create_product_family_with_flavors_v4؛src/services/supabase/productWorkbook.service.ts:102 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_family_with_flavors_v3؛src/services/supabase/productWorkbook.service.ts:103 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_family_with_flavors_v2؛src/services/supabase/productWorkbook.service.ts:103 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_with_opening_stock_v7؛src/services/supabase/productWorkbook.service.ts:107 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_with_opening_stock_v6؛src/services/supabase/productWorkbook.service.ts:108 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| import_go_live_products_v1؛src/services/supabase/productWorkbook.service.ts:114 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_promotion_codes؛src/services/supabase/promotions.service.ts:80 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | upsert_promotion_code؛src/services/supabase/promotions.service.ts:102 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_promotion_code_active؛src/services/supabase/promotions.service.ts:145 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -298,6 +297,13 @@
 
 | الدالة | هل يستدعيها التطبيق؟ | ما يُسحب صراحةً / الفعلي فيالمرجع |
 |---|---|---|
+| authorize_admin_ai_assistant_request() | supabase/functions/admin-ai-assistant/index.ts:1017 (authenticated) | anon:EXECUTE؛الفعلي:anon=false, authenticated=true, service_role=false |
+| enforce_customer_for_debt_order() | لا؛trigger function وليستRPCواجهة | anon:EXECUTE, authenticated:EXECUTE؛الفعلي:anon=true, authenticated=true, service_role=true |
+| enforce_product_flavor_inheritance() | لا؛trigger function وليستRPCواجهة | anon:EXECUTE, authenticated:EXECUTE؛الفعلي:anon=false, authenticated=false, service_role=false |
+| guard_cash_shift_closing_report_snapshot() | لا؛trigger function وليستRPCواجهة | anon:EXECUTE, authenticated:EXECUTE؛الفعلي:anon=true, authenticated=true, service_role=true |
+| set_website_new_order_reservation_expiry() | لا؛trigger function وليستRPCواجهة | anon:EXECUTE, authenticated:EXECUTE؛الفعلي:anon=true, authenticated=true, service_role=true |
+| sync_order_payment_state() | لا؛trigger function وليستRPCواجهة | anon:EXECUTE, authenticated:EXECUTE؛الفعلي:anon=true, authenticated=true, service_role=true |
+| sync_product_flavor_commercial_settings() | لا؛trigger function وليستRPCواجهة | anon:EXECUTE, authenticated:EXECUTE؛الفعلي:anon=false, authenticated=false, service_role=false |
 
 authorize_admin_ai_assistant_request تستدعيهاEdge بالمستخدمauthenticated (JWTالمستخدم،لاservice_role). منحةauthenticatedموجودةفيالمرجع؛السحبالقديميخصanonغيرمستخدمهنا. الدوالالستالأخرىtrigger-only:لااستدعاءRPCمنالتطبيق،والمنحالصريحةالزائدةتكرّرPUBLICEXECUTEالقائم. لايجوزتجربتهامباشرةبـSELECTوادعاءأنهاعمليةتريغرحقيقية؛إطلاقهامنوظائفهاداخلDDL/DMLهوالمسارالصحيح.
 
@@ -315,7 +321,7 @@ authorize_admin_ai_assistant_request تستدعيهاEdge بالمستخدمauth
 
 PRODUCT_IMAGE_BUCKET=product-images فيproduct-images.service.ts؛الصوروالأقسامتستخدمالحاويةنفسها. 020_product_image_storage.sql:8–31 ينشئstorage.buckets صراحةً(public=true،5MiB،JPEG/PNG/WebP)،والسياسات:publicread؛upload/update/deleteلـowner/admin/manager/warehouse_keeper وفيfolderauth.uid(). ليسإعداداًيدوياًمفقوداًمنmigrations. getPublicUrl يبنيالرابطمحلياًولايختبرإمكانيةGET. تحققالرفعوالحذفوالـbytesبخدمةStorageنفسها خارجقياسSQLهنا؛لمنشغّلهذاالتكامل.
 
-المحلي: [{"id":"product-images","name":"product-images","public":true,"file_size_limit":5242880,"allowed_mime_types":["image/jpeg","image/png","image/webp"]}]. في catalog-observed توجد 3 سياسات الصور الأربع. **صف bucket في فرانكفورت: غير قابل للتأكيد من اللقطة؛لا صفوف buckets في كتالوج البنية**. وجود جدول storage.buckets أو سياساته لا يثبت وجود صف product-images؛المطلوب فحص Dashboard/لقطة قراءة لاحقة من المالك فقط. لا اتصال من الوكيل.
+المحلي: [{"id":"product-images","name":"product-images","public":true,"file_size_limit":5242880,"allowed_mime_types":["image/jpeg","image/png","image/webp"]}]. في catalog-observed توجد 4 سياسات الصور الأربع. **صف bucket في فرانكفورت: غير قابل للتأكيد من اللقطة؛لا صفوف buckets في كتالوج البنية**. وجود جدول storage.buckets أو سياساته لا يثبت وجود صف product-images؛المطلوب فحص Dashboard/لقطة قراءة لاحقة من المالك فقط. لا اتصال من الوكيل.
 
 ### ج. Realtime — channels وpublication
 
@@ -351,7 +357,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | docs/operations/ENVIRONMENT_SEPARATION_AR.md | 14 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/GO_LIVE_CURRENT_STATE_EVIDENCE.json | 188, 198 | HISTORICAL_DOCUMENTATION |
-| docs/operations/GO_LIVE_CUTOVER_AR.md | 174 | HISTORICAL_DOCUMENTATION |
+| docs/operations/GO_LIVE_CUTOVER_OFF_ARCHIVE_AR.md | 174 | HISTORICAL_DOCUMENTATION |
 | docs/operations/PREHANDOVER_AUDIT_AR.md | 63 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 249 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
@@ -435,4 +441,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على225 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على226 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

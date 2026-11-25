@@ -14,7 +14,7 @@ test('actual1000parent/480flavor mobile preview stays responsive and never write
  await expect(panel).toContainText('تم تطبيع 2 حقلاً وصفياً');await expect(panel).toContainText('براوني نكهة');
  const previewMs=await page.evaluate(()=>performance.now()-(window as any).__scaleStart);
  const t=Date.now();await page.getByLabel('اختبار الاستجابة',{exact:true}).fill('يستجيب');await expect(page.getByLabel('اختبار الاستجابة',{exact:true})).toHaveValue('يستجيب');const interactionMs=Date.now()-t;
- const measured=await page.evaluate(()=>{cancelAnimationFrame((window as any).__scaleFrame);return{rafGapsMs:(window as any).__scaleRaf,writes:(window as any).__scaleCalls.filter((c:any)=>c.name!=='get_go_live_setup_status_v1').length};});expect(measured.writes).toBe(0);
+ const measured=await page.evaluate(()=>{cancelAnimationFrame((window as any).__scaleFrame);return{rafGapsMs:(window as any).__scaleRaf,writes:(window as any).__scaleCalls.filter((c:any)=>!['get_go_live_setup_status_v1','get_product_pricing_context225'].includes(c.name)).length};});expect(measured.writes).toBe(0);
  // Responsiveness evidence, not a substitute for the authenticated8s DB limit.
  expect(interactionMs).toBeLessThan(1500);expect(Math.max(...measured.rafGapsMs)).toBeLessThan(1500);
  await checkLayout(page,page.locator('main'));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

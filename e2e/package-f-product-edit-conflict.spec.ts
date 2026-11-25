@@ -5,7 +5,7 @@ import {test,expect,type Page} from './isolated-test';
 
 const url=(query:string)=>'/e2e/package-f-product-edit-conflict-harness.html?'+query;
 const productId='88888888-8888-4888-8888-000000000001',flavorId='88888888-8888-4888-8888-000000000006';
-type Row={id:string;name_ar:string;default_sale_price_in_minor_units:number;is_active:boolean;flavor_name_ar?:string;barcode?:string;updated_at:string};
+type Row={id:string;name_ar:string;default_sale_price_in_minor_units:number;sale_price_in_minor_units:number;is_active:boolean;flavor_name_ar?:string;barcode?:string;updated_at:string};
 type Call={name:string;args:Record<string,unknown>};
 const db=(page:Page)=>page.evaluate(()=>(window as unknown as {__db:()=>Row[]}).__db());
 const calls=(page:Page,name:string)=>page.evaluate(n=>(window as unknown as {__editCalls:Call[]}).__editCalls.filter(c=>c.name===n),name);
@@ -44,12 +44,12 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     expect((await row(page,productId)).name_ar).toBe('عصير برتقال - تعديل الزميل');
 
     // Tab A still holds the old version: changes the sale price and saves.
-    await page.getByLabel('سعر بيع الطرد').fill('23.5');
+    await page.getByLabel('سعر بيع الطرد').fill('20.5');
     await save(page);
     const panel=page.getByTestId('product-edit-conflict');
     await expect(panel).toBeVisible();
     await expect(panel).toContainText('عدّل مستخدم آخر هذا المنتج قبل قليل');
-    const [refused]=await calls(page,'update_product_master_v5');
+    const [refused]=await calls(page,'update_product_master_v7');
     expect(refused.args.p_expected_updated_at).toBe(opened);
     expect((await row(page,productId)).name_ar,'nothing was overwritten').toBe('عصير برتقال - تعديل الزميل');
     expect((await row(page,productId)).default_sale_price_in_minor_units).toBe(21600);
@@ -64,14 +64,15 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     await panel.getByRole('button',{name:'إعادة تطبيق تعديلاتي'}).click();
     await expect(page.getByTestId('product-edit-reapplied')).toBeVisible();
     await expect(page.getByLabel('اسم المنتج')).toHaveValue('عصير برتقال - تعديل الزميل');
-    await expect(page.getByLabel('سعر بيع الطرد')).toHaveValue('23.5');
+    await expect(page.getByLabel('سعر بيع الطرد')).toHaveValue('20.500');
     await save(page);
     await expect(page.getByTestId('product-edit-closed')).toBeVisible();
     const final=await row(page,productId);
     expect(final.name_ar,'the other user\'s change survives').toBe('عصير برتقال - تعديل الزميل');
-    expect(final.default_sale_price_in_minor_units,'my change is applied').toBe(23500);
-    const saves=await calls(page,'update_product_master_v5');
+    expect(final.default_sale_price_in_minor_units,'my change is applied').toBe(20500);
+    const saves=await calls(page,'update_product_master_v7');
     expect(saves).toHaveLength(2);
+    expect(saves[1].args.p_sale_price_in_minor_units).toBe(900);
     expect(saves[1].args.p_expected_updated_at).not.toBe(opened);
   });
 }
@@ -91,7 +92,7 @@ test('حالة الإخفاء التي غيّرها مستخدم آخر لا ت�
   await expect(page.getByTestId('product-edit-closed')).toBeVisible();
   const final=await row(page,productId);
   expect(final.is_active,'the hidden status from the other user is kept').toBe(false);
-  expect((await calls(page,'update_product_master_v5')).at(-1)?.args.p_is_active).toBe(false);
+  expect((await calls(page,'update_product_master_v7')).at(-1)?.args.p_is_active).toBe(false);
 });
 
 test('تعديل النكهة من تبويبين: الثاني يرى القيم الحالية ويعيد التطبيق دون مسح تعديل الأول',async({page,context})=>{
@@ -122,16 +123,16 @@ for(const width of [390,1440]){
   await expect(section.getByRole('checkbox',{name:/^طرد \(/u})).toBeChecked();await expect(section.getByRole('checkbox',{name:'باكيت مفرد',exact:true})).toBeChecked();
   await expect(page.getByText('مسموح طرد مشكّل بالنكهات',{exact:true})).toHaveCount(0);
   await section.getByRole('checkbox',{name:'باكيت مفرد',exact:true}).uncheck();await save(page);
-  await expect(page.getByTestId('product-edit-closed')).toBeVisible();expect((await calls(page,'update_product_master_v5'))[0].args.p_parcel_only).toBe(true);
+  await expect(page.getByTestId('product-edit-closed')).toBeVisible();expect((await calls(page,'update_product_master_v7'))[0].args.p_parcel_only).toBe(true);
   await page.goto(url('parcelOnly=1'));
   await expect(page.getByRole('checkbox',{name:'باكيت مفرد',exact:true})).not.toBeChecked();
   await page.getByRole('checkbox',{name:'باكيت مفرد',exact:true}).check();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
-  const last=(await calls(page,'update_product_master_v5')).at(-1)!;expect(last.args.p_parcel_only).toBe(false);expect(last.args.p_units_per_sale_unit).toBe(1);expect(last.args.p_units_per_purchase_unit).toBe(1);
+  const last=(await calls(page,'update_product_master_v7')).at(-1)!;expect(last.args.p_parcel_only).toBe(false);expect(last.args.p_units_per_sale_unit).toBe(1);expect(last.args.p_units_per_purchase_unit).toBe(1);
  });
  test('209 at least one sale method prevents RPC '+width,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));
   await page.getByRole('checkbox',{name:'باكيت مفرد',exact:true}).uncheck();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
-  await expect(page.getByRole('alert').filter({hasText:'اختر طريقة بيع واحدة على الأقل'}).first()).toBeVisible();expect(await calls(page,'update_product_master_v5')).toHaveLength(0);
+  await expect(page.getByRole('alert').filter({hasText:'اختر طريقة بيع واحدة على الأقل'}).first()).toBeVisible();expect(await calls(page,'update_product_master_v7')).toHaveLength(0);
  });
  test('209 formed state reads actual owner config and dirty changes disable direct link '+width,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1'));
@@ -146,4 +147,46 @@ for(const width of [390,1440]){
   await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1&role=manager'));
   await expect(page.getByText('السماح بالطرد المشكّل وإعداده للمالك فقط.')).toBeVisible();expect(await calls(page,'get_admin_parcel_configuration_context_v1')).toHaveLength(0);
  });
+}
+
+for (const scenario of [
+  {mode: 'OFF', id: productId, query: 'visibility=off&plain', writer: 'update_product_master_v6'},
+  {mode: 'ON flavor', id: flavorId, query: 'visibility=on&flavorDetail', writer: 'update_product_flavor_v2'},
+]) {
+  test('226 visibility hides and shows without repricing in ' + scenario.mode, async ({page}) => {
+    await page.setViewportSize({width: 390, height: 844});
+    const detailUrl = url('view=detail&' + scenario.query);
+    await page.goto(detailUrl + '&reset=1');
+    const original = await row(page, scenario.id);
+    const beforePrices = [original.sale_price_in_minor_units, original.default_sale_price_in_minor_units];
+    expect(beforePrices).toEqual([1001, 11001]);
+
+    for (const active of [false, true]) {
+      const previous = await row(page, scenario.id);
+      await page.getByRole('button', {name: active ? 'إظهار المنتج' : 'إخفاء المنتج', exact: true}).click();
+      await page.getByRole('button', {name: 'نعم، تأكيد', exact: true}).click();
+      await expect(page.getByTestId('product-edit-closed')).toBeVisible();
+      const [write, ...otherWrites] = await calls(page, scenario.writer);
+      expect(otherWrites).toEqual([]);
+      expect(write.args.p_is_active).toBe(active);
+      expect(write.args.p_expected_updated_at).toBe(previous.updated_at);
+      const saved = await row(page, scenario.id);
+      expect(saved.is_active).toBe(active);
+      expect([saved.sale_price_in_minor_units, saved.default_sale_price_in_minor_units]).toEqual(beforePrices);
+
+      if (scenario.mode === 'OFF') {
+        expect(write.args.p_product_id).toBe(productId);
+        expect(write.args.p_sale_price_in_minor_units).toBe(1001);
+        expect(write.args.p_default_sale_price_in_minor_units).toBe(11001);
+        expect(await calls(page, 'get_product_pricing_context225')).toHaveLength(0);
+      } else {
+        expect(write.args.p_flavor_product_id).toBe(flavorId);
+        expect(write.args.p_barcode).toBe(original.barcode);
+        expect(write.args).not.toHaveProperty('p_sale_price_in_minor_units');
+        expect(await calls(page, 'update_product_master_v7')).toHaveLength(0);
+        expect((await db(page)).find(item => item.id !== flavorId && item.id !== productId)?.is_active).toBe(true);
+      }
+      if (!active) await page.goto(detailUrl);
+    }
+  });
 }

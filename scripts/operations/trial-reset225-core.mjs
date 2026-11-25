@@ -14,7 +14,8 @@ import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from '.
 import {assertManagedCatalog} from './managed-catalog-policy.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {expectedHeld217Notifications,ownerTelegramJob,assertOwner217HeldSettings} from './owner-telegram217-notifications.mjs';
-import {assertCurrentResetReference} from './operational-schema.mjs';
+import {assertCurrentResetReference,assertSupportedResetReference} from './operational-schema.mjs';
+import {assertHeld226Catalog} from './frankfurt-reference226.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset225-session.mjs';
 import {lockAndCheckGuardSql,publicFingerprint} from './reset225-write-guard.mjs';
@@ -38,7 +39,9 @@ export const reset214RetentionRawSql=id=>`WITH retained(v) AS (${reset214Retenti
  SELECT jsonb_object_agg(key,value::text) FROM retained,LATERAL jsonb_each(v);`;
 const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])=>[name,{rows:JSON.parse(text).length,sha256:sha256(text)}]));
 const policy225={ceiling:225,files:185,assertCatalog:catalog=>assertReady225Catalog(catalog,{notificationTriggerEnabled:'D'})};
-export const captureReset225=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy225);};
+const policy226={ceiling:226,files:186,assertCatalog:assertHeld226Catalog};
+export const captureReset225=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy225);};
+export const captureReset226=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy226);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
  await verifyReset225DdlCapability(executor);
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
@@ -83,7 +86,8 @@ export function restoreReset214Sql(rawTables){
 // Durable, sanitized journal: a failure/crash never leaves a successful report.
 // A failed destructive attempt requires restoration of the pre-reset archive,
 // not replay against a partial schema. This is NOT a cross-API transaction.
-export const reset225WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy225);};
+export const reset225WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy225);};
+export const reset226WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy226);};
 async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
  await verifyReset225DdlCapability(executor);
@@ -95,13 +99,13 @@ async function runRetainedReset(options,policy){
   ...(session?{originalAttemptId:session.saved.attemptId,resumedFrom:session.resume?session.previousOutput:null}: {})});persist();
  const report=new Proxy(target,{set(object,key,value){object[key]=value;if(key==='destructiveStarted'&&value===true)object.recoveryRequired=true;if(key==='stage'||key==='destructiveStarted')persist();return true;}});
  try{
-  if(policy.ceiling===225)report.pgCronResetGuard=await verifyExistingReset225Cron(executor,reference);
+  if(policy.ceiling>=225)report.pgCronResetGuard=await verifyExistingReset225Cron(executor,reference);
   report.stage='retention-preflight';
   const state=session?retainedSessionState(session):await captureRetainedReset({executor,ownerId,reference},policy);report.plan=state.plan;
   if(options.expectedPlan)assert.deepEqual(state.plan,options.expectedPlan,'RESET214_PREVIEW_CHANGED');
   assert.equal(state.snapshot.storefront_settings[0].orders_enabled,false,'RESET214_STORE_ORDERS_MUST_BE_DISABLED');
   const r=await executeInput(executor,schemaCatalogSql);assert.equal(r.code,0,'RESET214_CATALOG_READ_FAILED');
-  const catalog=session?.resume?session.saved.catalog:withoutResetGuard(JSON.parse(r.stdout.trim()));policy.assertCatalog(catalog);
+  const catalog=session?.resume?session.saved.catalog:withoutResetGuard(JSON.parse(r.stdout.trim()));policy.assertCatalog(catalog,reference);
   assert.equal(compareApplicationAcl(reference.catalog,catalog).differenceCount,0,'RESET214_APPLICATION_ACL_MISMATCH');
   if(session)await assertNoForeignWrites(executor,session.saved);
   if(session&&!session.resume)assert.deepEqual(await publicFingerprint(executor),session.saved.initialFingerprint,'RESET214_PREVIEW_CHANGED');
@@ -120,7 +124,7 @@ async function runRetainedReset(options,policy){
 async function rebuild214({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={},state,session,policy,boundary=async()=>{}}){
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,reset214SqlFailureCode(r.stderr));return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
- const originalUnits=await resetUnits(root,reference),cronGuard=policy.ceiling===225?guardedReset225CronUnits(originalUnits,reference):null;
+ const originalUnits=await resetUnits(root,reference),cronGuard=policy.ceiling>=225?guardedReset225CronUnits(originalUnits,reference):null;
  const units=cronGuard?.units??originalUnits;if(cronGuard)report.pgCronResetGuard.replaced=cronGuard.replaced;uuid(ownerId);
  Object.assign(report,{stage:'catalog-preflight',applied:[],recorded:[],destructiveStarted:false});
  let before;
@@ -212,10 +216,10 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  const after=await json(schemaCatalogSql);const differences=await writeResetCatalogEvidence(output,before,after,{stage:report.stage});
  assert.deepEqual(differences,[],'RESET_CATALOG_NOT_CLEAN_BUILD');
  assert.equal(compareApplicationAcl(reference.catalog,after).differenceCount,0,'RESET214_FINAL_ACL_MISMATCH');
- policy.assertCatalog(after);
+ policy.assertCatalog(after,reference);
  if(policy.ceiling>=217)await assertOwner217HeldSettings(executor);
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');
- if(policy.ceiling===225)report.migrationSourceProof=await verifyReset225MigrationManifest(root,reference);
+ if(policy.ceiling>=225)report.migrationSourceProof=await verifyReset225MigrationManifest(root,reference);
  await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0,comparisonPolicy:'same-database-literal-all-schemas'});return report;
  }catch(error){await captureResetFailureEvidence({output,before,readAfter:()=>json(schemaCatalogSql),stage:report.stage});throw error;}
 }

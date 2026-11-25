@@ -12,7 +12,9 @@ for(const width of [390,1440]){
   const families=dialog.getByLabel('الصنف / العائلة');await expect(families.locator('option')).toHaveCount(1);
   await expect(families).toHaveValue('88888888-8888-4888-8888-000000000005');
   await expect(dialog).not.toContainText('INV-0001');
-  await expect(dialog.getByLabel('كم حبة بالطرد')).toHaveValue('24');
+  const capacity=dialog.getByLabel(/^كم .+ بالطرد$/u);
+  await expect(capacity).toHaveValue('24');
+  await expect(capacity).toHaveJSProperty('readOnly',true);
   await expect(dialog.getByLabel('حالة الميزة',{exact:true})).toBeHidden();
   await checkLayout(page,dialog);
   await dialog.getByRole('button',{name:'إغلاق',exact:true}).click();
