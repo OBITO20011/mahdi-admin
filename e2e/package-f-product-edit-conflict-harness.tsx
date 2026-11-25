@@ -44,7 +44,7 @@ const snapshot=(row:Row)=>({productId:row.id,updatedAt:row.updated_at,parcelOnly
   description:row.description??null,categoryId:row.category_id,brandId:row.brand_id??null,unitName:(row.base_unit as Row).name_ar,
   purchasePackage:(row.purchase_unit as Row).name_ar,unitsPerPackage:row.units_per_purchase_unit,
   defaultPurchasePriceInMinorUnits:row.default_purchase_price_in_minor_units,salePackage:(row.sale_unit as Row).name_ar,
-  unitsPerSalePackage:row.units_per_sale_unit,salePackagePriceInMinorUnits:row.default_sale_price_in_minor_units,
+  unitsPerSalePackage:row.units_per_sale_unit,salePackagePriceInMinorUnits:row.default_sale_price_in_minor_units,salePriceInMinorUnits:row.sale_price_in_minor_units,
   costPriceInMinorUnits:row.cost_price_in_minor_units,minStockLevel:row.min_stock_level,maxStockLevel:row.max_stock_level??null,
   isActive:row.is_active,flavorNameAr:row.flavor_name_ar??null,imageUrl:row.image_url||null});
 const conflict=(row:Row)=>({data:null,error:{code:'P0001',message:'PRODUCT_EDIT_CONFLICT: عدّل مستخدم آخر هذا المنتج قبل قليل.',
@@ -66,6 +66,10 @@ client.rpc=(name,args={})=>{
   if(name==='get_admin_product_page')return Promise.resolve({data:{products:rows,total_count:rows.length,metrics:{low_stock:0,out_of_stock:0}},error:null});
   // The store's product refresh reads through search_admin_products.
   if(name==='search_admin_products')return Promise.resolve({data:args.p_product_id?rows.filter(r=>r.id===args.p_product_id):rows,error:null});
+  if(name==='get_product_pricing_context225'){
+    const row=rows.find(r=>r.id===args.p_product_id)!;
+    return Promise.resolve({data:{contractVersion:'on-independent-prices225-v1',mode:'full',productId:row.id,requestedProductId:row.id,updatedAt:row.updated_at,parcelEnabled:true,originalUnitPrice:null,originalParcelPrice:null,currentWacInMinorUnitsExact:String(row.cost_price_in_minor_units)},error:null});
+  }
   if(name==='get_product_cost_state_v1'){
     const row=rows.find(r=>r.id===args.p_product_id)!;
     // ?costHistory=1: the product has stock history (receipts) and an exact average.
@@ -82,13 +86,13 @@ client.rpc=(name,args={})=>{
     return Promise.resolve({data:{success:true,idempotentReplay:false,correctionId:'c1',newCostPriceInMinorUnits:Math.round(exact),
       newExactInMinorUnits:exact.toFixed(6)},error:null});
   }
-  if(name==='update_product_master_v5'){
+  if(name==='update_product_master_v7'){
     const row=rows.find(r=>r.id===args.p_product_id)!;
     if(args.p_expected_updated_at!==row.updated_at)return Promise.resolve(conflict(row));
     Object.assign(row,{parcel_only:args.p_parcel_only??row.parcel_only,name_ar:args.p_name_ar,sku:args.p_sku,barcode:args.p_barcode??'',description:args.p_description,
       category_id:args.p_category_id,units_per_purchase_unit:args.p_units_per_purchase_unit,
       default_purchase_price_in_minor_units:args.p_default_purchase_price_in_minor_units,units_per_sale_unit:args.p_units_per_sale_unit,
-      default_sale_price_in_minor_units:args.p_default_sale_price_in_minor_units,cost_price_in_minor_units:args.p_cost_price_in_minor_units,
+      default_sale_price_in_minor_units:args.p_default_sale_price_in_minor_units,sale_price_in_minor_units:args.p_sale_price_in_minor_units,cost_price_in_minor_units:args.p_cost_price_in_minor_units,
       min_stock_level:args.p_min_stock_level,max_stock_level:args.p_max_stock_level,is_active:args.p_is_active,updated_at:nextVersion()});
     save(rows);return Promise.resolve({data:{success:true,productId:row.id,parcelOnly:row.parcel_only,updatedAt:row.updated_at},error:null});
   }

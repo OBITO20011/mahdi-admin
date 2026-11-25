@@ -127,7 +127,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
           </select></label>
           {familySearch&&<p className="text-sm text-nw-muted" role="status">{visibleFamilies.length} نتيجة — العائلة المحددة: {product?.nameAr} — {product?.sku}</p>}
           {form && product && <>
-            <label>كم {contentUnit(form.familyProductId)} بالطرد<input readOnly className={inputClass} type="number" value={form.units}/></label>
+            <label>كم {contentUnit(form.familyProductId)} بالطرد<input readOnly inputMode="numeric" enterKeyHint="next" className={inputClass} type="number" value={form.units}/></label>
             {!salesOnly&&<p className="text-xs text-nw-muted" data-testid="parcel-mix-product-size">اضبط عدد الطرد من نموذج المنتج، ثم أعد تحميل الإعداد.</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">عدد الطرد ووحدته وسعره تُضبط من نموذج المنتج أولاً؛ هذه الشاشة تختار النكهات فقط. بعد تعديل المنتج أعد تحميل الإعداد.</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">لطرد نكهات حقيقي اختر وحدة بيع مختلفة عن وحدة المحتوى. للحفاظ على سعر الوحدة راجع أن سعر الطرد يساوي العدد × سعر الوحدة؛ الحفظ هنا لا يحوّل الأسعار تلقائياً.</p>}

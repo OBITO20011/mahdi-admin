@@ -23,7 +23,7 @@ test('LF maintenance projects only exact reviewed source;historical beforeText a
 });
 
 test('literal222/223/224/225 pins and all current SQL bytes remain LF;preflight invokes the rejecting check',()=>{
- assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:185,invalid:[],code:null});
+ assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:186,invalid:[],code:null});
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
  const approved225=readFileSync('docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql');
  const active225=readFileSync('supabase/migrations/225_on_independent_prices.sql');

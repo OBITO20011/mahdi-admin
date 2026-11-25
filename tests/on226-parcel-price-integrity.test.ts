@@ -76,7 +76,7 @@ test('226 catalog admission rejects changes beyond the named trigger and two ACL
   privateGuard.acl.push('anon=X/postgres');
   assert.throws(() => assertParcel226CatalogDelta(before, after), /PARCEL226_FUNCTION_ACL/);
   privateGuard.acl.pop();
-  const v5 = after.functions.find(row => row.schema === 'public' && row.identity.startsWith('update_product_master_v5('));
+  const v5 = after.functions.find((row: {schema: string; identity: string; definition: string}) => row.schema === 'public' && row.identity.startsWith('update_product_master_v5('));
   assert.ok(v5);
   v5.definition += ' -- changed';
   assert.throws(() => assertParcel226CatalogDelta(before, after), /PARCEL226_CHANGED_EXISTING_CATALOG/);
