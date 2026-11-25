@@ -64,7 +64,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     await panel.getByRole('button',{name:'إعادة تطبيق تعديلاتي'}).click();
     await expect(page.getByTestId('product-edit-reapplied')).toBeVisible();
     await expect(page.getByLabel('اسم المنتج')).toHaveValue('عصير برتقال - تعديل الزميل');
-    await expect(page.getByLabel('سعر بيع الطرد')).toHaveValue('20.5');
+    await expect(page.getByLabel('سعر بيع الطرد')).toHaveValue('20.500');
     await save(page);
     await expect(page.getByTestId('product-edit-closed')).toBeVisible();
     const final=await row(page,productId);
@@ -72,6 +72,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     expect(final.default_sale_price_in_minor_units,'my change is applied').toBe(20500);
     const saves=await calls(page,'update_product_master_v7');
     expect(saves).toHaveLength(2);
+    expect(saves[1].args.p_sale_price_in_minor_units).toBe(900);
     expect(saves[1].args.p_expected_updated_at).not.toBe(opened);
   });
 }

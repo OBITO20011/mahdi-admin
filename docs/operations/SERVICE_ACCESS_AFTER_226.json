@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-25T08:44:05.295Z",
+  "startedAt": "2026-11-25T15:36:20.695Z",
   "migrationCeiling": 226,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-E09mdU",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-OCUaN3",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -419,7 +419,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "86038c632b1a6ae0939a28381a4a83b36f18840bd6c550cc9698a2a4fe72f52c"
+      "sha256": "3309b005433e3e63d64eabcd1e83618ae479632f1ac1fed7c069eccfaf164b95"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -56334,5 +56334,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-25T08:44:30.450Z"
+  "endedAt": "2026-11-25T15:36:47.331Z"
 }

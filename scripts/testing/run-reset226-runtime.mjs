@@ -96,7 +96,11 @@ try{
  await sql("SELECT cron.alter_job(jobid,active:=false) FROM cron.job WHERE jobname='cleanup-guest-order-gateway-requests';");
  const badHoldRows=await publicFingerprint(executor),badHoldReport={};
  await mkdir(path.join(output,'wrong-hold'));
- await assert.rejects(()=>reset226WithExecutor({executor,root,reference,ownerId,output:path.join(output,'wrong-hold'),report:badHoldReport}),/RESET217_DISPATCH_MUST_REMAIN_HELD/);
+ try {
+  await assert.rejects(()=>reset226WithExecutor({executor,root,reference,ownerId,output:path.join(output,'wrong-hold'),report:badHoldReport}),/RESET217_DISPATCH_MUST_REMAIN_HELD/);
+ } finally {
+  report.wrongHold={stage:badHoldReport.failureStage,code:badHoldReport.comparisonCode,location:badHoldReport.failureLocation};
+ }
  assert.equal(badHoldReport.destructiveStarted,false);assert.deepEqual(await publicFingerprint(executor),badHoldRows);
  await sql("SELECT cron.alter_job(jobid,active:=true) FROM cron.job WHERE jobname='cleanup-guest-order-gateway-requests';");
  assert.deepEqual(await readNotificationSnapshot(executor),officialHold);report.cases.push('wrong cron hold refuses before deletion;official217 hold restored');
