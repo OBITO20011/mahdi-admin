@@ -9,6 +9,12 @@ const sha=value=>createHash('sha256').update(value).digest('hex');
 const q=value=>"'"+String(value).replaceAll("'","''")+"'";
 const qi=value=>'"'+String(value).replaceAll('"','""')+'"';
 const hash=/^[a-f0-9]{64}$/u;
+const historyFiles=Object.freeze({225:185,226:186});
+function assertCutoverHistory(history,ceiling,code){
+ assert.ok(Object.hasOwn(historyFiles,ceiling)&&Array.isArray(history)&&history.length===historyFiles[ceiling]
+  &&history.at(-1)===String(ceiling)&&!history.includes('221')
+  &&history.every((version,i)=>/^\d{3}$/u.test(version)&&(!i||version>history[i-1])),code);
+}
 export const editableStageACatalog225=Object.freeze([
  'public.products','public.categories','public.units','public.brands',
  'public.product_sale_pricing_state225','public.product_cost_corrections','public.audit_logs',
@@ -57,11 +63,12 @@ export function applicationTables225(catalog){
 export function stageABaseline225(evidence,backup,archiveSha,stockAlerts){
  assert.equal(backup.ok,true,'STAGE_A_BACKUP_NOT_COMPLETE');
  assert.equal(backup.projectRef,TARGET.id,'STAGE_A_BACKUP_PROJECT');
- assert.equal(backup.historyCeiling,225,'STAGE_A_BACKUP_CEILING');
- assert.equal(backup.historyFiles,185,'STAGE_A_BACKUP_HISTORY');
+ const ceiling=backup.historyCeiling;
+ assert.ok(Object.hasOwn(historyFiles,ceiling),'STAGE_A_BACKUP_CEILING');
+ assert.equal(backup.historyFiles,historyFiles[ceiling],'STAGE_A_BACKUP_HISTORY');
  assert.ok(hash.test(archiveSha)&&archiveSha===backup.sha256,'STAGE_A_ARCHIVE_SHA_MISMATCH');
  assert.equal(backupSourceEvidenceSha256(evidence),backup.sourceEvidenceSha256,'STAGE_A_BACKUP_EVIDENCE_MISMATCH');
- assert.equal(evidence.history.length,185,'STAGE_A_HISTORY');assert.equal(evidence.history.at(-1),'225','STAGE_A_HISTORY');
+ assertCutoverHistory(evidence.history,ceiling,'STAGE_A_HISTORY');
  const all=applicationTables225(evidence.catalog);
  assert.deepEqual(Object.keys(evidence.tables).filter(application).sort(),all,'STAGE_A_TABLE_SCOPE_CHANGED');
  for(const name of all)assert.ok(validFingerprint(evidence.tables[name]),'STAGE_A_FINGERPRINT_INVALID:'+name);
@@ -69,14 +76,15 @@ export function stageABaseline225(evidence,backup,archiveSha,stockAlerts){
  const tables=Object.fromEntries(all.filter(name=>!editableStageACatalog225.includes(name)).map(name=>[name,evidence.tables[name]]));
  assertAlertSnapshot(stockAlerts);
  assert.deepEqual(stockAlerts.full,tables[alertTable],'STAGE_A_ALERT_ARCHIVE_MISMATCH');
- return {format:1,ceiling:225,projectRef:TARGET.id,archiveSha256:archiveSha,backupFinishedAt:backup.finishedAt,
+ return {format:1,ceiling,projectRef:TARGET.id,archiveSha256:archiveSha,backupFinishedAt:backup.finishedAt,
   sourceEvidenceSha256:backup.sourceEvidenceSha256,history:evidence.history,
   applicationTables:all,tables,catalogSha256:sha(JSON.stringify(evidence.catalog)),
   editableCatalog:[...editableStageACatalog225],stockAlerts:structuredClone(stockAlerts),readOnly:true};
 }
 
 export function assertStageABaseline225(baseline){
- assert.equal(baseline.format,1,'STAGE_B_BASELINE_FORMAT');assert.equal(baseline.ceiling,225,'STAGE_B_BASELINE_CEILING');
+ assert.equal(baseline.format,1,'STAGE_B_BASELINE_FORMAT');
+ assertCutoverHistory(baseline.history,baseline.ceiling,'STAGE_B_BASELINE_HISTORY');
  assert.equal(baseline.projectRef,TARGET.id,'STAGE_B_BASELINE_PROJECT');
  assert.ok(hash.test(baseline.archiveSha256)&&hash.test(baseline.sourceEvidenceSha256),'STAGE_B_BASELINE_HASH');
  assert.deepEqual(baseline.editableCatalog,[...editableStageACatalog225],'STAGE_B_EDITABLE_SCOPE_CHANGED');
@@ -104,7 +112,7 @@ export function stageBReadOnlySql225(baseline){
  // Match the official catalog's deparsing context. This changes only the
  // current transaction's search_path, including inside BEGIN READ ONLY;
  // CASE evaluates it before the catalog branch. No stored state is written.
- return `SELECT CASE WHEN set_config('search_path','public,pg_temp',true)='public,pg_temp' THEN jsonb_build_object('format',1,'ceiling',225,'capturedAt',clock_timestamp(),
+ return `SELECT CASE WHEN set_config('search_path','public,pg_temp',true)='public,pg_temp' THEN jsonb_build_object('format',1,'ceiling',${baseline.ceiling},'capturedAt',clock_timestamp(),
  'catalog',(${catalogQuery}),
  'history',(SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations),
  'modeOn',(SELECT count(*)=1 AND bool_and(full_accounting) FROM sales_lite1.mode),
@@ -124,7 +132,7 @@ export function stageBReadOnlySql225(baseline){
 
 export function verifyStageB225(baseline,observed){
  assertStageABaseline225(baseline);
- assert.equal(observed.format,1,'STAGE_B_OBSERVED_FORMAT');assert.equal(observed.ceiling,225,'STAGE_B_OBSERVED_CEILING');
+ assert.equal(observed.format,1,'STAGE_B_OBSERVED_FORMAT');assert.equal(observed.ceiling,baseline.ceiling,'STAGE_B_OBSERVED_CEILING');
  assert.deepEqual(observed.history,baseline.history,'STAGE_B_HISTORY_CHANGED');
  assert.equal(sha(JSON.stringify(observed.catalog)),baseline.catalogSha256,'STAGE_B_CATALOG_CHANGED');
  assert.equal(observed.modeOn,true,'STAGE_B_MODE_MUST_BE_ON');

@@ -31,6 +31,11 @@ files.push(
  "docs/agent/project-state.json",
 );
 files.push(...[
+  "docs/operations/GO_LIVE_CUTOVER_AR.md",
+  "scripts/operations/two-stage225.mjs",
+  "scripts/operations/two-stage225-cli.mjs",
+  "scripts/operations/two-stage225-backup.ps1",
+  "scripts/operations/on-opening225/cli.ts",
   "scripts/operations/frankfurt-owner-reset226.mjs",
   "scripts/operations/frankfurt-owner-upgrade226.mjs",
   "scripts/operations/frankfurt-reference226.mjs",
