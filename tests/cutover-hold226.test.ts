@@ -19,9 +19,12 @@ const cleanup='cleanup-guest-order-gateway-requests';
 
 test('the current owner command requires 226 and both protection files for RESET transition',async()=>{
  const plan=await runCutoverHold225(['--hold-reset','--plan']);
+ assert.ok('historyCeiling' in plan&&'networkAccess' in plan);
  assert.equal(plan.historyCeiling,226);
  assert.equal(plan.networkAccess,false);
- assert.equal((await runCutoverHold225(['--hold-upgrade','--plan'])).historyCeiling,220);
+ const upgradePlan=await runCutoverHold225(['--hold-upgrade','--plan']);
+ assert.ok('historyCeiling' in upgradePlan);
+ assert.equal(upgradePlan.historyCeiling,220);
  assert.throws(()=>parseCutoverHoldArgs(['--hold-reset','--apply','--verify-report','proof']),/RESET_BACKUP226_EVIDENCE_REQUIRED/u);
  assert.throws(()=>parseCutoverHoldArgs(['--hold-reset','--verify','--backup-evidence','backup']),/RESET_BACKUP226_EVIDENCE_REQUIRED/u);
  assert.equal(parseCutoverHoldArgs(['--hold-reset','--dry-run','--verify-report','proof','--backup-evidence','backup']).mode,'dry-run');
@@ -63,8 +66,11 @@ test('current RESET hold accepts exact 226 and refuses older, missing, duplicate
   assert.equal(history.length,186);assert.equal(history.includes('221'),false);
   assert.equal((await run(history,{mode:'dry-run'})).before?.historyCeiling,226);
   const accepted=await run(history);
+  assert.ok('noOp' in accepted);
   assert.equal(accepted.noOp,true);assert.equal(accepted.remoteWriteAttempted,false);
-  assert.equal((await run(history,{mode:'verify'})).historyFiles,186);
+  const verified=await run(history,{mode:'verify'});
+  assert.ok('historyFiles' in verified);
+  assert.equal(verified.historyFiles,186);
   for(const bad of [history.slice(0,181),history.slice(0,184),history.slice(0,185),
    [...history.slice(0,25),...history.slice(26)], [...history,'227'],
    [...history.slice(0,183),'221','225','226'],[...history.slice(0,185),'225']]){
@@ -74,6 +80,7 @@ test('current RESET hold accepts exact 226 and refuses older, missing, duplicate
   await writeFile(verification,JSON.stringify({...report,targetCeiling:225}));
   await assert.rejects(()=>run(history),/CUTOVER_HOLD_VERIFIED_226_REQUIRED/u);
   const legacy=await run(history.slice(0,185),{resetCeiling:225,expected:{...reference,appliedVersions:history.slice(0,185)}});
+  assert.ok('historyCeiling' in legacy);
   assert.equal(legacy.historyCeiling,225);
   await writeFile(verification,JSON.stringify({...report,protection:{...report.protection,afterArchiveSha256:'b'.repeat(64)}}));
   await assert.rejects(()=>run(history),/CUTOVER_HOLD_BACKUP226_ARCHIVE_CHANGED/u);

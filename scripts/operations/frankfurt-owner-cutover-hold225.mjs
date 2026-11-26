@@ -182,6 +182,8 @@ function transitionSql(before,phase){
 
 // Historical 225 proofs use this executor directly. The current owner command
 // explicitly selects its operational ceiling, with no owner override.
+/** @param {{executor: Parameters<typeof executeInput>[0], reference: any, phase: string, mode: string,
+ * evidenceFile: string, verification?: string|null, backupEvidence?: string|null, resetCeiling?: number}} options */
 export async function cutoverHoldWithExecutor({executor,reference,phase,mode,evidenceFile,verification=null,backupEvidence=null,resetCeiling=225}){
  assert.ok([225,226].includes(resetCeiling),'CUTOVER_HOLD_RESET_CEILING_UNSUPPORTED');
  assert.ok(['upgrade','reset'].includes(phase)&&['dry-run','apply','verify'].includes(mode),'CUTOVER_HOLD_INVALID_MODE');
