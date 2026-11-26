@@ -2,13 +2,15 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Owner-approved storefront search responsiveness, HTTP cancellation, tests, local benchmark and draft PR",
-  "baselineSha": "16a5f18db1df96f4e63bfd38ed68ed0ff439b98f",
-  "branch": "codex/storefront-search-speed",
-  "phase": "ON226_PARCEL_INTEGRITY",
-  "startedAt": "2026-11-26T16:49:08.553Z",
-  "checkpointedAt": "2026-11-26T17:29:50.327Z",
-  "inProgress": [],
+  "objective": "Local developer-only availability checks and backup recovery study",
+  "baselineSha": "dad65b50953d16e47a61153d11bad3b4ba9ea658",
+  "branch": "codex/fast-down-alert",
+  "phase": "FAST_DOWN_ALERT",
+  "startedAt": "2026-11-26T23:34:39.006Z",
+  "checkpointedAt": "2026-11-26T23:56:54.734Z",
+  "inProgress": [
+    "Local developer-only availability checks and backup recovery study"
+  ],
   "completed": [
     "Bound search results to the latest input, connected browser cancellation to the existing catalog reads, and kept a trailing debounce at 200 ms.",
     "Verified mobile Chromium and WebKit searches and regenerated current local access evidence.",
@@ -19,25 +21,23 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Customer lint and 242 unit tests",
-    "Mobile Chromium and WebKit search tests 4/4",
-    "Browser case partition",
-    "Admin lint",
-    "226 local access: 193 table and 768 service probes",
-    "Isolated Lighthouse mobile comparison: three rounds",
-    "Offline historical projection for 222 and 223"
+    "25 local monitoring tests, including Windows DPAPI and child-only environment",
+    "strict TypeScript check for both test files",
+    "Gitleaks zero in the alert files"
   ],
   "testsRemaining": [
-    "Exact-head GitHub quality and secret scanning"
+    "Claude confirms full CI and owner activates the task after merge"
   ],
-  "findings": [],
+  "findings": [
+    "No task registered, ProgramData settings unchanged, no real Telegram"
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted ERP access, deployment, merge, demo reset, Docker restart, final freeze or M01 change."
   ],
-  "nextExactAction": "Verify full exact-head GitHub CI, share the existing local search benchmark, and await owner review in the open draft.",
-  "workingTreeFingerprint": "160479ED9DA2916B1A9A5CB717F933B869D1DAD4E3C9EFEA9F60B407BD4E972A",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "b7517470b1bfe87ecb67cb4b2f56cbb495ba3a8b727f19db38047cc1d2783564"
+  "nextExactAction": "Claude reviews the ready pull request and merges only after full green CI; owner activates the Windows task separately.",
+  "workingTreeFingerprint": "9B821B3CAE896E667D7E04F3679170D5B167E403DDF819685ECE9D53F183AFC4",
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "27f9b3c71f30779e2ad0e558a9190a759a48fa2f5c8c42b9c29c3e81ef99c8aa"
 }

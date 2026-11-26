@@ -2,16 +2,40 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "scripts/audit/source-before-storefront-search.mjs"
+      "code": "A ",
+      "path": "docs/operations/FAST_DOWN_ALERT_AR.md"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/storefront-search-source-pins.json"
+      "code": "A ",
+      "path": "scripts/monitoring/fast-down-alert-windows.ps1"
     },
     {
-      "code": "??",
-      "path": "tests/storefront-search-history.test.ts"
+      "code": "A ",
+      "path": "scripts/monitoring/fast-down-alert.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/monitoring/register-fast-down-alert.ps1"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/monitoring/run-fast-down-alert.ps1"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/test-fast-down-alert-windows.ps1"
+    },
+    {
+      "code": "A ",
+      "path": "tests/fast-down-alert-windows.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/fast-down-alert.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
     }
   ]
 }
