@@ -9,6 +9,7 @@ const indexFile = 'scripts/audit/storefront-search-source-pins.json';
 const current = file => canonicalLf(readFileSync(new URL('../../' + file, import.meta.url), 'utf8'));
 const indexText = current(indexFile);
 const index = JSON.parse(indexText);
+assert.equal(index.format, 1);
 assert.equal(index.baseline, storefrontSearchBaseline);
 export const storefrontSearchPins = index.entries;
 const originals = new Map();
@@ -27,7 +28,12 @@ export function sourceBeforeStorefrontSearch(file, text) {
   if (!pin || sha256(canonicalLf(text)) !== pin.after) return text;
   if (pin.before === null) return null;
   if (!originals.has(file)) {
-    const original = fromGit(storefrontSearchBaseline, file);
+    // Dry-run references also use this view with child processes forbidden.
+    const lines = canonicalLf(text).split('\n');
+    for (const {start, afterCount, beforeLines} of pin.inverse.toReversed()) {
+      lines.splice(start, afterCount, ...beforeLines);
+    }
+    const original = lines.join('\n');
     assert.equal(sha256(original), pin.before, 'STOREFRONT_SEARCH_HISTORY_BASELINE_DRIFT:' + file);
     originals.set(file, original);
   }

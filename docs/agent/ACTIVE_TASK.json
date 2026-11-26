@@ -7,11 +7,12 @@
   "branch": "codex/storefront-search-speed",
   "phase": "ON226_PARCEL_INTEGRITY",
   "startedAt": "2026-11-26T16:49:08.553Z",
-  "checkpointedAt": "2026-11-26T17:11:41.556Z",
+  "checkpointedAt": "2026-11-26T17:29:50.327Z",
   "inProgress": [],
   "completed": [
     "Bound search results to the latest input, connected browser cancellation to the existing catalog reads, and kept a trailing debounce at 200 ms.",
-    "Verified mobile Chromium and WebKit searches and regenerated current local access evidence."
+    "Verified mobile Chromium and WebKit searches and regenerated current local access evidence.",
+    "Measured three isolated Lighthouse search rounds and repaired the exact history projection so it works with subprocesses denied."
   ],
   "notStarted": [],
   "filesTouched": [
@@ -22,11 +23,12 @@
     "Mobile Chromium and WebKit search tests 4/4",
     "Browser case partition",
     "Admin lint",
-    "226 local access: 193 table and 768 service probes"
+    "226 local access: 193 table and 768 service probes",
+    "Isolated Lighthouse mobile comparison: three rounds",
+    "Offline historical projection for 222 and 223"
   ],
   "testsRemaining": [
-    "Exact-head GitHub quality and secret scanning",
-    "Three isolated Lighthouse mobile search rounds"
+    "Exact-head GitHub quality and secret scanning"
   ],
   "findings": [],
   "blockers": [],
@@ -34,8 +36,8 @@
   "prohibitions": [
     "No hosted ERP access, deployment, merge, demo reset, Docker restart, final freeze or M01 change."
   ],
-  "nextExactAction": "Keep the storefront search PR in draft, verify full exact-head CI and compare the three mobile Lighthouse rounds, then await owner review.",
-  "workingTreeFingerprint": "7CD24A354D7D28A73C29C3EE841A64057EE920353A2E10521DEBED4840194DC5",
-  "filesTouchedCount": 20,
-  "filesTouchedManifestSha256": "1800499ccb18518b5ebfb823d5bd924dad858917bcdbab8f6368ebb48bc1b125"
+  "nextExactAction": "Verify full exact-head GitHub CI, share the existing local search benchmark, and await owner review in the open draft.",
+  "workingTreeFingerprint": "160479ED9DA2916B1A9A5CB717F933B869D1DAD4E3C9EFEA9F60B407BD4E972A",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "b7517470b1bfe87ecb67cb4b2f56cbb495ba3a8b727f19db38047cc1d2783564"
 }
