@@ -3,6 +3,8 @@ import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 
+import {sourceBeforeStorefrontSearch,restoreStorefrontSearchHashes,pathsBeforeStorefrontSearch} from './source-before-storefront-search.mjs';
+
 const indexFile='scripts/audit/parcel226-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./parcel226-source-pins.json',import.meta.url),'utf8'));
 const index=JSON.parse(indexText);
@@ -17,6 +19,7 @@ for(const [file,pin] of Object.entries(parcel226Pins)){
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function sourceBeforeParcel226(file,text){
+ text=sourceBeforeStorefrontSearch(file,text);
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -24,18 +27,18 @@ export function sourceBeforeParcel226(file,text){
  return pin&&sha256(raw)===pin.after?pin.beforeText:text;
 }
 export function restoreParcel226Hashes(rows){
- return rows.flatMap(row=>{
+ return restoreStorefrontSearchHashes(rows).flatMap(row=>{
   const pin=parcel226Pins[row.file];
   if(!pin||row.sha256!==pin.after)return [row];
-  assert.equal(sha256(current(row.file)),pin.after,'PARCEL226_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeStorefrontSearch(row.file,current(row.file))),pin.after,'PARCEL226_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 export function pathsBeforeParcel226(files,reference){
- return files.filter(file=>{
+ return pathsBeforeStorefrontSearch(files,reference).filter(file=>{
   if(file===indexFile)return current(file)!==indexText;
   const pin=parcel226Pins[file];
-  if(!pin||sha256(current(file))!==pin.after)return true;
+  if(!pin||sha256(sourceBeforeStorefrontSearch(file,current(file)))!==pin.after)return true;
   if(pin.before===null)return false;
   if(!reference)return true;
   try{

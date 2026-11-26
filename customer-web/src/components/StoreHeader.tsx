@@ -17,6 +17,7 @@ import type { StorePage } from '../utils/publicRoutes';
 interface StoreHeaderProps {
   activePage: StorePage;
   searchQuery: string;
+  isSearching: boolean;
   onSearchChange: (value: string) => void;
   cartPackages: number;
   cartSummary?: string;
@@ -41,6 +42,7 @@ interface StoreHeaderProps {
 export function StoreHeader({
   activePage,
   searchQuery,
+  isSearching,
   onSearchChange,
   cartPackages,
   cartSummary,
@@ -83,12 +85,17 @@ export function StoreHeader({
 
   const searchField = (mobile = false) => (
     <label className="relative block w-full">
-      <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      {isSearching ? (
+        <RefreshCw aria-hidden="true" className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-blue-700 motion-reduce:animate-none" />
+      ) : (
+        <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      )}
       <input
         id={mobile ? 'mobile-catalog-search' : 'catalog-search'}
         autoFocus={mobile}
         type="search"
         value={searchQuery}
+        aria-busy={isSearching}
         onChange={(event) => onSearchChange(event.target.value)}
         placeholder="ابحث باسم المنتج أو SKU أو الباركود..."
         className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-11 text-sm font-semibold text-slate-800 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"

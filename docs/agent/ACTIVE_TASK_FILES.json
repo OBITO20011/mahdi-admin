@@ -1,4 +1,17 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-storefront-search.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/storefront-search-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/storefront-search-history.test.ts"
+    }
+  ]
 }

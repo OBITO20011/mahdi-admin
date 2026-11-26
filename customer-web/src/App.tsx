@@ -15,7 +15,8 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react';
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, startTransition, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { CATALOG_SEARCH_DEBOUNCE_MS, createCatalogRequestGate } from './utils/catalogRequestGate';
 import { CategoryDrawer } from './components/CategoryDrawer';
 import { CategoryShowcase } from './components/CategoryShowcase';
 import { FloatingContactActions } from './components/FloatingContactActions';
@@ -236,6 +237,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [offersLoadError, setOffersLoadError] = useState<string | null>(null);
   const [preferredPromotionCode, setPreferredPromotionCode] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [settledCatalogSearch, setSettledCatalogSearch] = useState('');
+  const [displayedCatalogSearch, setDisplayedCatalogSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [availabilityFilter, setAvailabilityFilter] =
     useState<CatalogAvailabilityFilter>('all');
@@ -280,14 +283,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     offers: 0,
     settings: 0,
   });
-  const pendingLoadRef = useRef<Record<StorefrontResource, Promise<void> | null>>({
-    catalog: null,
+  const pendingLoadRef = useRef<Record<Exclude<StorefrontResource, 'catalog'>, Promise<void> | null>>({
     offers: null,
     settings: null,
   });
   const pendingFeaturedProductsRef = useRef<Promise<void> | null>(null);
-  const catalogRequestSequenceRef = useRef(0);
-  const catalogRequestKeyRef = useRef('');
+  const [catalogRequests] = useState(createCatalogRequestGate);
+  const wantedCatalogSearch = useRef('');
+  const isSearchDebouncing = useRef(false);
   const pendingCartSnapshotRef = useRef<{
     key: string;
     promise: Promise<CartSnapshotResult>;
@@ -331,13 +334,26 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   );
 
   const favoritesActive = activePage === 'favorites';
+  const catalogSearch = searchQuery.trim();
+  const isSearching = catalogSearch !== settledCatalogSearch || (Boolean(catalogSearch) && isLoading);
+  const hasCurrentSearchResults = catalogSearch === displayedCatalogSearch;
+
+  const updateSearchQuery = useCallback((value: string) => {
+    const nextSearch = value.trim();
+    if (nextSearch !== wantedCatalogSearch.current) {
+      wantedCatalogSearch.current = nextSearch;
+      isSearchDebouncing.current = Boolean(nextSearch);
+      catalogRequests.cancel();
+    }
+    setSearchQuery(value);
+  }, [catalogRequests]);
 
   const catalogQuery = useMemo<PublicCatalogQuery>(
     () => ({
       limit: STOREFRONT_CATALOG_PAGE_SIZE,
       offset: catalogOffset,
       categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
-      searchQuery: searchQuery.trim() || undefined,
+      searchQuery: catalogSearch || undefined,
       availability: availabilityFilter,
       sort: sortOption,
       brandId: selectedBrand === 'all' ? undefined : selectedBrand,
@@ -349,7 +365,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       catalogOffset,
       favoriteProductIds,
       favoritesActive,
-      searchQuery,
+      catalogSearch,
       selectedBrand,
       selectedCategory,
       selectedSaleUnit,
@@ -363,55 +379,50 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const loadCatalog = useCallback(
     async (silent = false, force = false) => {
+      if (isSearchDebouncing.current || catalogSearch !== wantedCatalogSearch.current) return;
       if (!force && !isStale('catalog', CATALOG_STALE_TIME_MS)) return;
-      if (catalogRequestKeyRef.current === catalogQueryKey && pendingLoadRef.current.catalog) {
-        return pendingLoadRef.current.catalog;
-      }
 
-      const requestSequence = ++catalogRequestSequenceRef.current;
-      catalogRequestKeyRef.current = catalogQueryKey;
-
-      const request = (async () => {
+      return catalogRequests.run(catalogQueryKey, async (signal) => {
         if (silent) setIsRefreshing(true);
         else setIsLoading(true);
 
-        try {
-          const catalog = await fetchPublicProductCatalog(catalogQuery);
-          if (requestSequence !== catalogRequestSequenceRef.current) return;
-          setProducts(catalog.items);
-          setCatalogCategories(catalog.categories);
-          setCatalogBrands(catalog.brands);
-          setCatalogSummary(catalog.summary);
-          setCatalogTotal(catalog.total);
-          setLoadError(null);
-          setLastUpdatedAt(new Date());
-          lastLoadedAtRef.current.catalog = Date.now();
-        } catch (error) {
-          if (requestSequence !== catalogRequestSequenceRef.current) return;
-          const message =
-            error instanceof Error
-              ? error.message
-              : 'تعذر تحميل كتالوج الجملة من Supabase.';
-          setLoadError(message);
-        } finally {
-          if (requestSequence === catalogRequestSequenceRef.current) {
-            setIsLoading(false);
-            setIsRefreshing(false);
-          }
-        }
-      })();
+        const finish = () => {
+          setSettledCatalogSearch(catalogSearch);
+          setIsLoading(false);
+          setIsRefreshing(false);
+        };
 
-      pendingLoadRef.current.catalog = request;
-      try {
-        await request;
-      } finally {
-        if (catalogRequestKeyRef.current === catalogQueryKey) {
-          pendingLoadRef.current.catalog = null;
+        try {
+          const catalog = await fetchPublicProductCatalog(catalogQuery, signal);
+          if (signal.aborted) return;
+          const now = new Date();
+          lastLoadedAtRef.current.catalog = now.getTime();
+          const apply = () => {
+            setProducts(catalog.items);
+            setCatalogCategories(catalog.categories);
+            setCatalogBrands(catalog.brands);
+            setCatalogSummary(catalog.summary);
+            setCatalogTotal(catalog.total);
+            setDisplayedCatalogSearch(catalogSearch);
+            setLoadError(null);
+            setLastUpdatedAt(now);
+            finish();
+          };
+          if (catalogSearch) startTransition(apply);
+          else apply();
+        } catch (error) {
+          if (signal.aborted) return;
+          setLoadError(
+            error instanceof Error ? error.message : 'تعذر تحميل كتالوج الجملة من Supabase.'
+          );
+          finish();
         }
-      }
+      });
     },
-    [catalogQuery, catalogQueryKey, isStale]
+    [catalogQuery, catalogQueryKey, catalogRequests, catalogSearch, isStale]
   );
+
+  useEffect(() => () => catalogRequests.cancel(), [catalogRequests]);
 
   const loadFeaturedProducts = useCallback(async () => {
     if (pendingFeaturedProductsRef.current) return pendingFeaturedProductsRef.current;
@@ -537,12 +548,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   }, [loadFeaturedProducts, loadStorefrontOffers, loadStorefrontSettings]);
 
   useEffect(() => {
-    const delayMs = searchQuery.trim() ? 250 : 0;
+    const delayMs = isSearchDebouncing.current ? CATALOG_SEARCH_DEBOUNCE_MS : 0;
     const timer = window.setTimeout(() => {
+      if (catalogSearch !== wantedCatalogSearch.current) return;
+      isSearchDebouncing.current = false;
       void loadCatalog(false, true);
     }, delayMs);
     return () => window.clearTimeout(timer);
-  }, [catalogQueryKey, loadCatalog, searchQuery]);
+  }, [catalogSearch, loadCatalog]);
 
   useEffect(() => {
     if (!lastUpdatedAt) return;
@@ -832,8 +845,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const brands = catalogBrands;
   const searchSuggestions = useMemo(
-    () => (searchQuery.trim() ? products.slice(0, 5) : []),
-    [products, searchQuery]
+    () => (catalogSearch && !isSearching && hasCurrentSearchResults ? products.slice(0, 5) : []),
+    [products, catalogSearch, isSearching, hasCurrentSearchResults]
   );
   const newestProducts = featuredProducts.newest;
   const bestSellerProducts = featuredProducts.bestSellers;
@@ -1260,7 +1273,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   };
 
   const resetCatalogView = () => {
-    setSearchQuery('');
+    updateSearchQuery('');
     setSelectedCategory('all');
     setAvailabilityFilter('all');
     setSortOption('recommended');
@@ -1296,7 +1309,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   };
 
   const openFavorites = () => {
-    setSearchQuery('');
+    updateSearchQuery('');
     setSelectedCategory('all');
     setAvailabilityFilter('all');
     setSortOption('recommended');
@@ -1323,7 +1336,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const selectCatalogCategory = useCallback((categoryId: string) => {
     setActivePage('catalog');
     setSelectedCategory(categoryId);
-    setSearchQuery('');
+    updateSearchQuery('');
     setAvailabilityFilter('all');
     setCatalogOffset(0);
     setCategoriesOpen(false);
@@ -1339,7 +1352,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         });
       });
     });
-  }, [catalogCategories]);
+  }, [catalogCategories, updateSearchQuery]);
 
   const openCheckout = async () => {
     if (commerceReview) {
@@ -1565,8 +1578,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <StoreHeader
         activePage={activePage}
         searchQuery={searchQuery}
+        isSearching={isSearching}
         onSearchChange={(value) => {
-          setSearchQuery(value);
+          updateSearchQuery(value);
           setCatalogOffset(0);
           if (value.trim() && activePage !== 'catalog') {
             setActivePage('catalog');
@@ -1590,7 +1604,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         isRefreshing={isRefreshing}
         suggestions={searchSuggestions}
         searchOpenSignal={searchOpenSignal}
-        onSuggestionSelect={(product) => { setSearchQuery(''); openProductDetails(product); }}
+        onSuggestionSelect={(product) => { updateSearchQuery(''); openProductDetails(product); }}
       />
 
       <NetworkStatusBanner
@@ -1836,10 +1850,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               {lastGuestOrder && <button type="button" onClick={repeatLastOrder} disabled={isRepeatingLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800 disabled:cursor-wait disabled:opacity-60">{isRepeatingLastOrder ? 'جارٍ التحقق من أصناف الطلب...' : `إعادة آخر طلب (${lastGuestOrder.orderNumber})`}</button>}
 
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
-                <p className="text-[10px] font-bold text-slate-600">
-                  عرض {filteredProducts.length.toLocaleString(DISPLAY_LOCALE)} من{' '}
-                  {catalogTotal.toLocaleString(DISPLAY_LOCALE)} صنف
-                </p>
+                {!isSearching && hasCurrentSearchResults && (
+                  <p className="text-[10px] font-bold text-slate-600">
+                    عرض {filteredProducts.length.toLocaleString(DISPLAY_LOCALE)} من{' '}
+                    {catalogTotal.toLocaleString(DISPLAY_LOCALE)} صنف
+                  </p>
+                )}
                 {hasActiveCatalogView && (
                   <button
                     type="button"
@@ -1854,7 +1870,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             </div>
 
             <div id="catalog-products" className="scroll-mt-40">
-            {isLoading ? (
+            {isSearching ? (
+              <p role="status" className="mt-6 rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center text-sm font-bold text-slate-700">
+                جاري البحث…
+              </p>
+            ) : isLoading ? (
               <div className="mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                 {Array.from({ length: 8 }).map((_, index) => (
                   <div
@@ -1868,7 +1888,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                   </div>
                 ))}
               </div>
-            ) : loadError && products.length === 0 ? (
+            ) : loadError && (!hasCurrentSearchResults || products.length === 0) ? (
               <div className="mt-6 rounded-[2rem] border border-rose-200 bg-white p-10 text-center">
                 <AlertTriangle className="mx-auto h-10 w-10 text-rose-500" />
                 <h3 className="mt-4 text-lg font-black text-slate-900">
@@ -1926,7 +1946,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                 ))}
               </div>
             )}
-            {!isLoading && !loadError && catalogTotal > STOREFRONT_CATALOG_PAGE_SIZE && (
+            {!isSearching && !isLoading && !loadError && catalogTotal > STOREFRONT_CATALOG_PAGE_SIZE && (
               <nav className="mt-8 flex items-center justify-center gap-3" aria-label="صفحات الكتالوج">
                 <button
                   type="button"

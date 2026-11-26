@@ -1,0 +1,1461 @@
+{
+  "format": 1,
+  "baseline": "16a5f18db1df96f4e63bfd38ed68ed0ff439b98f",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b",
+      "after": "34abb82593682cbff9ceb6e55a1581164cabc3d2c47b302f4a7b57deed117750",
+      "inverse": [
+        {
+          "start": 17,
+          "afterCount": 2,
+          "beforeLines": [
+            "import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';"
+          ]
+        },
+        {
+          "start": 239,
+          "afterCount": 2,
+          "beforeLines": []
+        },
+        {
+          "start": 285,
+          "afterCount": 1,
+          "beforeLines": [
+            "  const pendingLoadRef = useRef<Record<StorefrontResource, Promise<void> | null>>({",
+            "    catalog: null,"
+          ]
+        },
+        {
+          "start": 290,
+          "afterCount": 3,
+          "beforeLines": [
+            "  const catalogRequestSequenceRef = useRef(0);",
+            "  const catalogRequestKeyRef = useRef('');"
+          ]
+        },
+        {
+          "start": 336,
+          "afterCount": 13,
+          "beforeLines": []
+        },
+        {
+          "start": 355,
+          "afterCount": 1,
+          "beforeLines": [
+            "      searchQuery: searchQuery.trim() || undefined,"
+          ]
+        },
+        {
+          "start": 367,
+          "afterCount": 1,
+          "beforeLines": [
+            "      searchQuery,"
+          ]
+        },
+        {
+          "start": 381,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 383,
+          "afterCount": 0,
+          "beforeLines": [
+            "      if (catalogRequestKeyRef.current === catalogQueryKey && pendingLoadRef.current.catalog) {",
+            "        return pendingLoadRef.current.catalog;",
+            "      }",
+            "",
+            "      const requestSequence = ++catalogRequestSequenceRef.current;",
+            "      catalogRequestKeyRef.current = catalogQueryKey;"
+          ]
+        },
+        {
+          "start": 384,
+          "afterCount": 1,
+          "beforeLines": [
+            "      const request = (async () => {"
+          ]
+        },
+        {
+          "start": 388,
+          "afterCount": 6,
+          "beforeLines": []
+        },
+        {
+          "start": 395,
+          "afterCount": 17,
+          "beforeLines": [
+            "          const catalog = await fetchPublicProductCatalog(catalogQuery);",
+            "          if (requestSequence !== catalogRequestSequenceRef.current) return;",
+            "          setProducts(catalog.items);",
+            "          setCatalogCategories(catalog.categories);",
+            "          setCatalogBrands(catalog.brands);",
+            "          setCatalogSummary(catalog.summary);",
+            "          setCatalogTotal(catalog.total);",
+            "          setLoadError(null);",
+            "          setLastUpdatedAt(new Date());",
+            "          lastLoadedAtRef.current.catalog = Date.now();"
+          ]
+        },
+        {
+          "start": 413,
+          "afterCount": 5,
+          "beforeLines": [
+            "          if (requestSequence !== catalogRequestSequenceRef.current) return;",
+            "          const message =",
+            "            error instanceof Error",
+            "              ? error.message",
+            "              : 'تعذر تحميل كتالوج الجملة من Supabase.';",
+            "          setLoadError(message);",
+            "        } finally {",
+            "          if (requestSequence === catalogRequestSequenceRef.current) {",
+            "            setIsLoading(false);",
+            "            setIsRefreshing(false);",
+            "          }",
+            "        }",
+            "      })();",
+            "",
+            "      pendingLoadRef.current.catalog = request;",
+            "      try {",
+            "        await request;",
+            "      } finally {",
+            "        if (catalogRequestKeyRef.current === catalogQueryKey) {",
+            "          pendingLoadRef.current.catalog = null;"
+          ]
+        },
+        {
+          "start": 419,
+          "afterCount": 1,
+          "beforeLines": [
+            "      }"
+          ]
+        },
+        {
+          "start": 421,
+          "afterCount": 1,
+          "beforeLines": [
+            "    [catalogQuery, catalogQueryKey, isStale]"
+          ]
+        },
+        {
+          "start": 424,
+          "afterCount": 2,
+          "beforeLines": []
+        },
+        {
+          "start": 550,
+          "afterCount": 1,
+          "beforeLines": [
+            "    const delayMs = searchQuery.trim() ? 250 : 0;"
+          ]
+        },
+        {
+          "start": 552,
+          "afterCount": 2,
+          "beforeLines": []
+        },
+        {
+          "start": 557,
+          "afterCount": 1,
+          "beforeLines": [
+            "  }, [catalogQueryKey, loadCatalog, searchQuery]);"
+          ]
+        },
+        {
+          "start": 847,
+          "afterCount": 2,
+          "beforeLines": [
+            "    () => (searchQuery.trim() ? products.slice(0, 5) : []),",
+            "    [products, searchQuery]"
+          ]
+        },
+        {
+          "start": 1275,
+          "afterCount": 1,
+          "beforeLines": [
+            "    setSearchQuery('');"
+          ]
+        },
+        {
+          "start": 1311,
+          "afterCount": 1,
+          "beforeLines": [
+            "    setSearchQuery('');"
+          ]
+        },
+        {
+          "start": 1338,
+          "afterCount": 1,
+          "beforeLines": [
+            "    setSearchQuery('');"
+          ]
+        },
+        {
+          "start": 1354,
+          "afterCount": 1,
+          "beforeLines": [
+            "  }, [catalogCategories]);"
+          ]
+        },
+        {
+          "start": 1580,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 1582,
+          "afterCount": 1,
+          "beforeLines": [
+            "          setSearchQuery(value);"
+          ]
+        },
+        {
+          "start": 1606,
+          "afterCount": 1,
+          "beforeLines": [
+            "        onSuggestionSelect={(product) => { setSearchQuery(''); openProductDetails(product); }}"
+          ]
+        },
+        {
+          "start": 1852,
+          "afterCount": 6,
+          "beforeLines": [
+            "                <p className=\"text-[10px] font-bold text-slate-600\">",
+            "                  عرض {filteredProducts.length.toLocaleString(DISPLAY_LOCALE)} من{' '}",
+            "                  {catalogTotal.toLocaleString(DISPLAY_LOCALE)} صنف",
+            "                </p>"
+          ]
+        },
+        {
+          "start": 1872,
+          "afterCount": 5,
+          "beforeLines": [
+            "            {isLoading ? ("
+          ]
+        },
+        {
+          "start": 1890,
+          "afterCount": 1,
+          "beforeLines": [
+            "            ) : loadError && products.length === 0 ? ("
+          ]
+        },
+        {
+          "start": 1948,
+          "afterCount": 1,
+          "beforeLines": [
+            "            {!isLoading && !loadError && catalogTotal > STOREFRONT_CATALOG_PAGE_SIZE && ("
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/StoreHeader.tsx": {
+      "before": "e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657",
+      "after": "65045b45d45614547fc393dde6a2683a8a1adc7fd75765e18f8b858e1ac58cc4",
+      "inverse": [
+        {
+          "start": 19,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 44,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 87,
+          "afterCount": 5,
+          "beforeLines": [
+            "      <Search className=\"absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400\" />"
+          ]
+        },
+        {
+          "start": 97,
+          "afterCount": 1,
+          "beforeLines": []
+        }
+      ]
+    },
+    "customer-web/src/services/catalog.service.ts": {
+      "before": "b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692",
+      "after": "041cd9399807475f025e5e0f50afa66d0988d04460c226f918b649da6be50a07",
+      "inverse": [
+        {
+          "start": 402,
+          "afterCount": 2,
+          "beforeLines": [
+            "  query: PublicCatalogQuery = {}"
+          ]
+        },
+        {
+          "start": 427,
+          "afterCount": 1,
+          "beforeLines": [
+            "    ()=>readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2',args));"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/services/operatingCatalog.ts": {
+      "before": "7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521",
+      "after": "a3ada6101cde55ceb28eb7c2389a1da028db3f9fa022b6546635f0ecca731ad8",
+      "inverse": [
+        {
+          "start": 6,
+          "afterCount": 1,
+          "beforeLines": [
+            "export const operatingCatalogRpc:CatalogRpc=(name,args)=>{"
+          ]
+        },
+        {
+          "start": 11,
+          "afterCount": 3,
+          "beforeLines": [
+            "  case 'public_storefront_catalog_page225':return supabase.rpc('public_storefront_catalog_page225',args);",
+            "  case 'lite1_catalog_page2':return supabase.rpc('lite1_catalog_page2',args);",
+            "  case 'get_public_storefront_catalog_page':return supabase.rpc('get_public_storefront_catalog_page',args);"
+          ]
+        },
+        {
+          "start": 23,
+          "afterCount": 4,
+          "beforeLines": []
+        }
+      ]
+    },
+    "customer-web/src/utils/catalogRequestGate.ts": {
+      "before": null,
+      "after": "59110b80568d843c61873ceae3c931bb5bebc93d0cb9caf792e350e06ee70775"
+    },
+    "customer-web/src/utils/operatingRead.ts": {
+      "before": "f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6",
+      "after": "1592f2b6e81892e9f3765413d61676064d431b2be10ce1039c9764deeee9b44b",
+      "inverse": [
+        {
+          "start": 3,
+          "afterCount": 1,
+          "beforeLines": [
+            "export type CatalogRpc=(name:string,args?:Record<string,unknown>)=>PromiseLike<Response>;"
+          ]
+        },
+        {
+          "start": 8,
+          "afterCount": 5,
+          "beforeLines": [
+            "export async function readOperatingCatalog(rpc:CatalogRpc,name:keyof typeof originals,args?:Record<string,unknown>):Promise<Response>{",
+            " const result=await rpc(name,args);",
+            " if(isMissingCatalogRpc(result,name))return rpc(originals[name],args);"
+          ]
+        },
+        {
+          "start": 16,
+          "afterCount": 4,
+          "beforeLines": [
+            "export async function readCatalog225(rpc:CatalogRpc,name:'public_storefront_catalog_page225'|'get_public_parcel_options225'|'public_storefront_merchandising225',args:Record<string,unknown>|undefined,previous:()=>Promise<Response>):Promise<Response>{",
+            " const result=await rpc(name,args);"
+          ]
+        }
+      ]
+    },
+    "customer-web/tests/catalog-request-gate.test.ts": {
+      "before": null,
+      "after": "552cb257dc71663a96515c31e30386cdbeceeccf217588a81119fc9d7e728b0d"
+    },
+    "customer-web/tests/storefront-refresh-cache.test.ts": {
+      "before": "79340b43f7b717e799c967ec59a2d2bc601c42dcfb2ae6db5bed7017830cd0f4",
+      "after": "2b4bc7d92cc46558b2406722594b1cfb6949afb3a404187c8c54d183005fd8a3",
+      "inverse": [
+        {
+          "start": 15,
+          "afterCount": 2,
+          "beforeLines": [
+            "  assert.match(app, /catalogRequestKeyRef\\.current === catalogQueryKey/);",
+            "  assert.match(app, /catalogRequestSequenceRef/);"
+          ]
+        }
+      ]
+    },
+    "docs/agent/project-state.json": {
+      "before": "3b07a95ad005e2cc96d83bf729d60d19dfc04cacbf1a4e17d8f1230a0ccc8100",
+      "after": "9370a50bfd6a4ef3b6d9125dee9ab17ac9dedcff73389b9192a082bb229f34b8",
+      "inverse": [
+        {
+          "start": 3,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"branch\": \"codex/cutover-226-hold\","
+          ]
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_AFTER_226.json": {
+      "before": "37f0fe979d39181d68e46eb2baf085be46210f97f8c9284dbdc113fcb9e80658",
+      "after": "21d8539c8bb91807155c6e32bb7f39b09edbba9e1ad05387fec30f3284e7cfd9",
+      "inverse": [
+        {
+          "start": 2,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"startedAt\": \"2026-11-25T20:32:07.673Z\","
+          ]
+        },
+        {
+          "start": 5,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-HveM67\","
+          ]
+        },
+        {
+          "start": 1429,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b\""
+          ]
+        },
+        {
+          "start": 1565,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
+          ]
+        },
+        {
+          "start": 1649,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
+          ]
+        },
+        {
+          "start": 1665,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
+          ]
+        },
+        {
+          "start": 1711,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1757,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
+          ]
+        },
+        {
+          "start": 56344,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"endedAt\": \"2026-11-25T20:32:28.750Z\""
+          ]
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "f6984c6d991b29819c60d09ee79b01ffd70fe249b1f935878a85cf1865640817",
+      "after": "1964ac0f409a9939112ffa58b147ee54c8db404f68c4f6b625d7b26bcaac5765",
+      "inverse": [
+        {
+          "start": 2,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"startedAt\": \"2026-11-25T20:32:07.673Z\","
+          ]
+        },
+        {
+          "start": 5,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-HveM67\","
+          ]
+        },
+        {
+          "start": 1429,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b\""
+          ]
+        },
+        {
+          "start": 1565,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
+          ]
+        },
+        {
+          "start": 1649,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
+          ]
+        },
+        {
+          "start": 1665,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
+          ]
+        },
+        {
+          "start": 1711,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1757,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
+          ]
+        },
+        {
+          "start": 56344,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"endedAt\": \"2026-11-25T20:32:28.750Z\","
+          ]
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "c8ca7b88e9475556aca914c381db6d0b268d9c9956df122dec4e7701a565a5da",
+      "after": "9ed1eb04057b03db7bb3f49f6ce12d470577b3a3ba017acfcadda6b9f9ac38c1",
+      "inverse": [
+        {
+          "start": 1427,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b\""
+          ]
+        },
+        {
+          "start": 1563,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
+          ]
+        },
+        {
+          "start": 1647,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
+          ]
+        },
+        {
+          "start": 1663,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
+          ]
+        },
+        {
+          "start": 1709,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1755,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
+          ]
+        },
+        {
+          "start": 5832,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 10,"
+          ]
+        },
+        {
+          "start": 5837,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"source\": \"rpc(name,args)\","
+          ]
+        },
+        {
+          "start": 5842,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 11,"
+          ]
+        },
+        {
+          "start": 5847,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"source\": \"rpc(originals[name],args)\","
+          ]
+        },
+        {
+          "start": 5852,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 16,"
+          ]
+        },
+        {
+          "start": 5857,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"source\": \"rpc(name,args)\","
+          ]
+        }
+      ]
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_226.json": {
+      "before": "871ca6e50a5dd9e2807272cf572108e1bea45d8296beddd7fa1e4b73aefdf873",
+      "after": "ea88eebce96d2b0df77eff305d4b296cc56a45b1000e4140b4025a0c34a8f1df",
+      "inverse": [
+        {
+          "start": 2,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"startedAt\": \"2026-11-25T20:28:14.258Z\","
+          ]
+        },
+        {
+          "start": 193,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-table-access-S8gEM2\","
+          ]
+        },
+        {
+          "start": 221,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 256,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 291,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 326,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 361,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 396,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 431,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"731b25fe-caf3-4e83-96aa-0dd3c1182a37\""
+          ]
+        },
+        {
+          "start": 466,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"731b25fe-caf3-4e83-96aa-0dd3c1182a37\""
+          ]
+        },
+        {
+          "start": 501,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"731b25fe-caf3-4e83-96aa-0dd3c1182a37\""
+          ]
+        },
+        {
+          "start": 734,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"53eede90-2ec5-480d-b8af-2d230c59ae97\""
+          ]
+        },
+        {
+          "start": 769,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"53eede90-2ec5-480d-b8af-2d230c59ae97\""
+          ]
+        },
+        {
+          "start": 804,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"53eede90-2ec5-480d-b8af-2d230c59ae97\""
+          ]
+        },
+        {
+          "start": 839,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\""
+          ]
+        },
+        {
+          "start": 874,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\""
+          ]
+        },
+        {
+          "start": 909,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\""
+          ]
+        },
+        {
+          "start": 944,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"53eede90-2ec5-480d-b8af-2d230c59ae97\""
+          ]
+        },
+        {
+          "start": 979,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"53eede90-2ec5-480d-b8af-2d230c59ae97\""
+          ]
+        },
+        {
+          "start": 1014,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"53eede90-2ec5-480d-b8af-2d230c59ae97\""
+          ]
+        },
+        {
+          "start": 1552,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1592,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1632,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1665,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1698,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1731,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1902,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1935,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 1968,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2001,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2034,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2067,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2100,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2166,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2232,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2297,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2332,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2367,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2402,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2439,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2476,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 2514,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"b5e03e4f-7764-4126-a87a-0952503b89b0\""
+          ]
+        },
+        {
+          "start": 2547,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"b5e03e4f-7764-4126-a87a-0952503b89b0\""
+          ]
+        },
+        {
+          "start": 2580,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"b5e03e4f-7764-4126-a87a-0952503b89b0\""
+          ]
+        },
+        {
+          "start": 5441,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\""
+          ]
+        },
+        {
+          "start": 5476,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\""
+          ]
+        },
+        {
+          "start": 5511,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\""
+          ]
+        },
+        {
+          "start": 7198,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"entity_id\": \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\","
+          ]
+        },
+        {
+          "start": 7231,
+          "afterCount": 1,
+          "beforeLines": [
+            "            \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\""
+          ]
+        },
+        {
+          "start": 7270,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"completed_at\": \"2026-11-25T20:28:31.839Z\""
+          ]
+        },
+        {
+          "start": 7306,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"completed_at\": \"2026-11-25T20:28:31.862Z\""
+          ]
+        },
+        {
+          "start": 7340,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"last_success_at\": \"2026-11-25T20:28:31.887Z\","
+          ]
+        },
+        {
+          "start": 7342,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"updated_at\": \"2026-11-25T20:28:31.887Z\""
+          ]
+        },
+        {
+          "start": 7377,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"last_failure_at\": \"2026-11-25T20:28:31.918Z\","
+          ]
+        },
+        {
+          "start": 7379,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"updated_at\": \"2026-11-25T20:28:31.918Z\""
+          ]
+        },
+        {
+          "start": 7416,
+          "afterCount": 1,
+          "beforeLines": [
+            "              \"completed_at\": \"2026-11-25T20:28:31.942Z\""
+          ]
+        },
+        {
+          "start": 31117,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_24\","
+          ]
+        },
+        {
+          "start": 31230,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-24 00:00:00') TO ('2026-11-25 00:00:00')\","
+          ]
+        },
+        {
+          "start": 31242,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_25\","
+          ]
+        },
+        {
+          "start": 31355,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-25 00:00:00') TO ('2026-11-26 00:00:00')\","
+          ]
+        },
+        {
+          "start": 31367,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_26\","
+          ]
+        },
+        {
+          "start": 31480,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-26 00:00:00') TO ('2026-11-27 00:00:00')\","
+          ]
+        },
+        {
+          "start": 31492,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_27\","
+          ]
+        },
+        {
+          "start": 31605,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-27 00:00:00') TO ('2026-11-28 00:00:00')\","
+          ]
+        },
+        {
+          "start": 31617,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_28\","
+          ]
+        },
+        {
+          "start": 31730,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-28 00:00:00') TO ('2026-11-29 00:00:00')\","
+          ]
+        },
+        {
+          "start": 42086,
+          "afterCount": 0,
+          "beforeLines": [
+            "      {",
+            "        \"name\": \"messages_2026_11_24_inserted_at_topic_idx\",",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"ready\": true,",
+            "        \"table\": \"messages_2026_11_24\",",
+            "        \"valid\": true,",
+            "        \"schema\": \"realtime\",",
+            "        \"unique\": false,",
+            "        \"primary\": false,",
+            "        \"clustered\": false,",
+            "        \"definition\": \"CREATE INDEX messages_2026_11_24_inserted_at_topic_idx ON realtime.messages_2026_11_24 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))\",",
+            "        \"replicaIdentity\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_24_pkey\",",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"ready\": true,",
+            "        \"table\": \"messages_2026_11_24\",",
+            "        \"valid\": true,",
+            "        \"schema\": \"realtime\",",
+            "        \"unique\": true,",
+            "        \"primary\": true,",
+            "        \"clustered\": false,",
+            "        \"definition\": \"CREATE UNIQUE INDEX messages_2026_11_24_pkey ON realtime.messages_2026_11_24 USING btree (id, inserted_at)\",",
+            "        \"replicaIdentity\": false",
+            "      },"
+          ]
+        },
+        {
+          "start": 42190,
+          "afterCount": 26,
+          "beforeLines": []
+        },
+        {
+          "start": 78059,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_24_pkey\","
+          ]
+        },
+        {
+          "start": 78063,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_24\","
+          ]
+        },
+        {
+          "start": 78079,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_24\","
+          ]
+        },
+        {
+          "start": 78091,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_25_pkey\","
+          ]
+        },
+        {
+          "start": 78095,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_25\","
+          ]
+        },
+        {
+          "start": 78111,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_25\","
+          ]
+        },
+        {
+          "start": 78123,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_26_pkey\","
+          ]
+        },
+        {
+          "start": 78127,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_26\","
+          ]
+        },
+        {
+          "start": 78143,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_26\","
+          ]
+        },
+        {
+          "start": 78155,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_27_pkey\","
+          ]
+        },
+        {
+          "start": 78159,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_27\","
+          ]
+        },
+        {
+          "start": 78175,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_27\","
+          ]
+        },
+        {
+          "start": 78187,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"name\": \"messages_2026_11_28_pkey\","
+          ]
+        },
+        {
+          "start": 78191,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_28\","
+          ]
+        },
+        {
+          "start": 78207,
+          "afterCount": 1,
+          "beforeLines": [
+            "        \"table\": \"messages_2026_11_28\","
+          ]
+        },
+        {
+          "start": 81660,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b\""
+          ]
+        },
+        {
+          "start": 81796,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
+          ]
+        },
+        {
+          "start": 81880,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
+          ]
+        },
+        {
+          "start": 81896,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
+          ]
+        },
+        {
+          "start": 81942,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 81988,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
+          ]
+        },
+        {
+          "start": 82064,
+          "afterCount": 4,
+          "beforeLines": [
+            "    \"orderId\": \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\",",
+            "    \"operationId\": \"731b25fe-caf3-4e83-96aa-0dd3c1182a37\",",
+            "    \"receiptId\": \"53eede90-2ec5-480d-b8af-2d230c59ae97\",",
+            "    \"poId\": \"4efc9c28-9c6a-4491-b90c-0c65cdad31a3\","
+          ]
+        },
+        {
+          "start": 82070,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"b5e03e4f-7764-4126-a87a-0952503b89b0\""
+          ]
+        },
+        {
+          "start": 87995,
+          "afterCount": 1,
+          "beforeLines": [
+            "  \"endedAt\": \"2026-11-25T20:30:23.004Z\""
+          ]
+        }
+      ]
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "adf4152cff7f14dbd0e9d02f095149df119ea8d979d5158b31d69865552f1077",
+      "after": "b4b8da32c1996727629227b21039d7ce5cf8b51364e6765532ccefc8fca362ff",
+      "inverse": [
+        {
+          "start": 1427,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b\""
+          ]
+        },
+        {
+          "start": 1563,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
+          ]
+        },
+        {
+          "start": 1647,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
+          ]
+        },
+        {
+          "start": 1663,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
+          ]
+        },
+        {
+          "start": 1709,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1755,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
+          ]
+        },
+        {
+          "start": 5593,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 1082,"
+          ]
+        },
+        {
+          "start": 5598,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 1088,"
+          ]
+        },
+        {
+          "start": 5603,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 1859,"
+          ]
+        },
+        {
+          "start": 5608,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"line\": 2015,"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-storefront-search.spec.ts": {
+      "before": null,
+      "after": "2f34f58bb152d2fc98a6469840d689a8504c05f6712070534698cde34e3cef42"
+    },
+    "scripts/audit/source-before-parcel226.mjs": {
+      "before": "9ac6ab167996daf7648547463acadcf979479fc86f9b4079503eb6c9cec7e0b0",
+      "after": "be61a4b82062ed4e30fc97e2c165afd43a7dde9316de1d441318d0092ce04333",
+      "inverse": [
+        {
+          "start": 5,
+          "afterCount": 2,
+          "beforeLines": []
+        },
+        {
+          "start": 21,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 29,
+          "afterCount": 1,
+          "beforeLines": [
+            " return rows.flatMap(row=>{"
+          ]
+        },
+        {
+          "start": 32,
+          "afterCount": 1,
+          "beforeLines": [
+            "  assert.equal(sha256(current(row.file)),pin.after,'PARCEL226_HISTORY_SOURCE_CHANGED:'+row.file);"
+          ]
+        },
+        {
+          "start": 37,
+          "afterCount": 1,
+          "beforeLines": [
+            " return files.filter(file=>{"
+          ]
+        },
+        {
+          "start": 40,
+          "afterCount": 1,
+          "beforeLines": [
+            "  if(!pin||sha256(current(file))!==pin.after)return true;"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-storefront-images.mjs": {
+      "before": "8d566e8de8df212b613d9dc57514ba1f3193613f05b18a1b639c7904ff94a0c3",
+      "after": "d91e2378bfe5cc9a26f58a71b1cd0eb7c72a67b21f9c23073eb467ef710eeec3",
+      "inverse": [
+        {
+          "start": 0,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 12,
+          "afterCount": 1,
+          "beforeLines": [
+            " text=sourceBeforeCartFlight(file,text);"
+          ]
+        },
+        {
+          "start": 18,
+          "afterCount": 1,
+          "beforeLines": [
+            "export function restoreStorefrontImagesHashes(rows){return restoreCartFlightHashes(rows).flatMap(row=>{"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-storefront-search.mjs": {
+      "before": null,
+      "after": "c05a287f94e2cf9f39a7a791a6bb46e04c24b71f5c8771ae2feaad53aa31d278"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "f47a7e3748ba03153e4e58bbdee984813be922a66bfe489bd930b8e6694e9563",
+      "after": "049ba3bd8fc385bdbb0c6136c82bb598c0517e7ed59d2d07a3968140f5e78020",
+      "inverse": [
+        {
+          "start": 3,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 100,
+          "afterCount": 11,
+          "beforeLines": []
+        }
+      ]
+    },
+    "tests/storefront-search-history.test.ts": {
+      "before": null,
+      "after": "7bc4859d9291450999b2776ab34e817e9879debad91b2e14b5e0106e07d12cdd"
+    }
+  }
+}

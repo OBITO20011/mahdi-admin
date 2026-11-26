@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-25T20:32:07.673Z",
+  "startedAt": "2026-11-26T17:10:01.487Z",
   "migrationCeiling": 226,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-HveM67",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-d0WAfp",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1427,7 +1427,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b"
+      "sha256": "34abb82593682cbff9ceb6e55a1581164cabc3d2c47b302f4a7b57deed117750"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1563,7 +1563,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHeader.tsx",
-      "sha256": "e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657"
+      "sha256": "65045b45d45614547fc393dde6a2683a8a1adc7fd75765e18f8b858e1ac58cc4"
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
@@ -1647,7 +1647,7 @@
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "sha256": "b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692"
+      "sha256": "041cd9399807475f025e5e0f50afa66d0988d04460c226f918b649da6be50a07"
     },
     {
       "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
@@ -1663,7 +1663,7 @@
     },
     {
       "file": "customer-web/src/services/operatingCatalog.ts",
-      "sha256": "7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521"
+      "sha256": "a3ada6101cde55ceb28eb7c2389a1da028db3f9fa022b6546635f0ecca731ad8"
     },
     {
       "file": "customer-web/src/services/orders.service.ts",
@@ -1710,6 +1710,10 @@
       "sha256": "76821b5bdce62a12792ec07eeb8e1e02d58205c657cbdf090554a259a0caa9a8"
     },
     {
+      "file": "customer-web/src/utils/catalogRequestGate.ts",
+      "sha256": "59110b80568d843c61873ceae3c931bb5bebc93d0cb9caf792e350e06ee70775"
+    },
+    {
       "file": "customer-web/src/utils/catalogView.ts",
       "sha256": "c702fdc04d7d0c9b7f7f21ea9b62b01269a43e01599133899c954534d8cb5bfe"
     },
@@ -1751,7 +1755,7 @@
     },
     {
       "file": "customer-web/src/utils/operatingRead.ts",
-      "sha256": "f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6"
+      "sha256": "1592f2b6e81892e9f3765413d61676064d431b2be10ce1039c9764deeee9b44b"
     },
     {
       "file": "customer-web/src/utils/ownerCheckoutRules.ts",
@@ -56338,5 +56342,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-25T20:32:28.750Z"
+  "endedAt": "2026-11-26T17:10:35.374Z"
 }
