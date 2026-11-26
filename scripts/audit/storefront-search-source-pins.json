@@ -1,0 +1,81 @@
+{
+  "baseline": "16a5f18db1df96f4e63bfd38ed68ed0ff439b98f",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b",
+      "after": "34abb82593682cbff9ceb6e55a1581164cabc3d2c47b302f4a7b57deed117750"
+    },
+    "customer-web/src/components/StoreHeader.tsx": {
+      "before": "e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657",
+      "after": "65045b45d45614547fc393dde6a2683a8a1adc7fd75765e18f8b858e1ac58cc4"
+    },
+    "customer-web/src/services/catalog.service.ts": {
+      "before": "b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692",
+      "after": "041cd9399807475f025e5e0f50afa66d0988d04460c226f918b649da6be50a07"
+    },
+    "customer-web/src/services/operatingCatalog.ts": {
+      "before": "7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521",
+      "after": "a3ada6101cde55ceb28eb7c2389a1da028db3f9fa022b6546635f0ecca731ad8"
+    },
+    "customer-web/src/utils/catalogRequestGate.ts": {
+      "before": null,
+      "after": "59110b80568d843c61873ceae3c931bb5bebc93d0cb9caf792e350e06ee70775"
+    },
+    "customer-web/src/utils/operatingRead.ts": {
+      "before": "f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6",
+      "after": "1592f2b6e81892e9f3765413d61676064d431b2be10ce1039c9764deeee9b44b"
+    },
+    "customer-web/tests/catalog-request-gate.test.ts": {
+      "before": null,
+      "after": "552cb257dc71663a96515c31e30386cdbeceeccf217588a81119fc9d7e728b0d"
+    },
+    "customer-web/tests/storefront-refresh-cache.test.ts": {
+      "before": "79340b43f7b717e799c967ec59a2d2bc601c42dcfb2ae6db5bed7017830cd0f4",
+      "after": "2b4bc7d92cc46558b2406722594b1cfb6949afb3a404187c8c54d183005fd8a3"
+    },
+    "docs/agent/project-state.json": {
+      "before": "3b07a95ad005e2cc96d83bf729d60d19dfc04cacbf1a4e17d8f1230a0ccc8100",
+      "after": "9370a50bfd6a4ef3b6d9125dee9ab17ac9dedcff73389b9192a082bb229f34b8"
+    },
+    "docs/operations/SERVICE_ACCESS_AFTER_226.json": {
+      "before": "37f0fe979d39181d68e46eb2baf085be46210f97f8c9284dbdc113fcb9e80658",
+      "after": "21d8539c8bb91807155c6e32bb7f39b09edbba9e1ad05387fec30f3284e7cfd9"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "f6984c6d991b29819c60d09ee79b01ffd70fe249b1f935878a85cf1865640817",
+      "after": "1964ac0f409a9939112ffa58b147ee54c8db404f68c4f6b625d7b26bcaac5765"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "c8ca7b88e9475556aca914c381db6d0b268d9c9956df122dec4e7701a565a5da",
+      "after": "9ed1eb04057b03db7bb3f49f6ce12d470577b3a3ba017acfcadda6b9f9ac38c1"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_226.json": {
+      "before": "871ca6e50a5dd9e2807272cf572108e1bea45d8296beddd7fa1e4b73aefdf873",
+      "after": "ea88eebce96d2b0df77eff305d4b296cc56a45b1000e4140b4025a0c34a8f1df"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "adf4152cff7f14dbd0e9d02f095149df119ea8d979d5158b31d69865552f1077",
+      "after": "b4b8da32c1996727629227b21039d7ce5cf8b51364e6765532ccefc8fca362ff"
+    },
+    "e2e/customer-storefront-search.spec.ts": {
+      "before": null,
+      "after": "2f34f58bb152d2fc98a6469840d689a8504c05f6712070534698cde34e3cef42"
+    },
+    "scripts/audit/source-before-parcel226.mjs": {
+      "before": "9ac6ab167996daf7648547463acadcf979479fc86f9b4079503eb6c9cec7e0b0",
+      "after": "be61a4b82062ed4e30fc97e2c165afd43a7dde9316de1d441318d0092ce04333"
+    },
+    "scripts/audit/source-before-storefront-images.mjs": {
+      "before": "8d566e8de8df212b613d9dc57514ba1f3193613f05b18a1b639c7904ff94a0c3",
+      "after": "d91e2378bfe5cc9a26f58a71b1cd0eb7c72a67b21f9c23073eb467ef710eeec3"
+    },
+    "scripts/audit/source-before-storefront-search.mjs": {
+      "before": null,
+      "after": "4e3943037bec8cb0c8662b9f00ac718d9930fb915c5d619b68ebc13aa716eb35"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "f47a7e3748ba03153e4e58bbdee984813be922a66bfe489bd930b8e6694e9563",
+      "after": "049ba3bd8fc385bdbb0c6136c82bb598c0517e7ed59d2d07a3968140f5e78020"
+    }
+  }
+}

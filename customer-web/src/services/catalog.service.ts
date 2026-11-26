@@ -400,7 +400,8 @@ export function findPublicProductLink(
 }
 
 export async function fetchPublicProductCatalog(
-  query: PublicCatalogQuery = {}
+  query: PublicCatalogQuery = {},
+  signal?: AbortSignal
 ): Promise<CatalogResponse> {
   if (!isSupabaseConfigured || !supabase) {
     throw new Error(
@@ -424,7 +425,7 @@ export async function fetchPublicProductCatalog(
     p_product_ids: query.productIds?.filter(Boolean) ?? null,
   };
   const { data, error } = await readCatalog225(operatingCatalogRpc,'public_storefront_catalog_page225',args,
-    ()=>readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2',args));
+    ()=>readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2',args,signal),signal);
 
   if (error) {
     throw new Error(error.message || 'تعذر تحميل كتالوج الجملة.');

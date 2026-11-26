@@ -1,19 +1,23 @@
 // Server chooses the mode per read. A missing phase2 RPC on legacy219 alone
 // falls back;network/permission/malformed responses never masquerade as full.
 type Response={data:unknown;error:{code?:string;message?:string}|null;status?:number};
-export type CatalogRpc=(name:string,args?:Record<string,unknown>)=>PromiseLike<Response>;
+export type CatalogRpc=(name:string,args?:Record<string,unknown>,signal?:AbortSignal)=>PromiseLike<Response>;
 const originals={lite1_preview_guest2:'preview_guest_promotion_v2',lite1_catalog_page2:'get_public_storefront_catalog_page',lite1_parcel_options2:'get_public_configurable_parcel_options',lite1_merchandising2:'get_public_storefront_merchandising'} as const;
 const isMissingCatalogRpc=(result:Response,name:string)=>
  result.data==null&&result.status===404&&result.error?.code==='PGRST202'&&result.error.message?.includes(name);
 
-export async function readOperatingCatalog(rpc:CatalogRpc,name:keyof typeof originals,args?:Record<string,unknown>):Promise<Response>{
- const result=await rpc(name,args);
- if(isMissingCatalogRpc(result,name))return rpc(originals[name],args);
+export async function readOperatingCatalog(rpc:CatalogRpc,name:keyof typeof originals,args?:Record<string,unknown>,signal?:AbortSignal):Promise<Response>{
+ signal?.throwIfAborted();
+ const result=await rpc(name,args,signal);
+ signal?.throwIfAborted();
+ if(isMissingCatalogRpc(result,name))return rpc(originals[name],args,signal);
  return result;
 }
 /** 225 supplies ON single-stock availability. Older ceilings retain their normal read. */
-export async function readCatalog225(rpc:CatalogRpc,name:'public_storefront_catalog_page225'|'get_public_parcel_options225'|'public_storefront_merchandising225',args:Record<string,unknown>|undefined,previous:()=>Promise<Response>):Promise<Response>{
- const result=await rpc(name,args);
+export async function readCatalog225(rpc:CatalogRpc,name:'public_storefront_catalog_page225'|'get_public_parcel_options225'|'public_storefront_merchandising225',args:Record<string,unknown>|undefined,previous:()=>Promise<Response>,signal?:AbortSignal):Promise<Response>{
+ signal?.throwIfAborted();
+ const result=await rpc(name,args,signal);
+ signal?.throwIfAborted();
  return isMissingCatalogRpc(result,name)?previous():result;
 }
 export function quantityFreePayload(value:unknown,contract:string):boolean{

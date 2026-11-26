@@ -1,3 +1,4 @@
+import {sourceBeforeStorefrontSearch,restoreStorefrontSearchHashes} from './source-before-storefront-search.mjs';
 import {pathsBeforeParcel226} from './source-before-parcel226.mjs';
 import{sourceBeforeCartFlight,restoreCartFlightHashes,pathsBeforeCartFlight}from'./source-before-cart-flight.mjs';
 // Frozen history only. Current runtime diagnostics never project these sources.
@@ -9,13 +10,13 @@ const {baseline,entries}=JSON.parse(readFileSync(new URL('./storefront-images-so
 const hash=text=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 const old=new Map();
 export function sourceBeforeStorefrontImages(file,text){
- text=sourceBeforeCartFlight(file,text);
+ text=sourceBeforeCartFlight(file,sourceBeforeStorefrontSearch(file,text));
  if(text===null)return null;const pin=entries[file];if(!pin||hash(text)!==pin.after)return text;
  if(pin.before===null)return null;
  if(!old.has(file)){const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(before),pin.before,'STOREFRONT_IMAGES_BASELINE_DRIFT');old.set(file,before);}
  return old.get(file);
 }
-export function restoreStorefrontImagesHashes(rows){return restoreCartFlightHashes(rows).flatMap(row=>{
+export function restoreStorefrontImagesHashes(rows){return restoreCartFlightHashes(restoreStorefrontSearchHashes(rows)).flatMap(row=>{
  const pin=entries[row.file];return !pin||pin.after!==row.sha256?[row]:pin.before===null?[]:[{...row,sha256:pin.before}];
 });}
 export function pathsBeforeStorefrontImages(files,reference){return pathsBeforeCartFlight(pathsBeforeParcel226(files,reference),reference).filter(file=>{

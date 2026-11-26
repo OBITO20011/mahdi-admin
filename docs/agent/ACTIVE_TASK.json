@@ -2,23 +2,31 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Prepare a reviewed draft to require verified 226 for reset hold and rehearse the full isolated cutover.",
-  "baselineSha": "4a0344a80d728ce70e8a9c9714e5888e4586b1e7",
-  "branch": "codex/cutover-226-hold",
+  "objective": "Owner-approved storefront search responsiveness, HTTP cancellation, tests, local benchmark and draft PR",
+  "baselineSha": "16a5f18db1df96f4e63bfd38ed68ed0ff439b98f",
+  "branch": "codex/storefront-search-speed",
   "phase": "ON226_PARCEL_INTEGRITY",
-  "startedAt": "2026-11-25T15:25:43.921Z",
-  "checkpointedAt": "2026-11-25T15:25:45.869Z",
+  "startedAt": "2026-11-26T16:49:08.553Z",
+  "checkpointedAt": "2026-11-26T17:11:41.556Z",
   "inProgress": [],
   "completed": [
-    "Reproduced the legacy 225 hold refusal after protected 226."
+    "Bound search results to the latest input, connected browser cancellation to the existing catalog reads, and kept a trailing debounce at 200 ms.",
+    "Verified mobile Chromium and WebKit searches and regenerated current local access evidence."
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Customer lint and 242 unit tests",
+    "Mobile Chromium and WebKit search tests 4/4",
+    "Browser case partition",
+    "Admin lint",
+    "226 local access: 193 table and 768 service probes"
+  ],
   "testsRemaining": [
-    "Exact-head CI, then isolated full archive cutover."
+    "Exact-head GitHub quality and secret scanning",
+    "Three isolated Lighthouse mobile search rounds"
   ],
   "findings": [],
   "blockers": [],
@@ -26,8 +34,8 @@
   "prohibitions": [
     "No hosted ERP access, deployment, merge, demo reset, Docker restart, final freeze or M01 change."
   ],
-  "nextExactAction": "Review exact-head CI and run the local rehearsal; await the owner before merge.",
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
+  "nextExactAction": "Keep the storefront search PR in draft, verify full exact-head CI and compare the three mobile Lighthouse rounds, then await owner review.",
+  "workingTreeFingerprint": "7CD24A354D7D28A73C29C3EE841A64057EE920353A2E10521DEBED4840194DC5",
+  "filesTouchedCount": 20,
+  "filesTouchedManifestSha256": "1800499ccb18518b5ebfb823d5bd924dad858917bcdbab8f6368ebb48bc1b125"
 }

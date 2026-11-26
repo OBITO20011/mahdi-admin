@@ -13,8 +13,8 @@ test('storefront does not poll the complete public data set on a fixed interval'
 
 test('storefront coalesces same-query requests and refreshes stale catalog data only while visible', () => {
   assert.match(app, /pendingLoadRef/);
-  assert.match(app, /catalogRequestKeyRef\.current === catalogQueryKey/);
-  assert.match(app, /catalogRequestSequenceRef/);
+  assert.match(app, /catalogRequests\.run\(catalogQueryKey,/);
+  assert.match(app, /if \(signal\.aborted\) return/);
   assert.match(app, /if \(document\.visibilityState !== 'visible'\) return/);
   assert.match(app, /document\.addEventListener\('visibilitychange', handleVisibilityChange\)/);
   assert.match(app, /CATALOG_STALE_TIME_MS - elapsedMs \+ 50/);

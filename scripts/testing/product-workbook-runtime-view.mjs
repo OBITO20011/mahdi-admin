@@ -1,6 +1,7 @@
 import {sourceBeforeOnUnitDisplay225,onUnitDisplay225Pins} from '../audit/source-before-on-unit-display225.mjs';
 import {sourceBeforeOnPrices225,onPrices225Pins} from '../audit/source-before-on-prices225.mjs';
 import {sourceBeforeOn225OwnerFixes,on225OwnerFixesPins} from '../audit/source-before-on225-owner-fixes.mjs';
+import {sourceBeforeStorefrontSearch,storefrontSearchPins,storefrontSearchBaseline} from '../audit/source-before-storefront-search.mjs';
 import {sourceBeforeParcel226,parcel226Pins,parcel226Baseline} from '../audit/source-before-parcel226.mjs';
 import {sourceBeforeInventory224,inventory224SourcePins,inventory224SourceBase} from '../audit/source-before-inventory224.mjs';
 import {sourceBeforeLatinDigits,latinDigitsSourcePins,latinDigitsSourceBase} from '../audit/source-before-latin-digits.mjs';
@@ -97,6 +98,17 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  for (const [file, pin] of Object.entries(storefrontSearchPins)) {
+   if (!sourceScope(file)) continue;
+   const target = path.join(dir, file);
+   const raw = await readFile(target, 'utf8');
+   assert.equal(hash(raw.replaceAll('\r\n', '\n')), pin.after, 'HISTORICAL_STOREFRONT_SEARCH_UNREVIEWED_SOURCE:' + file);
+   const before = sourceBeforeStorefrontSearch(file, raw);
+   assert.equal(before, historicalText(storefrontSearchBaseline, file), 'HISTORICAL_STOREFRONT_SEARCH_NOT_EXACT_GIT:' + file);
+   if (before === null) await unlink(target);
+   else await writeFile(target, before);
+   changed.push({file, after: pin.after, before: pin.before});
+  }
   const migration226='supabase/migrations/226_parcel_price_integrity.sql';
   for(const [file,pin] of Object.entries(parcel226Pins)){
    if(!sourceScope(file)&&file!==migration226)continue;

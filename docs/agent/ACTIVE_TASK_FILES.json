@@ -1,4 +1,85 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "customer-web/src/App.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/StoreHeader.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/catalog.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/operatingCatalog.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/operatingRead.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/storefront-refresh-cache.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_226.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_226.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-parcel226.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-storefront-images.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/src/utils/catalogRequestGate.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/tests/catalog-request-gate.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "e2e/customer-storefront-search.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-storefront-search.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/storefront-search-source-pins.json"
+    }
+  ]
 }
