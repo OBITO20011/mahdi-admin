@@ -9,8 +9,11 @@ import {executeInput} from './build-empty-supabase.mjs';
 import {DEFAULT_WORKDIR,OLD_REF,TARGET,assertOutsideRepository,connectionFromLink,ownerPassword} from './frankfurt-owner-build.mjs';
 import {historySql,holdUpgradeGuard} from './frankfurt-owner-upgrade.mjs';
 import {read225SourceEvidence} from './frankfurt-owner-upgrade225.mjs';
+import {read226BackupEvidence} from './upgrade225-protection.mjs';
+import {operationalSchema} from './operational-schema.mjs';
 import {readReady222Reference,ready222ReferenceName} from './frankfurt-reference222.mjs';
 import {readReady225Reference,ready225ReferenceName} from './frankfurt-reference225.mjs';
+import {readReady226Reference,ready226ReferenceName} from './frankfurt-reference226.mjs';
 import {heldJobNames,notificationSnapshotSql} from './frankfurt-notification-hold.mjs';
 import {ownerTelegramJob} from './owner-telegram217-notifications.mjs';
 import {assert220Notifications,upgrade220ServerBindingSql} from './upgrade220-runtime-state.mjs';
@@ -35,7 +38,7 @@ const sqlJson=value=>"'"+JSON.stringify(value).replaceAll("'","''")+"'::jsonb";
 
 export function parseCutoverHoldArgs(args){
  const flags=new Set();
- const options={phase:'',mode:'dry-run',workdir:DEFAULT_WORKDIR,verification:null};
+ const options={phase:'',mode:'dry-run',workdir:DEFAULT_WORKDIR,verification:null,backupEvidence:null};
  const modes=['--apply','--dry-run','--verify','--plan'];
  for(let i=0;i<args.length;i++){
   const flag=args[i];
@@ -46,26 +49,32 @@ export function parseCutoverHoldArgs(args){
    options.phase=flag.slice(7);
   }else if(modes.includes(flag)){
    options.mode=flag.slice(2);
-  }else if(flag==='--workdir'||flag==='--verify-report'){
+  }else if(flag==='--workdir'||flag==='--verify-report'||flag==='--backup-evidence'){
    const value=args[++i];
    assert.ok(value&&!value.startsWith('--'),'CUTOVER_HOLD_OPTION_VALUE_REQUIRED');
    if(flag==='--workdir')options.workdir=path.resolve(value);
-   else options.verification=path.resolve(value);
+   else if(flag==='--verify-report')options.verification=path.resolve(value);
+   else options.backupEvidence=path.resolve(value);
   }else assert.fail('CUTOVER_HOLD_UNKNOWN_OPTION');
  }
  assert.ok(options.phase,'CUTOVER_HOLD_PHASE_REQUIRED');
  assert.ok(modes.filter(flag=>flags.has(flag)).length<=1,'CUTOVER_HOLD_ONE_MODE_REQUIRED');
- assert.equal(Boolean(options.verification),options.phase==='reset'&&['apply','dry-run'].includes(options.mode),
-  'CUTOVER_HOLD_RESET_VERIFY_REPORT_REQUIRED');
+ const transitioning=options.phase==='reset'&&['apply','dry-run'].includes(options.mode);
+ assert.equal(Boolean(options.verification),transitioning,'CUTOVER_HOLD_RESET_VERIFY_REPORT_REQUIRED');
+ assert.equal(Boolean(options.backupEvidence),transitioning&&operationalSchema.ceiling===226,
+  'CUTOVER_HOLD_RESET_BACKUP226_EVIDENCE_REQUIRED');
  return options;
 }
 
-async function readState(executor,reference,phase){
+async function readState(executor,reference,phase,resetCeiling){
  const result=await executeInput(executor,`BEGIN READ ONLY;${stateSelect};ROLLBACK;`);
  assert.equal(result.code,0,'CUTOVER_HOLD_STATE_READ_FAILED');
  const state=JSON.parse(result.stdout.trim());
  const expected=phase==='upgrade'?reference.appliedVersions.filter(v=>Number(v)<=220):reference.appliedVersions;
- assert.equal(expected.length,phase==='upgrade'?181:185,'CUTOVER_HOLD_REFERENCE_HISTORY_INVALID');
+ const ceiling=phase==='upgrade'?220:resetCeiling;
+ const files={220:181,225:185,226:186}[ceiling];
+ assert.ok(expected.length===files&&expected.at(-1)===String(ceiling)&&!expected.includes('221'),
+  'CUTOVER_HOLD_REFERENCE_HISTORY_INVALID');
  assert.deepEqual(state.history,expected,'CUTOVER_HOLD_HISTORY_MISMATCH');
  assert.equal(state.singleSetting,true,'CUTOVER_HOLD_STOREFRONT_SETTING_REQUIRED');
  assert.equal(state.leaseIdle,true,'CUTOVER_HOLD_DISPATCH_LEASE_MUST_BE_IDLE');
@@ -120,18 +129,24 @@ async function saveOriginal(file,reference,state){
  catch(error){if(error.code!=='EEXIST')throw error;}
  await originalEvidence(file,reference,state);
 }
-async function assertVerified225(file,executor,reference,checkSource){
+async function assertVerifiedReset(file,executor,reference,ceiling,backupEvidence,checkSource){
  const verified=JSON.parse(await readFile(file,'utf8'));
- assert.ok(verified.projectRef===TARGET.id&&verified.mode==='verify-only'&&verified.ok===true&&verified.complete===true&&verified.targetCeiling===225
+ assert.ok(verified.projectRef===TARGET.id&&verified.mode==='verify-only'&&verified.ok===true&&verified.complete===true&&verified.targetCeiling===ceiling
   &&verified.remoteWriteAttempted===false&&verified.protectionPending===false
   &&verified.protection?.strictIsolatedRestore===true&&verified.protection?.complete===true
   &&hash.test(verified.protection.afterArchiveSha256)&&hash.test(verified.protection.afterSourceEvidenceSha256),
- 'CUTOVER_HOLD_VERIFIED_225_REQUIRED');
+ 'CUTOVER_HOLD_VERIFIED_'+ceiling+'_REQUIRED');
+ if(ceiling===226){
+  assert.ok(backupEvidence,'CUTOVER_HOLD_RESET_BACKUP226_EVIDENCE_REQUIRED');
+  const backup=await read226BackupEvidence(backupEvidence,226);
+  assert.equal(backup.sha256,verified.protection.afterArchiveSha256,'CUTOVER_HOLD_BACKUP226_ARCHIVE_CHANGED');
+  assert.equal(backup.sourceEvidenceSha256,verified.protection.afterSourceEvidenceSha256,'CUTOVER_HOLD_BACKUP226_SOURCE_CHANGED');
+ }
  if(!checkSource)return;
  const evidence=await read225SourceEvidence(executor);
  assert.deepEqual(evidence.history,reference.appliedVersions,'CUTOVER_HOLD_VERIFY_HISTORY_CHANGED');
  assert.equal(sha256(JSON.stringify(evidence)),verified.protection.afterSourceEvidenceSha256,
-  'CUTOVER_HOLD_SOURCE_CHANGED_SINCE_VERIFY225');
+  'CUTOVER_HOLD_SOURCE_CHANGED_SINCE_VERIFY'+ceiling);
 }
 
 function transitionSql(before,phase){
@@ -165,10 +180,12 @@ function transitionSql(before,phase){
  COMMIT;`;
 }
 
-// The sole injection seam is for the disconnected archive rehearsal.
-export async function cutoverHoldWithExecutor({executor,reference,phase,mode,evidenceFile,verification=null}){
+// Historical 225 proofs use this executor directly. The current owner command
+// explicitly selects its operational ceiling, with no owner override.
+export async function cutoverHoldWithExecutor({executor,reference,phase,mode,evidenceFile,verification=null,backupEvidence=null,resetCeiling=225}){
+ assert.ok([225,226].includes(resetCeiling),'CUTOVER_HOLD_RESET_CEILING_UNSUPPORTED');
  assert.ok(['upgrade','reset'].includes(phase)&&['dry-run','apply','verify'].includes(mode),'CUTOVER_HOLD_INVALID_MODE');
- const before=await readState(executor,reference,phase);
+ const before=await readState(executor,reference,phase,resetCeiling);
  if(mode==='verify'){
   assertHold(before,phase);
   return {ok:true,phase,mode,remoteWriteAttempted:false,...reportState(before)};
@@ -177,9 +194,9 @@ export async function cutoverHoldWithExecutor({executor,reference,phase,mode,evi
   assert.equal(before.ordersClosed,true,'CUTOVER_HOLD_ORDERS_STILL_OPEN');
   await originalEvidence(evidenceFile,reference,before);
   assert.ok(matchesHold(before,'upgrade')||matchesHold(before,'reset'),'CUTOVER_HOLD_RESET_REQUIRES_UPGRADE_HOLD');
-  // 225's verify-only proof binds the exact database state before cleanup resumes.
+  // The verify-only proof binds the exact database state before cleanup resumes.
   // Repeating the RESET hold when it is already in effect performs no write.
-  await assertVerified225(verification,executor,reference,!fullyHeld(before,'reset'));
+  await assertVerifiedReset(verification,executor,reference,resetCeiling,backupEvidence,!fullyHeld(before,'reset'));
  }
  if(mode==='dry-run')return {ok:true,phase,mode,remoteWriteAttempted:false,before:reportState(before),
   requested:{ordersClosed:true,activeJobs:phase==='reset'?[cleanupJob]:[],
@@ -192,24 +209,27 @@ export async function cutoverHoldWithExecutor({executor,reference,phase,mode,evi
   const code=result.stderr.match(/\bCUTOVER_HOLD_(?:PRECONDITION_CHANGED|POSTCONDITION_FAILED)\b/u)?.[0]??'CUTOVER_HOLD_TRANSACTION_FAILED';
   assert.equal(result.code,0,code);
  }
- const after=await readState(executor,reference,phase);
+ const after=await readState(executor,reference,phase,resetCeiling);
  assertHold(after,phase);
  assert.equal(snapshotIdentity(after),snapshotIdentity(before),'CUTOVER_HOLD_POSTCONDITION_INVENTORY_CHANGED');
  return {ok:true,phase,mode,remoteWriteAttempted:!noOp,noOp,evidenceFile,...reportState(after)};
 }
 
 export async function runCutoverHold225(args){
- const options=parseCutoverHoldArgs(args);
+ const options=parseCutoverHoldArgs(args),resetCeiling=operationalSchema.ceiling;
+ assert.ok([225,226].includes(resetCeiling),'CUTOVER_HOLD_RESET_CEILING_UNSUPPORTED');
  if(options.mode==='plan')return {ok:true,phase:options.phase,mode:'plan',networkAccess:false,
-  remoteWriteAttempted:false,dryRunDefault:true,applyRequiresOwner:true};
+  remoteWriteAttempted:false,dryRunDefault:true,applyRequiresOwner:true,historyCeiling:options.phase==='upgrade'?220:resetCeiling};
  const workdir=await realpath(options.workdir);
  assertOutsideRepository(workdir,await realpath(root));
- if(options.verification)assertOutsideRepository(await realpath(options.verification),await realpath(root));
+ for(const file of [options.verification,options.backupEvidence].filter(Boolean))assertOutsideRepository(await realpath(file),await realpath(root));
  assert.equal((await readFile(path.join(root,'supabase/.temp/project-ref'),'utf8')).trim(),OLD_REF,'CUTOVER_HOLD_REPOSITORY_LINK_CHANGED');
  assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'CUTOVER_HOLD_TARGET_LINK_MISMATCH');
  const reference=options.phase==='upgrade'
   ?await readReady222Reference(root,path.join(workdir,ready222ReferenceName))
-  :await readReady225Reference(root,path.join(workdir,ready225ReferenceName));
+  :resetCeiling===226
+   ?await readReady226Reference(root,path.join(workdir,ready226ReferenceName))
+   :await readReady225Reference(root,path.join(workdir,ready225ReferenceName));
  const connection=connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
  const ca=verifiedSupabaseCa();
  assert.ok(process.stdin.isTTY,'CUTOVER_HOLD_OWNER_TERMINAL_REQUIRED');
@@ -226,7 +246,7 @@ export async function runCutoverHold225(args){
  let guard;
  try{
   if(options.mode==='apply')guard=await holdUpgradeGuard(executor);
-  return await cutoverHoldWithExecutor({...options,executor,reference,evidenceFile:path.join(workdir,evidenceName)});
+  return await cutoverHoldWithExecutor({...options,executor,reference,resetCeiling,evidenceFile:path.join(workdir,evidenceName)});
  }finally{
   try{if(guard)await guard.close();}
   finally{delete env.PGPASSWORD;}

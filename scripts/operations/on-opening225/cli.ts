@@ -79,7 +79,7 @@ export async function runOpening225(args:string[],{expectedSourceSha=OWNER_CATAL
    const bytes=writeXlsx([{name:'البيانات',rows:file.rows}]);await writeFile(path.join(output,name),bytes,{flag:'wx',mode:0o600});
    stockManifest.push({warehouse:file.warehouse,file:name,sha256:hash(bytes),rows:file.rows.length-1});
   }
-  await save('import-manifest.json',{sourceSha256:before,...(productFile?{productFile:'المنتجات.xlsx',productSha256:hash(productFile)}:{stage:'B',productWrites:0,liveSnapshotSha256:liveSha}),stock:stockManifest,order:mode==='stock'?['فحص عدم وجود عمليات منذ نسخة نهاية أ','مطابقة تكلفة ومحتوى الشراء الحيين','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية']:['تعريف الوحدات والأقسام','استيراد المنتجات ومطابقتها','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية'],operatingMode:'full',migrationCeiling:225});
+  await save('import-manifest.json',{sourceSha256:before,...(productFile?{productFile:'المنتجات.xlsx',productSha256:hash(productFile)}:{stage:'B',productWrites:0,liveSnapshotSha256:liveSha}),stock:stockManifest,order:mode==='stock'?['فحص عدم وجود عمليات منذ نسخة نهاية أ','مطابقة تكلفة ومحتوى الشراء الحيين','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية']:['تعريف الوحدات والأقسام','استيراد المنتجات ومطابقتها','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية'],operatingMode:'full',migrationCeiling:mode==='stock'?live!.ceiling:225});
  }
  assert.equal(hash(await externalInput(options.get('--source')!)),before,'ON225_SOURCE_CHANGED_DURING_CONVERSION');
  await save('report.json',report);
