@@ -1456,6 +1456,38 @@
     "tests/storefront-search-history.test.ts": {
       "before": null,
       "after": "7bc4859d9291450999b2776ab34e817e9879debad91b2e14b5e0106e07d12cdd"
+    },
+    "docs/operations/FAST_DOWN_ALERT_AR.md": {
+      "before": null,
+      "after": "42719ab2a0ed92d3b5eb96a12fe8acc53ae1a44a1e8996dc20b110fa69b1ec1d"
+    },
+    "scripts/monitoring/fast-down-alert-windows.ps1": {
+      "before": null,
+      "after": "ff23ed3cd3fe4e98ccb07c2f90ed4b1835ad06e7df727616425428476e414da6"
+    },
+    "scripts/monitoring/fast-down-alert.mjs": {
+      "before": null,
+      "after": "d17e6a59fd5d767b5a272ceb581e106bd95193ec98430369d257a4d02a2327eb"
+    },
+    "scripts/monitoring/register-fast-down-alert.ps1": {
+      "before": null,
+      "after": "6c75cd1c7e098d75f9d3720a94b00f10fc633c67f88953614242fc1a24d2f123"
+    },
+    "scripts/monitoring/run-fast-down-alert.ps1": {
+      "before": null,
+      "after": "fac37bc5f192fe4589929c82556b35d74fc38a9f3d50ba17bd556668b38b4af5"
+    },
+    "scripts/testing/test-fast-down-alert-windows.ps1": {
+      "before": null,
+      "after": "f1ebfdd0b8592ae29993b2dbd8a4ad9497a1a9d058fbb54d523f2fc53d7e6b00"
+    },
+    "tests/fast-down-alert-windows.test.ts": {
+      "before": null,
+      "after": "ce5a9279ef439f9670d2ed110df0c3154e276d012ad37c1530c35bc0d0f39696"
+    },
+    "tests/fast-down-alert.test.ts": {
+      "before": null,
+      "after": "7f979eebe278b62447f00cfa1d0b3ae8c426eb56b6beca38a805fcfa6e125da5"
     }
   }
 }
