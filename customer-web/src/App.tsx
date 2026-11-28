@@ -17,17 +17,13 @@ import {
 } from 'lucide-react';
 import { lazy, startTransition, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CATALOG_SEARCH_DEBOUNCE_MS, createCatalogRequestGate } from './utils/catalogRequestGate';
-import { CategoryDrawer } from './components/CategoryDrawer';
-import { CategoryShowcase } from './components/CategoryShowcase';
 import { FloatingContactActions } from './components/FloatingContactActions';
 import { GuidedStoreAssistant } from './components/GuidedStoreAssistant';
 import { HomeCategoryMosaic } from './components/HomeCategoryMosaic';
-import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
 import { MobileStoreNav } from './components/MobileStoreNav';
 import {cartUnitPresentation} from './utils/cartUnitPresentation';
 import { ProductCard } from './components/ProductCard';
-import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
 import { StoreFooter } from './components/StoreFooter';
 import { StoreHero } from './components/StoreHero';
@@ -93,7 +89,12 @@ import { useCustomerCommerce } from './hooks/useCustomerCommerce';
 import { reviewPolicyFor } from './services/commerceStorage';
 
 import { DeferredDialog } from './components/DeferredDialog';
+import { CatalogGridPlaceholder } from './components/CatalogGridPlaceholder';
 
+const CategoryDrawer = lazy(() => import('./components/CategoryDrawer').then(module => ({ default: module.CategoryDrawer })));
+const CategoryShowcase = lazy(() => import('./components/CategoryShowcase').then(module => ({ default: module.CategoryShowcase })));
+const NetworkStatusBanner = lazy(() => import('./components/NetworkStatusBanner').then(module => ({ default: module.NetworkStatusBanner })));
+const PromotionOffers = lazy(() => import('./components/PromotionOffers').then(module => ({ default: module.PromotionOffers })));
 const CartDrawer = lazy(() => import('./components/CartDrawer').then(module => ({ default: module.CartDrawer })));
 const CheckoutModal = lazy(() => import('./components/CheckoutModal').then(module => ({ default: module.CheckoutModal })));
 const OrderTrackingModal = lazy(() => import('./components/OrderTrackingModal').then(module => ({ default: module.OrderTrackingModal })));
@@ -247,6 +248,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [selectedSaleUnit, setSelectedSaleUnit] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [displayedCatalogCategory, setDisplayedCatalogCategory] = useState<string | undefined>();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [lastUpdatedAt, setLastUpdatedAt] = useState<Date | null>(null);
@@ -337,6 +339,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const catalogSearch = searchQuery.trim();
   const isSearching = catalogSearch !== settledCatalogSearch || (Boolean(catalogSearch) && isLoading);
   const hasCurrentSearchResults = catalogSearch === displayedCatalogSearch;
+  const hasCurrentCategoryResults = selectedCategory === displayedCatalogCategory;
 
   const updateSearchQuery = useCallback((value: string) => {
     const nextSearch = value.trim();
@@ -404,6 +407,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             setCatalogSummary(catalog.summary);
             setCatalogTotal(catalog.total);
             setDisplayedCatalogSearch(catalogSearch);
+            setDisplayedCatalogCategory(catalogQuery.categoryId ?? 'all');
             setLoadError(null);
             setLastUpdatedAt(now);
             finish();
@@ -1607,35 +1611,34 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onSuggestionSelect={(product) => { updateSearchQuery(''); openProductDetails(product); }}
       />
 
-      <NetworkStatusBanner
+      {(!isOnline || (products.length > 0 && loadError)) && <Suspense fallback={null}><NetworkStatusBanner
         isOnline={isOnline}
         refreshError={products.length > 0 ? loadError : null}
         lastUpdatedAt={lastUpdatedAt}
         isRetrying={isRefreshing}
         onRetry={() => void loadCatalog(true, true)}
-      />
+      /></Suspense>}
 
-      {!settingsTrusted && (
+      {!settingsTrusted && !settingsUnavailable && (
+        <p role="status" className="sr-only">جارٍ التحقق من إعدادات الطلب والتوصيل.</p>
+      )}
+      {!settingsTrusted && settingsUnavailable && (
         <section
-          role={settingsUnavailable ? 'alert' : 'status'}
+          role="alert"
           aria-live="polite"
           className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-center text-xs font-black text-amber-900"
         >
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-3">
             <span>
-              {settingsUnavailable
-                ? 'تعذر تحميل إعدادات الطلب والتوصيل. لن نعرض رسومًا أو حدًا أدنى غير موثوقين.'
-                : 'جارٍ التحقق من إعدادات الطلب والتوصيل.'}
+              تعذر تحميل إعدادات الطلب والتوصيل. لن نعرض رسومًا أو حدًا أدنى غير موثوقين.
             </span>
-            {settingsUnavailable && (
-              <button
+            <button
                 type="button"
                 onClick={() => void loadStorefrontSettings(true)}
                 className="rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-[11px] font-black text-amber-900"
               >
                 إعادة المحاولة
-              </button>
-            )}
+            </button>
           </div>
         </section>
       )}
@@ -1661,11 +1664,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           }
         />
 
-        {settingsTrusted && storefrontSettings.showOffers && (
+        {settingsTrusted && storefrontSettings.showOffers && storefrontOffers.length > 0 && (
+          <Suspense fallback={null}>
           <PromotionOffers
             offers={storefrontOffers}
             onUseOffer={usePromotionOffer}
           />
+          </Suspense>
         )}
 
         <HomeCategoryMosaic
@@ -1692,13 +1697,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         {activePage === 'categories' && (
           <section id="categories-page" className="min-h-[70vh] bg-gradient-to-b from-blue-50/50 to-[#fbf7f0] py-10 sm:py-14">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
-              <CategoryShowcase
+              <Suspense fallback={storePageLoading}><CategoryShowcase
                 categories={catalogCategories}
                 products={products}
                 selectedCategory={selectedCategory}
                 totalProducts={products.length}
                 onSelect={selectCatalogCategory}
-              />
+              /></Suspense>
             </div>
           </section>
         )}
@@ -1767,6 +1772,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                         ? 'آخر تحديث لم يكتمل'
                         : 'بدون اتصال'}
                   </span>
+                  <div className="min-h-[1lh]">
                   {lastUpdatedAt && (
                     <span>
                       آخر تحديث:{' '}
@@ -1776,6 +1782,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                       })}
                     </span>
                   )}
+                  </div>
                 </div>
               </div>
 
@@ -1849,8 +1856,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
               {lastGuestOrder && <button type="button" onClick={repeatLastOrder} disabled={isRepeatingLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800 disabled:cursor-wait disabled:opacity-60">{isRepeatingLastOrder ? 'جارٍ التحقق من أصناف الطلب...' : `إعادة آخر طلب (${lastGuestOrder.orderNumber})`}</button>}
 
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
-                {!isSearching && hasCurrentSearchResults && (
+              <div className="mt-3 flex min-h-[1lh] flex-wrap items-center justify-between gap-2 px-1 text-[10px]">
+                {!isSearching && hasCurrentSearchResults && hasCurrentCategoryResults && (
                   <p className="text-[10px] font-bold text-slate-600">
                     عرض {filteredProducts.length.toLocaleString(DISPLAY_LOCALE)} من{' '}
                     {catalogTotal.toLocaleString(DISPLAY_LOCALE)} صنف
@@ -1869,26 +1876,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               </div>
             </div>
 
-            <div id="catalog-products" className="scroll-mt-40">
+            <div id="catalog-products" className="catalog-results scroll-mt-40" aria-busy={isSearching || isLoading || (!hasCurrentCategoryResults && !loadError)}>
             {isSearching ? (
-              <p role="status" className="mt-6 rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center text-sm font-bold text-slate-700">
-                جاري البحث…
-              </p>
-            ) : isLoading ? (
-              <div className="mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="h-[430px] animate-pulse rounded-[1.75rem] border border-slate-200 bg-white p-4"
-                  >
-                    <div className="h-52 rounded-3xl bg-slate-100" />
-                    <div className="mt-5 h-4 w-2/3 rounded bg-slate-100" />
-                    <div className="mt-3 h-3 w-1/3 rounded bg-slate-100" />
-                    <div className="mt-7 h-16 rounded-2xl bg-slate-100" />
-                  </div>
-                ))}
-              </div>
-            ) : loadError && (!hasCurrentSearchResults || products.length === 0) ? (
+              <CatalogGridPlaceholder searching />
+            ) : isLoading || (!hasCurrentCategoryResults && !loadError) ? (
+              <CatalogGridPlaceholder />
+            ) : loadError && (!hasCurrentCategoryResults || !hasCurrentSearchResults || products.length === 0) ? (
               <div className="mt-6 rounded-[2rem] border border-rose-200 bg-white p-10 text-center">
                 <AlertTriangle className="mx-auto h-10 w-10 text-rose-500" />
                 <h3 className="mt-4 text-lg font-black text-slate-900">
@@ -1929,7 +1922,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                 </p>
               </div>
             ) : (
-              <div data-testid="catalog-products-grid" className="mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+              <div data-testid="catalog-products-grid" className="catalog-card-grid">
                 {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -2161,14 +2154,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         )}
       </main>
 
-      <CategoryDrawer
+      <DeferredDialog open={categoriesOpen}><CategoryDrawer
         isOpen={categoriesOpen}
         categories={catalogCategories}
         selectedCategory={selectedCategory}
                 totalProducts={catalogTotal}
         onClose={() => setCategoriesOpen(false)}
         onSelect={selectCatalogCategory}
-      />
+      /></DeferredDialog>
 
       <StoreFooter
         whatsappUrl={storeWhatsappUrl}

@@ -1425,7 +1425,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "34abb82593682cbff9ceb6e55a1581164cabc3d2c47b302f4a7b57deed117750"
+      "sha256": "4e703e9513cda0e472b218fbba794e5362d71ff096eec98d1449083a77fd10f9"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1438,6 +1438,10 @@
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
       "sha256": "c0a5a6faad5cbb331a768de90d843e316583412e9418212d95f510591b123b7f"
+    },
+    {
+      "file": "customer-web/src/components/CatalogGridPlaceholder.tsx",
+      "sha256": "49052d46318c78fbd3852696d7ced135e3afdbd04503e713f844de8d523baaa8"
     },
     {
       "file": "customer-web/src/components/CategoryDrawer.tsx",
@@ -1481,7 +1485,7 @@
     },
     {
       "file": "customer-web/src/components/HeroVideo.tsx",
-      "sha256": "1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033"
+      "sha256": "81420d466cfc7ca3f95bf11c17d01940327840ac0de83a3fc4ec86c17d5869a5"
     },
     {
       "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
@@ -1529,7 +1533,7 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc"
+      "sha256": "201dafc28eeca7f3262ceac8162860636a721d6ab7f193f7f4837469332cc978"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
@@ -1565,7 +1569,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
-      "sha256": "72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859"
+      "sha256": "281b58ff8274eb0d64cd2b976c6d5e401df5661f90197b9e5436a50be5a84d13"
     },
     {
       "file": "customer-web/src/components/StoreInfoSection.tsx",
@@ -5591,22 +5595,22 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 1095,
+      "line": 1099,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 1101,
+      "line": 1105,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 1879,
+      "line": 2028,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
-      "file": "customer-web/src/App.tsx",
-      "line": 2035,
+      "file": "customer-web/src/components/CatalogGridPlaceholder.tsx",
+      "line": 10,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

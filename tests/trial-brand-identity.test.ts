@@ -31,18 +31,26 @@ test('H approved original and every icon derivative have exact provenance and va
  }
  assert.match(read('customer-web/src/receipts/ReceiptDocument.tsx'),/src="\/nawasrah-receipt-logo\.png"/u);
 });
-test('H keeps live identity, contacts, historical SQL and media exact except the reviewed mobile compression',()=>{
+test('H keeps live identity, contacts, historical SQL and media exact except the reviewed video transcodes',()=>{
  assert.equal(APP_NAME_AR,official);assert.equal(SEO_BRAND.officialName,official);assert.equal(SEO_BRAND.alternateName,official);
  assert.match(read('customer-web/src/config/store.ts'),/DEFAULT_STORE_WHATSAPP_NUMBER = '0772838886'/u);
  const changed=execFileSync('git',['diff','--name-only','6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb','--','supabase/migrations','scripts/audit/*-hunks.json','customer-web/public/*.mp4','customer-web/public/nawasrah-hero-poster.webp'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
  const approvedMobileVideo='customer-web/public/nawasrah-hero-mobile.mp4';
+ const approvedDesktopVideo='customer-web/public/nawasrah-hero-desktop-1080p.mp4';
  if(changed.includes(approvedMobileVideo)){
   const originalMobileVideo=execFileSync('git',['show','6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb:'+approvedMobileVideo],{maxBuffer:4*1024**2});
   assert.equal(hash(originalMobileVideo),'e78f580d0f206560e52077991c5d88680230e676fb7e837218b33b027561333d');
-  assert.equal(hash(readFileSync(approvedMobileVideo)),'c47271c8b877acd6e2950ee6c8462a968e54846915ec734d3d81ef6fe120be66','Only the exact reviewed mobile compression is admitted');
+  const previous=execFileSync('git',['show','e5e922892a9f89e2adf526e7c362bccc331395a5:'+approvedMobileVideo],{maxBuffer:4*1024**2});
+  assert.equal(hash(previous),'c47271c8b877acd6e2950ee6c8462a968e54846915ec734d3d81ef6fe120be66','Preserve proof of the earlier mobile compression');
+  assert.equal(hash(readFileSync(approvedMobileVideo)),'9a7f3cbe7ecbb646fd515ee59db54d1f44547b8f10e539677ff37cce79eb9f4a','Only the exact reviewed mobile transcode is admitted');
+ }
+ if(changed.includes(approvedDesktopVideo)){
+  const previous=execFileSync('git',['show','6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb:'+approvedDesktopVideo],{maxBuffer:4*1024**2});
+  assert.equal(hash(previous),'c2617bc81a6a1e2c8a1fa73da739645225cf9195c26ae0c27d1aa1990d85c74a');
+  assert.equal(hash(readFileSync(approvedDesktopVideo)),'b5eb7aedcb254ce8fd666aa9ab2e6a227d975724430f7c86bb58e0d060f59412','Only the exact reviewed desktop transcode is admitted');
  }
  const approvedR='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql';
- assert.deepEqual(pathsBeforeHandover213(pathsBeforeSalesOnlyPhase3(changed)).filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR,approvedMobileVideo].includes(f)),[]);
+ assert.deepEqual(pathsBeforeHandover213(pathsBeforeSalesOnlyPhase3(changed)).filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR,approvedMobileVideo,approvedDesktopVideo].includes(f)),[]);
  assert.equal(hash(read(approvedR).replaceAll('\r\n','\n')),'6bdbc906b38b4fd29dd4c5115e040cb1954b1bdb5abe0ee3aedaae634b6ce619','Only the exact owner-approved read-only212 is admitted');
  for(const f of ['customer-web/src/App.tsx','customer-web/src/config/seoBrand.ts','customer-web/src/components/StoreHero.tsx'])assert.ok(!read(f).includes('nawasrah-banner-wide.webp'));
  const cutover='docs/operations/GO_LIVE_CUTOVER_AR.md';

@@ -76,7 +76,7 @@ export function StoreHero({
             </span>
           </h1>
 
-          <p className="mt-3 max-w-2xl text-[11px] font-medium leading-6 text-blue-50/85 sm:mt-6 sm:text-base sm:leading-8 sm:text-blue-100/75">
+          <p className="mt-3 min-h-[3lh] max-w-2xl text-[11px] font-medium leading-6 text-blue-50/85 sm:mt-6 sm:min-h-[2lh] sm:text-base sm:leading-8 sm:text-blue-100/75">
             {availablePackages === null
               ? 'تصفح أصناف النواصرة لتجارة الجملة والمواد الغذائية بأسعارها ووحداتها. يحدد المحل توفر الأصناف ويؤكد تفاصيل طلبك.'
               : <>اختر الطرود المتوفرة فعليًا لدى النواصرة لتجارة الجملة والمواد الغذائية. السعر، نوع الطرد،

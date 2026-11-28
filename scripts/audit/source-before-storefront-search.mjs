@@ -12,6 +12,13 @@ const index = JSON.parse(indexText);
 assert.equal(index.format, 1);
 assert.equal(index.baseline, storefrontSearchBaseline);
 export const storefrontSearchPins = index.entries;
+const mediaPins = index.heroMedia ?? {};
+for (const [file, pin] of Object.entries(mediaPins)) {
+  assert.match(file, /^customer-web\/public\/nawasrah-hero-(?:desktop-1080p|mobile)\.mp4$/u);
+  assert.match(pin.before, /^[0-9a-f]{64}$/u);
+  assert.match(pin.after, /^[0-9a-f]{64}$/u);
+  assert.notEqual(pin.before, pin.after);
+}
 const originals = new Map();
 const fromGit = (reference, file) => canonicalLf(execFileSync('git', ['show', reference + ':' + file], {
   cwd: new URL('../..', import.meta.url),
@@ -49,8 +56,32 @@ export function restoreStorefrontSearchHashes(rows) {
   });
 }
 
+// Binary clips do not enter the text history or current runtime source hashes.
+// Only the exact transcodes may project back to the reviewed pre-CWV assets.
+export function storefrontHeroPriorHash(file, bytes) {
+  if (!Object.hasOwn(mediaPins, file)) return null;
+  const pin = mediaPins[file];
+  return sha256(bytes) === pin.after ? pin.before : null;
+}
+
 export function pathsBeforeStorefrontSearch(files, reference) {
   return files.filter(file => {
+    if (Object.hasOwn(mediaPins, file)) {
+      const before = storefrontHeroPriorHash(file, readFileSync(new URL('../../' + file, import.meta.url)));
+      if (before === null) return true;
+      if (!reference) return false;
+      try {
+        const original = execFileSync('git', ['show', reference + ':' + file], {
+          cwd: new URL('../..', import.meta.url),
+          windowsHide: true,
+          stdio: ['ignore', 'pipe', 'pipe'],
+          maxBuffer: 8 * 1024 ** 2,
+        });
+        return sha256(original) !== before;
+      } catch {
+        return true;
+      }
+    }
     if (file !== indexFile && !storefrontSearchPins[file]) return true;
     const raw = current(file);
     const before = sourceBeforeStorefrontSearch(file, raw);
