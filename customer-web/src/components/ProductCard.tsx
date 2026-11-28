@@ -111,7 +111,7 @@ export function ProductCard({
         <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
       </button>
 
-      <div className="flex flex-1 flex-col p-2.5 sm:p-4">
+      <div className="catalog-card-body flex flex-1 flex-col p-2.5 sm:p-4">
         <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
           <div className="min-w-0">
             <a
@@ -122,7 +122,7 @@ export function ProductCard({
               }}
               className="block max-w-full text-right"
             >
-              <h2 className="line-clamp-2 text-[11px] font-black leading-4 text-slate-950 transition hover:text-blue-700 sm:truncate sm:text-base sm:leading-normal">
+              <h2 className="catalog-card-title line-clamp-2 text-[11px] font-black leading-4 text-slate-950 transition hover:text-blue-700 sm:truncate sm:text-base sm:leading-normal">
                 {product.nameAr}
               </h2>
             </a>

@@ -36,6 +36,47 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.catalog-results {
+  position: relative;
+  display: flow-root;
+  min-block-size: min(28rem, 70svh);
+}
+
+.catalog-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+  margin-block-start: 1.5rem;
+}
+
+.catalog-card-grid .catalog-card-body { min-block-size: 11rem; }
+.catalog-card-grid .catalog-card-title { min-block-size: 2rem; }
+
+.catalog-search-status {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 2.25rem;
+  inset-inline-start: .75rem;
+}
+
+@media (min-width: 380px) {
+  .catalog-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 640px) {
+  .catalog-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .catalog-card-grid .catalog-card-body { min-block-size: 13rem; }
+  .catalog-card-grid .catalog-card-title { min-block-size: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .catalog-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1280px) {
+  .catalog-card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 @media (max-width: 767px), (pointer: coarse) {
   input, select, textarea { font-size: max(16px, 1rem) !important; }
   [data-store-header] { padding-top: env(safe-area-inset-top); }

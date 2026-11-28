@@ -4,22 +4,53 @@
   "entries": {
     "customer-web/src/App.tsx": {
       "before": "b74fcea10a91f1b3984e563506f8ed550948cb81a3baf5bbc7889c6f9c203c9b",
-      "after": "34abb82593682cbff9ceb6e55a1581164cabc3d2c47b302f4a7b57deed117750",
+      "after": "4e703e9513cda0e472b218fbba794e5362d71ff096eec98d1449083a77fd10f9",
       "inverse": [
         {
           "start": 17,
           "afterCount": 2,
           "beforeLines": [
-            "import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';"
+            "import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';",
+            "import { CategoryDrawer } from './components/CategoryDrawer';",
+            "import { CategoryShowcase } from './components/CategoryShowcase';"
           ]
         },
         {
-          "start": 239,
+          "start": 22,
+          "afterCount": 0,
+          "beforeLines": [
+            "import { NetworkStatusBanner } from './components/NetworkStatusBanner';"
+          ]
+        },
+        {
+          "start": 26,
+          "afterCount": 0,
+          "beforeLines": [
+            "import { PromotionOffers } from './components/PromotionOffers';"
+          ]
+        },
+        {
+          "start": 91,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 93,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 240,
           "afterCount": 2,
           "beforeLines": []
         },
         {
-          "start": 285,
+          "start": 250,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 287,
           "afterCount": 1,
           "beforeLines": [
             "  const pendingLoadRef = useRef<Record<StorefrontResource, Promise<void> | null>>({",
@@ -27,7 +58,7 @@
           ]
         },
         {
-          "start": 290,
+          "start": 292,
           "afterCount": 3,
           "beforeLines": [
             "  const catalogRequestSequenceRef = useRef(0);",
@@ -35,57 +66,53 @@
           ]
         },
         {
-          "start": 336,
-          "afterCount": 13,
+          "start": 338,
+          "afterCount": 14,
           "beforeLines": []
         },
         {
-          "start": 355,
+          "start": 358,
           "afterCount": 1,
           "beforeLines": [
             "      searchQuery: searchQuery.trim() || undefined,"
           ]
         },
         {
-          "start": 367,
+          "start": 370,
           "afterCount": 1,
           "beforeLines": [
             "      searchQuery,"
           ]
         },
         {
-          "start": 381,
+          "start": 384,
           "afterCount": 1,
           "beforeLines": []
         },
         {
-          "start": 383,
+          "start": 386,
           "afterCount": 0,
           "beforeLines": [
             "      if (catalogRequestKeyRef.current === catalogQueryKey && pendingLoadRef.current.catalog) {",
             "        return pendingLoadRef.current.catalog;",
-            "      }",
-            "",
-            "      const requestSequence = ++catalogRequestSequenceRef.current;",
-            "      catalogRequestKeyRef.current = catalogQueryKey;"
+            "      }"
           ]
         },
         {
-          "start": 384,
+          "start": 387,
           "afterCount": 1,
           "beforeLines": [
+            "      const requestSequence = ++catalogRequestSequenceRef.current;",
+            "      catalogRequestKeyRef.current = catalogQueryKey;",
+            "",
             "      const request = (async () => {"
           ]
         },
         {
-          "start": 388,
-          "afterCount": 6,
-          "beforeLines": []
-        },
-        {
-          "start": 395,
-          "afterCount": 17,
+          "start": 391,
+          "afterCount": 5,
           "beforeLines": [
+            "        try {",
             "          const catalog = await fetchPublicProductCatalog(catalogQuery);",
             "          if (requestSequence !== catalogRequestSequenceRef.current) return;",
             "          setProducts(catalog.items);",
@@ -95,13 +122,8 @@
             "          setCatalogTotal(catalog.total);",
             "          setLoadError(null);",
             "          setLastUpdatedAt(new Date());",
-            "          lastLoadedAtRef.current.catalog = Date.now();"
-          ]
-        },
-        {
-          "start": 413,
-          "afterCount": 5,
-          "beforeLines": [
+            "          lastLoadedAtRef.current.catalog = Date.now();",
+            "        } catch (error) {",
             "          if (requestSequence !== catalogRequestSequenceRef.current) return;",
             "          const message =",
             "            error instanceof Error",
@@ -114,8 +136,13 @@
             "            setIsRefreshing(false);",
             "          }",
             "        }",
-            "      })();",
-            "",
+            "      })();"
+          ]
+        },
+        {
+          "start": 397,
+          "afterCount": 25,
+          "beforeLines": [
             "      pendingLoadRef.current.catalog = request;",
             "      try {",
             "        await request;",
@@ -125,45 +152,45 @@
           ]
         },
         {
-          "start": 419,
+          "start": 423,
           "afterCount": 1,
           "beforeLines": [
             "      }"
           ]
         },
         {
-          "start": 421,
+          "start": 425,
           "afterCount": 1,
           "beforeLines": [
             "    [catalogQuery, catalogQueryKey, isStale]"
           ]
         },
         {
-          "start": 424,
+          "start": 427,
           "afterCount": 2,
           "beforeLines": []
         },
         {
-          "start": 550,
+          "start": 554,
           "afterCount": 1,
           "beforeLines": [
             "    const delayMs = searchQuery.trim() ? 250 : 0;"
           ]
         },
         {
-          "start": 552,
+          "start": 556,
           "afterCount": 2,
           "beforeLines": []
         },
         {
-          "start": 557,
+          "start": 561,
           "afterCount": 1,
           "beforeLines": [
             "  }, [catalogQueryKey, loadCatalog, searchQuery]);"
           ]
         },
         {
-          "start": 847,
+          "start": 851,
           "afterCount": 2,
           "beforeLines": [
             "    () => (searchQuery.trim() ? products.slice(0, 5) : []),",
@@ -171,56 +198,146 @@
           ]
         },
         {
-          "start": 1275,
+          "start": 1279,
           "afterCount": 1,
           "beforeLines": [
             "    setSearchQuery('');"
           ]
         },
         {
-          "start": 1311,
+          "start": 1315,
           "afterCount": 1,
           "beforeLines": [
             "    setSearchQuery('');"
           ]
         },
         {
-          "start": 1338,
+          "start": 1342,
           "afterCount": 1,
           "beforeLines": [
             "    setSearchQuery('');"
           ]
         },
         {
-          "start": 1354,
+          "start": 1358,
           "afterCount": 1,
           "beforeLines": [
             "  }, [catalogCategories]);"
           ]
         },
         {
-          "start": 1580,
+          "start": 1584,
           "afterCount": 1,
           "beforeLines": []
         },
         {
-          "start": 1582,
+          "start": 1586,
           "afterCount": 1,
           "beforeLines": [
             "          setSearchQuery(value);"
           ]
         },
         {
-          "start": 1606,
+          "start": 1610,
           "afterCount": 1,
           "beforeLines": [
             "        onSuggestionSelect={(product) => { setSearchQuery(''); openProductDetails(product); }}"
           ]
         },
         {
-          "start": 1852,
-          "afterCount": 6,
+          "start": 1613,
+          "afterCount": 1,
           "beforeLines": [
+            "      <NetworkStatusBanner"
+          ]
+        },
+        {
+          "start": 1619,
+          "afterCount": 1,
+          "beforeLines": [
+            "      />"
+          ]
+        },
+        {
+          "start": 1621,
+          "afterCount": 4,
+          "beforeLines": [
+            "      {!settingsTrusted && ("
+          ]
+        },
+        {
+          "start": 1626,
+          "afterCount": 1,
+          "beforeLines": [
+            "          role={settingsUnavailable ? 'alert' : 'status'}"
+          ]
+        },
+        {
+          "start": 1632,
+          "afterCount": 1,
+          "beforeLines": [
+            "              {settingsUnavailable",
+            "                ? 'تعذر تحميل إعدادات الطلب والتوصيل. لن نعرض رسومًا أو حدًا أدنى غير موثوقين.'",
+            "                : 'جارٍ التحقق من إعدادات الطلب والتوصيل.'}"
+          ]
+        },
+        {
+          "start": 1634,
+          "afterCount": 1,
+          "beforeLines": [
+            "            {settingsUnavailable && (",
+            "              <button"
+          ]
+        },
+        {
+          "start": 1640,
+          "afterCount": 1,
+          "beforeLines": [
+            "              </button>",
+            "            )}"
+          ]
+        },
+        {
+          "start": 1666,
+          "afterCount": 2,
+          "beforeLines": [
+            "        {settingsTrusted && storefrontSettings.showOffers && ("
+          ]
+        },
+        {
+          "start": 1672,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 1699,
+          "afterCount": 1,
+          "beforeLines": [
+            "              <CategoryShowcase"
+          ]
+        },
+        {
+          "start": 1705,
+          "afterCount": 1,
+          "beforeLines": [
+            "              />"
+          ]
+        },
+        {
+          "start": 1774,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 1784,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 1858,
+          "afterCount": 7,
+          "beforeLines": [
+            "              <div className=\"mt-3 flex flex-wrap items-center justify-between gap-2 px-1\">",
             "                <p className=\"text-[10px] font-bold text-slate-600\">",
             "                  عرض {filteredProducts.length.toLocaleString(DISPLAY_LOCALE)} من{' '}",
             "                  {catalogTotal.toLocaleString(DISPLAY_LOCALE)} صنف",
@@ -228,24 +345,53 @@
           ]
         },
         {
-          "start": 1872,
-          "afterCount": 5,
+          "start": 1878,
+          "afterCount": 6,
           "beforeLines": [
-            "            {isLoading ? ("
-          ]
-        },
-        {
-          "start": 1890,
-          "afterCount": 1,
-          "beforeLines": [
+            "            <div id=\"catalog-products\" className=\"scroll-mt-40\">",
+            "            {isLoading ? (",
+            "              <div className=\"mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4\">",
+            "                {Array.from({ length: 8 }).map((_, index) => (",
+            "                  <div",
+            "                    key={index}",
+            "                    className=\"h-[430px] animate-pulse rounded-[1.75rem] border border-slate-200 bg-white p-4\"",
+            "                  >",
+            "                    <div className=\"h-52 rounded-3xl bg-slate-100\" />",
+            "                    <div className=\"mt-5 h-4 w-2/3 rounded bg-slate-100\" />",
+            "                    <div className=\"mt-3 h-3 w-1/3 rounded bg-slate-100\" />",
+            "                    <div className=\"mt-7 h-16 rounded-2xl bg-slate-100\" />",
+            "                  </div>",
+            "                ))}",
+            "              </div>",
             "            ) : loadError && products.length === 0 ? ("
           ]
         },
         {
-          "start": 1948,
+          "start": 1924,
+          "afterCount": 1,
+          "beforeLines": [
+            "              <div data-testid=\"catalog-products-grid\" className=\"mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4\">"
+          ]
+        },
+        {
+          "start": 1941,
           "afterCount": 1,
           "beforeLines": [
             "            {!isLoading && !loadError && catalogTotal > STOREFRONT_CATALOG_PAGE_SIZE && ("
+          ]
+        },
+        {
+          "start": 2156,
+          "afterCount": 1,
+          "beforeLines": [
+            "      <CategoryDrawer"
+          ]
+        },
+        {
+          "start": 2163,
+          "afterCount": 1,
+          "beforeLines": [
+            "      />"
           ]
         }
       ]
@@ -392,7 +538,7 @@
     },
     "docs/operations/SERVICE_ACCESS_AFTER_226.json": {
       "before": "37f0fe979d39181d68e46eb2baf085be46210f97f8c9284dbdc113fcb9e80658",
-      "after": "21d8539c8bb91807155c6e32bb7f39b09edbba9e1ad05387fec30f3284e7cfd9",
+      "after": "2494f4f6e9f9bc2343dde901101b1ea9ceaa59a38f20e2b7c2fb4dc060750f00",
       "inverse": [
         {
           "start": 2,
@@ -416,40 +562,66 @@
           ]
         },
         {
-          "start": 1565,
+          "start": 1442,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1489,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033\""
+          ]
+        },
+        {
+          "start": 1537,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc\""
+          ]
+        },
+        {
+          "start": 1569,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
           ]
         },
         {
-          "start": 1649,
+          "start": 1573,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859\""
+          ]
+        },
+        {
+          "start": 1653,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
           ]
         },
         {
-          "start": 1665,
+          "start": 1669,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
           ]
         },
         {
-          "start": 1711,
+          "start": 1716,
           "afterCount": 4,
           "beforeLines": []
         },
         {
-          "start": 1757,
+          "start": 1761,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
           ]
         },
         {
-          "start": 56344,
+          "start": 56348,
           "afterCount": 1,
           "beforeLines": [
             "  \"endedAt\": \"2026-11-25T20:32:28.750Z\""
@@ -459,7 +631,7 @@
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "f6984c6d991b29819c60d09ee79b01ffd70fe249b1f935878a85cf1865640817",
-      "after": "1964ac0f409a9939112ffa58b147ee54c8db404f68c4f6b625d7b26bcaac5765",
+      "after": "cc7688d3978d647a55b8c0dd0610613d7d57b0e88aea349549ff3c16238c8257",
       "inverse": [
         {
           "start": 2,
@@ -483,40 +655,66 @@
           ]
         },
         {
-          "start": 1565,
+          "start": 1442,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1489,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033\""
+          ]
+        },
+        {
+          "start": 1537,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc\""
+          ]
+        },
+        {
+          "start": 1569,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
           ]
         },
         {
-          "start": 1649,
+          "start": 1573,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859\""
+          ]
+        },
+        {
+          "start": 1653,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
           ]
         },
         {
-          "start": 1665,
+          "start": 1669,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
           ]
         },
         {
-          "start": 1711,
+          "start": 1716,
           "afterCount": 4,
           "beforeLines": []
         },
         {
-          "start": 1757,
+          "start": 1761,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
           ]
         },
         {
-          "start": 56344,
+          "start": 56348,
           "afterCount": 1,
           "beforeLines": [
             "  \"endedAt\": \"2026-11-25T20:32:28.750Z\","
@@ -526,7 +724,7 @@
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "c8ca7b88e9475556aca914c381db6d0b268d9c9956df122dec4e7701a565a5da",
-      "after": "9ed1eb04057b03db7bb3f49f6ce12d470577b3a3ba017acfcadda6b9f9ac38c1",
+      "after": "934c5f8ec4010c4162182a621bbd0d98eac35b411ee344367a8af445e3019da6",
       "inverse": [
         {
           "start": 1427,
@@ -536,75 +734,97 @@
           ]
         },
         {
-          "start": 1563,
+          "start": 1440,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1487,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033\""
+          ]
+        },
+        {
+          "start": 1535,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc\""
+          ]
+        },
+        {
+          "start": 1567,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
           ]
         },
         {
-          "start": 1647,
+          "start": 1571,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859\""
+          ]
+        },
+        {
+          "start": 1651,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
           ]
         },
         {
-          "start": 1663,
+          "start": 1667,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
           ]
         },
         {
-          "start": 1709,
+          "start": 1714,
           "afterCount": 4,
           "beforeLines": []
         },
         {
-          "start": 1755,
+          "start": 1759,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
           ]
         },
         {
-          "start": 5832,
-          "afterCount": 1,
+          "start": 5836,
+          "afterCount": 0,
           "beforeLines": [
-            "      \"line\": 10,"
+            "      \"line\": 10,",
+            "      \"role\": \"anon\",",
+            "      \"wrapper\": \"rpc\",",
+            "      \"name\": null,",
+            "      \"dynamic\": \"name\",",
+            "      \"source\": \"rpc(name,args)\",",
+            "      \"resolutions\": []",
+            "    },",
+            "    {",
+            "      \"file\": \"customer-web/src/utils/operatingRead.ts\","
           ]
         },
         {
-          "start": 5837,
-          "afterCount": 1,
+          "start": 5840,
+          "afterCount": 2,
           "beforeLines": [
-            "      \"source\": \"rpc(name,args)\","
-          ]
-        },
-        {
-          "start": 5842,
-          "afterCount": 1,
-          "beforeLines": [
-            "      \"line\": 11,"
-          ]
-        },
-        {
-          "start": 5847,
-          "afterCount": 1,
-          "beforeLines": [
+            "      \"dynamic\": \"originals[name]\",",
             "      \"source\": \"rpc(originals[name],args)\","
           ]
         },
         {
-          "start": 5852,
-          "afterCount": 1,
+          "start": 5846,
+          "afterCount": 11,
           "beforeLines": [
             "      \"line\": 16,"
           ]
         },
         {
-          "start": 5857,
+          "start": 5861,
           "afterCount": 1,
           "beforeLines": [
             "      \"source\": \"rpc(name,args)\","
@@ -614,7 +834,7 @@
     },
     "docs/operations/TABLE_ACCESS_AFTER_226.json": {
       "before": "871ca6e50a5dd9e2807272cf572108e1bea45d8296beddd7fa1e4b73aefdf873",
-      "after": "ea88eebce96d2b0df77eff305d4b296cc56a45b1000e4140b4025a0c34a8f1df",
+      "after": "4f008ed49473208562d1075a960d5b87bf6ff61a0a5a74db05b52446fc4e1073",
       "inverse": [
         {
           "start": 2,
@@ -1010,79 +1230,394 @@
         },
         {
           "start": 31117,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_24\","
-          ]
-        },
-        {
-          "start": 31230,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"partition\": \"FOR VALUES FROM ('2026-11-24 00:00:00') TO ('2026-11-25 00:00:00')\","
-          ]
-        },
-        {
-          "start": 31242,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_25\","
-          ]
-        },
-        {
-          "start": 31355,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"partition\": \"FOR VALUES FROM ('2026-11-25 00:00:00') TO ('2026-11-26 00:00:00')\","
-          ]
-        },
-        {
-          "start": 31367,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_26\","
-          ]
-        },
-        {
-          "start": 31480,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"partition\": \"FOR VALUES FROM ('2026-11-26 00:00:00') TO ('2026-11-27 00:00:00')\","
-          ]
-        },
-        {
-          "start": 31492,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_27\","
-          ]
-        },
-        {
-          "start": 31605,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"partition\": \"FOR VALUES FROM ('2026-11-27 00:00:00') TO ('2026-11-28 00:00:00')\","
-          ]
-        },
-        {
-          "start": 31617,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_28\","
-          ]
-        },
-        {
-          "start": 31730,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"partition\": \"FOR VALUES FROM ('2026-11-28 00:00:00') TO ('2026-11-29 00:00:00')\","
-          ]
-        },
-        {
-          "start": 42086,
           "afterCount": 0,
           "beforeLines": [
+            "        \"name\": \"messages_2026_11_24\",",
+            "        \"view\": null,",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"schema\": \"realtime\",",
+            "        \"columns\": [",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"topic\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 1,",
+            "            \"default\": null,",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"extension\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 2,",
+            "            \"default\": null,",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"payload\",",
+            "            \"type\": \"jsonb\",",
+            "            \"number\": 3,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"event\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 4,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"private\",",
+            "            \"type\": \"boolean\",",
+            "            \"number\": 5,",
+            "            \"default\": \"false\",",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"updated_at\",",
+            "            \"type\": \"timestamp without time zone\",",
+            "            \"number\": 6,",
+            "            \"default\": \"now()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"inserted_at\",",
+            "            \"type\": \"timestamp without time zone\",",
+            "            \"number\": 7,",
+            "            \"default\": \"now()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"id\",",
+            "            \"type\": \"uuid\",",
+            "            \"number\": 8,",
+            "            \"default\": \"gen_random_uuid()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"binary_payload\",",
+            "            \"type\": \"bytea\",",
+            "            \"number\": 9,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          }",
+            "        ],",
+            "        \"options\": null,",
+            "        \"parents\": [",
+            "          {",
+            "            \"name\": \"messages\",",
+            "            \"schema\": \"realtime\"",
+            "          }",
+            "        ],",
+            "        \"forceRls\": false,",
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-24 00:00:00') TO ('2026-11-25 00:00:00')\",",
+            "        \"persistence\": \"p\",",
+            "        \"replicaIdentity\": \"d\"",
+            "      },",
             "      {",
+            "        \"acl\": [",
+            "          \"supabase_realtime_admin=arwdDxtm/supabase_realtime_admin\",",
+            "          \"postgres=arwdDxtm/supabase_realtime_admin\",",
+            "          \"dashboard_user=arwdDxtm/supabase_realtime_admin\"",
+            "        ],",
+            "        \"rls\": false,",
+            "        \"kind\": \"r\",",
+            "        \"name\": \"messages_2026_11_25\",",
+            "        \"view\": null,",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"schema\": \"realtime\",",
+            "        \"columns\": [",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"topic\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 1,",
+            "            \"default\": null,",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"extension\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 2,",
+            "            \"default\": null,",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"payload\",",
+            "            \"type\": \"jsonb\",",
+            "            \"number\": 3,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"event\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 4,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"private\",",
+            "            \"type\": \"boolean\",",
+            "            \"number\": 5,",
+            "            \"default\": \"false\",",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"updated_at\",",
+            "            \"type\": \"timestamp without time zone\",",
+            "            \"number\": 6,",
+            "            \"default\": \"now()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"inserted_at\",",
+            "            \"type\": \"timestamp without time zone\",",
+            "            \"number\": 7,",
+            "            \"default\": \"now()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"id\",",
+            "            \"type\": \"uuid\",",
+            "            \"number\": 8,",
+            "            \"default\": \"gen_random_uuid()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"binary_payload\",",
+            "            \"type\": \"bytea\",",
+            "            \"number\": 9,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          }",
+            "        ],",
+            "        \"options\": null,",
+            "        \"parents\": [",
+            "          {",
+            "            \"name\": \"messages\",",
+            "            \"schema\": \"realtime\"",
+            "          }",
+            "        ],",
+            "        \"forceRls\": false,",
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-25 00:00:00') TO ('2026-11-26 00:00:00')\",",
+            "        \"persistence\": \"p\",",
+            "        \"replicaIdentity\": \"d\"",
+            "      },",
+            "      {",
+            "        \"acl\": [",
+            "          \"supabase_realtime_admin=arwdDxtm/supabase_realtime_admin\",",
+            "          \"postgres=arwdDxtm/supabase_realtime_admin\",",
+            "          \"dashboard_user=arwdDxtm/supabase_realtime_admin\"",
+            "        ],",
+            "        \"rls\": false,",
+            "        \"kind\": \"r\",",
+            "        \"name\": \"messages_2026_11_26\",",
+            "        \"view\": null,",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"schema\": \"realtime\",",
+            "        \"columns\": [",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"topic\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 1,",
+            "            \"default\": null,",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"extension\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 2,",
+            "            \"default\": null,",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"payload\",",
+            "            \"type\": \"jsonb\",",
+            "            \"number\": 3,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"event\",",
+            "            \"type\": \"text\",",
+            "            \"number\": 4,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": \"default\",",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"private\",",
+            "            \"type\": \"boolean\",",
+            "            \"number\": 5,",
+            "            \"default\": \"false\",",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"updated_at\",",
+            "            \"type\": \"timestamp without time zone\",",
+            "            \"number\": 6,",
+            "            \"default\": \"now()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"inserted_at\",",
+            "            \"type\": \"timestamp without time zone\",",
+            "            \"number\": 7,",
+            "            \"default\": \"now()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"id\",",
+            "            \"type\": \"uuid\",",
+            "            \"number\": 8,",
+            "            \"default\": \"gen_random_uuid()\",",
+            "            \"notNull\": true,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          },",
+            "          {",
+            "            \"acl\": null,",
+            "            \"name\": \"binary_payload\",",
+            "            \"type\": \"bytea\",",
+            "            \"number\": 9,",
+            "            \"default\": null,",
+            "            \"notNull\": false,",
+            "            \"identity\": \"\",",
+            "            \"collation\": null,",
+            "            \"generated\": \"\"",
+            "          }",
+            "        ],",
+            "        \"options\": null,",
+            "        \"parents\": [",
+            "          {",
+            "            \"name\": \"messages\",",
+            "            \"schema\": \"realtime\"",
+            "          }",
+            "        ],",
+            "        \"forceRls\": false,",
+            "        \"partition\": \"FOR VALUES FROM ('2026-11-26 00:00:00') TO ('2026-11-27 00:00:00')\",",
+            "        \"persistence\": \"p\",",
+            "        \"replicaIdentity\": \"d\"",
+            "      },",
+            "      {",
+            "        \"acl\": [",
+            "          \"supabase_realtime_admin=arwdDxtm/supabase_realtime_admin\",",
+            "          \"postgres=arwdDxtm/supabase_realtime_admin\",",
+            "          \"dashboard_user=arwdDxtm/supabase_realtime_admin\"",
+            "        ],",
+            "        \"rls\": false,",
+            "        \"kind\": \"r\","
+          ]
+        },
+        {
+          "start": 31356,
+          "afterCount": 375,
+          "beforeLines": []
+        },
+        {
+          "start": 42087,
+          "afterCount": 0,
+          "beforeLines": [
             "        \"name\": \"messages_2026_11_24_inserted_at_topic_idx\",",
             "        \"owner\": \"supabase_realtime_admin\",",
             "        \"ready\": true,",
@@ -1107,118 +1642,173 @@
             "        \"clustered\": false,",
             "        \"definition\": \"CREATE UNIQUE INDEX messages_2026_11_24_pkey ON realtime.messages_2026_11_24 USING btree (id, inserted_at)\",",
             "        \"replicaIdentity\": false",
-            "      },"
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_25_inserted_at_topic_idx\",",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"ready\": true,",
+            "        \"table\": \"messages_2026_11_25\",",
+            "        \"valid\": true,",
+            "        \"schema\": \"realtime\",",
+            "        \"unique\": false,",
+            "        \"primary\": false,",
+            "        \"clustered\": false,",
+            "        \"definition\": \"CREATE INDEX messages_2026_11_25_inserted_at_topic_idx ON realtime.messages_2026_11_25 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))\",",
+            "        \"replicaIdentity\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_25_pkey\",",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"ready\": true,",
+            "        \"table\": \"messages_2026_11_25\",",
+            "        \"valid\": true,",
+            "        \"schema\": \"realtime\",",
+            "        \"unique\": true,",
+            "        \"primary\": true,",
+            "        \"clustered\": false,",
+            "        \"definition\": \"CREATE UNIQUE INDEX messages_2026_11_25_pkey ON realtime.messages_2026_11_25 USING btree (id, inserted_at)\",",
+            "        \"replicaIdentity\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_26_inserted_at_topic_idx\",",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"ready\": true,",
+            "        \"table\": \"messages_2026_11_26\",",
+            "        \"valid\": true,",
+            "        \"schema\": \"realtime\",",
+            "        \"unique\": false,",
+            "        \"primary\": false,",
+            "        \"clustered\": false,",
+            "        \"definition\": \"CREATE INDEX messages_2026_11_26_inserted_at_topic_idx ON realtime.messages_2026_11_26 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))\",",
+            "        \"replicaIdentity\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_26_pkey\",",
+            "        \"owner\": \"supabase_realtime_admin\",",
+            "        \"ready\": true,",
+            "        \"table\": \"messages_2026_11_26\",",
+            "        \"valid\": true,",
+            "        \"schema\": \"realtime\",",
+            "        \"unique\": true,",
+            "        \"primary\": true,",
+            "        \"clustered\": false,",
+            "        \"definition\": \"CREATE UNIQUE INDEX messages_2026_11_26_pkey ON realtime.messages_2026_11_26 USING btree (id, inserted_at)\",",
+            "        \"replicaIdentity\": false",
+            "      },",
+            "      {"
           ]
         },
         {
-          "start": 42190,
-          "afterCount": 26,
+          "start": 42136,
+          "afterCount": 78,
           "beforeLines": []
         },
         {
           "start": 78059,
-          "afterCount": 1,
+          "afterCount": 0,
           "beforeLines": [
-            "        \"name\": \"messages_2026_11_24_pkey\","
+            "        \"name\": \"messages_2026_11_24_pkey\",",
+            "        \"type\": \"p\",",
+            "        \"local\": false,",
+            "        \"match\": \" \",",
+            "        \"table\": \"messages_2026_11_24\",",
+            "        \"schema\": \"realtime\",",
+            "        \"onDelete\": \" \",",
+            "        \"onUpdate\": \" \",",
+            "        \"noInherit\": false,",
+            "        \"validated\": true,",
+            "        \"deferrable\": false,",
+            "        \"definition\": \"PRIMARY KEY (id, inserted_at)\",",
+            "        \"inheritanceCount\": 1,",
+            "        \"initiallyDeferred\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_payload_exclusive\",",
+            "        \"type\": \"c\",",
+            "        \"local\": false,",
+            "        \"match\": \" \",",
+            "        \"table\": \"messages_2026_11_24\",",
+            "        \"schema\": \"realtime\",",
+            "        \"onDelete\": \" \",",
+            "        \"onUpdate\": \" \",",
+            "        \"noInherit\": false,",
+            "        \"validated\": true,",
+            "        \"deferrable\": false,",
+            "        \"definition\": \"CHECK (((payload IS NULL) OR (binary_payload IS NULL)))\",",
+            "        \"inheritanceCount\": 1,",
+            "        \"initiallyDeferred\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_25_pkey\",",
+            "        \"type\": \"p\",",
+            "        \"local\": false,",
+            "        \"match\": \" \",",
+            "        \"table\": \"messages_2026_11_25\",",
+            "        \"schema\": \"realtime\",",
+            "        \"onDelete\": \" \",",
+            "        \"onUpdate\": \" \",",
+            "        \"noInherit\": false,",
+            "        \"validated\": true,",
+            "        \"deferrable\": false,",
+            "        \"definition\": \"PRIMARY KEY (id, inserted_at)\",",
+            "        \"inheritanceCount\": 1,",
+            "        \"initiallyDeferred\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_payload_exclusive\",",
+            "        \"type\": \"c\",",
+            "        \"local\": false,",
+            "        \"match\": \" \",",
+            "        \"table\": \"messages_2026_11_25\",",
+            "        \"schema\": \"realtime\",",
+            "        \"onDelete\": \" \",",
+            "        \"onUpdate\": \" \",",
+            "        \"noInherit\": false,",
+            "        \"validated\": true,",
+            "        \"deferrable\": false,",
+            "        \"definition\": \"CHECK (((payload IS NULL) OR (binary_payload IS NULL)))\",",
+            "        \"inheritanceCount\": 1,",
+            "        \"initiallyDeferred\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_2026_11_26_pkey\",",
+            "        \"type\": \"p\",",
+            "        \"local\": false,",
+            "        \"match\": \" \",",
+            "        \"table\": \"messages_2026_11_26\",",
+            "        \"schema\": \"realtime\",",
+            "        \"onDelete\": \" \",",
+            "        \"onUpdate\": \" \",",
+            "        \"noInherit\": false,",
+            "        \"validated\": true,",
+            "        \"deferrable\": false,",
+            "        \"definition\": \"PRIMARY KEY (id, inserted_at)\",",
+            "        \"inheritanceCount\": 1,",
+            "        \"initiallyDeferred\": false",
+            "      },",
+            "      {",
+            "        \"name\": \"messages_payload_exclusive\",",
+            "        \"type\": \"c\",",
+            "        \"local\": false,",
+            "        \"match\": \" \",",
+            "        \"table\": \"messages_2026_11_26\",",
+            "        \"schema\": \"realtime\",",
+            "        \"onDelete\": \" \",",
+            "        \"onUpdate\": \" \",",
+            "        \"noInherit\": false,",
+            "        \"validated\": true,",
+            "        \"deferrable\": false,",
+            "        \"definition\": \"CHECK (((payload IS NULL) OR (binary_payload IS NULL)))\",",
+            "        \"inheritanceCount\": 1,",
+            "        \"initiallyDeferred\": false",
+            "      },",
+            "      {"
           ]
         },
         {
-          "start": 78063,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_24\","
-          ]
-        },
-        {
-          "start": 78079,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_24\","
-          ]
-        },
-        {
-          "start": 78091,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_25_pkey\","
-          ]
-        },
-        {
-          "start": 78095,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_25\","
-          ]
-        },
-        {
-          "start": 78111,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_25\","
-          ]
-        },
-        {
-          "start": 78123,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_26_pkey\","
-          ]
-        },
-        {
-          "start": 78127,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_26\","
-          ]
-        },
-        {
-          "start": 78143,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_26\","
-          ]
-        },
-        {
-          "start": 78155,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_27_pkey\","
-          ]
-        },
-        {
-          "start": 78159,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_27\","
-          ]
-        },
-        {
-          "start": 78175,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_27\","
-          ]
-        },
-        {
-          "start": 78187,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"name\": \"messages_2026_11_28_pkey\","
-          ]
-        },
-        {
-          "start": 78191,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_28\","
-          ]
-        },
-        {
-          "start": 78207,
-          "afterCount": 1,
-          "beforeLines": [
-            "        \"table\": \"messages_2026_11_28\","
-          ]
+          "start": 78112,
+          "afterCount": 96,
+          "beforeLines": []
         },
         {
           "start": 81660,
@@ -1228,40 +1818,66 @@
           ]
         },
         {
-          "start": 81796,
+          "start": 81673,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 81720,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033\""
+          ]
+        },
+        {
+          "start": 81768,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc\""
+          ]
+        },
+        {
+          "start": 81800,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
           ]
         },
         {
-          "start": 81880,
+          "start": 81804,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859\""
+          ]
+        },
+        {
+          "start": 81884,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
           ]
         },
         {
-          "start": 81896,
+          "start": 81900,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
           ]
         },
         {
-          "start": 81942,
+          "start": 81947,
           "afterCount": 4,
           "beforeLines": []
         },
         {
-          "start": 81988,
+          "start": 81992,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
           ]
         },
         {
-          "start": 82064,
+          "start": 82068,
           "afterCount": 4,
           "beforeLines": [
             "    \"orderId\": \"765944a3-db27-4365-8ff8-a4dc1f0e4b81\",",
@@ -1271,14 +1887,14 @@
           ]
         },
         {
-          "start": 82070,
+          "start": 82074,
           "afterCount": 1,
           "beforeLines": [
             "      \"b5e03e4f-7764-4126-a87a-0952503b89b0\""
           ]
         },
         {
-          "start": 87995,
+          "start": 87999,
           "afterCount": 1,
           "beforeLines": [
             "  \"endedAt\": \"2026-11-25T20:30:23.004Z\""
@@ -1288,7 +1904,7 @@
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "adf4152cff7f14dbd0e9d02f095149df119ea8d979d5158b31d69865552f1077",
-      "after": "b4b8da32c1996727629227b21039d7ce5cf8b51364e6765532ccefc8fca362ff",
+      "after": "3468e1ea37292ba553ab562406f81490b659d7ce2c6c1ac2f84fa40ca0670871",
       "inverse": [
         {
           "start": 1427,
@@ -1298,63 +1914,90 @@
           ]
         },
         {
-          "start": 1563,
+          "start": 1440,
+          "afterCount": 4,
+          "beforeLines": []
+        },
+        {
+          "start": 1487,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033\""
+          ]
+        },
+        {
+          "start": 1535,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc\""
+          ]
+        },
+        {
+          "start": 1567,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657\""
           ]
         },
         {
-          "start": 1647,
+          "start": 1571,
+          "afterCount": 1,
+          "beforeLines": [
+            "      \"sha256\": \"72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859\""
+          ]
+        },
+        {
+          "start": 1651,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692\""
           ]
         },
         {
-          "start": 1663,
+          "start": 1667,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521\""
           ]
         },
         {
-          "start": 1709,
+          "start": 1714,
           "afterCount": 4,
           "beforeLines": []
         },
         {
-          "start": 1755,
+          "start": 1759,
           "afterCount": 1,
           "beforeLines": [
             "      \"sha256\": \"f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6\""
           ]
         },
         {
-          "start": 5593,
+          "start": 5597,
           "afterCount": 1,
           "beforeLines": [
             "      \"line\": 1082,"
           ]
         },
         {
-          "start": 5598,
+          "start": 5602,
           "afterCount": 1,
           "beforeLines": [
             "      \"line\": 1088,"
           ]
         },
         {
-          "start": 5603,
+          "start": 5607,
           "afterCount": 1,
           "beforeLines": [
             "      \"line\": 1859,"
           ]
         },
         {
-          "start": 5608,
-          "afterCount": 1,
+          "start": 5611,
+          "afterCount": 2,
           "beforeLines": [
+            "      \"file\": \"customer-web/src/App.tsx\",",
             "      \"line\": 2015,"
           ]
         }
@@ -1488,6 +2131,112 @@
     "tests/fast-down-alert.test.ts": {
       "before": null,
       "after": "7f979eebe278b62447f00cfa1d0b3ae8c426eb56b6beca38a805fcfa6e125da5"
+    },
+    "customer-web/src/components/HeroVideo.tsx": {
+      "before": "1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033",
+      "after": "81420d466cfc7ca3f95bf11c17d01940327840ac0de83a3fc4ec86c17d5869a5",
+      "inverse": [
+        {
+          "start": 38,
+          "afterCount": 1,
+          "beforeLines": [
+            "    aria-hidden=\"true\" autoPlay muted loop playsInline preload=\"metadata\""
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductCard.tsx": {
+      "before": "56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc",
+      "after": "201dafc28eeca7f3262ceac8162860636a721d6ab7f193f7f4837469332cc978",
+      "inverse": [
+        {
+          "start": 113,
+          "afterCount": 1,
+          "beforeLines": [
+            "      <div className=\"flex flex-1 flex-col p-2.5 sm:p-4\">"
+          ]
+        },
+        {
+          "start": 124,
+          "afterCount": 1,
+          "beforeLines": [
+            "              <h2 className=\"line-clamp-2 text-[11px] font-black leading-4 text-slate-950 transition hover:text-blue-700 sm:truncate sm:text-base sm:leading-normal\">"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/StoreHero.tsx": {
+      "before": "72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859",
+      "after": "281b58ff8274eb0d64cd2b976c6d5e401df5661f90197b9e5436a50be5a84d13",
+      "inverse": [
+        {
+          "start": 78,
+          "afterCount": 1,
+          "beforeLines": [
+            "          <p className=\"mt-3 max-w-2xl text-[11px] font-medium leading-6 text-blue-50/85 sm:mt-6 sm:text-base sm:leading-8 sm:text-blue-100/75\">"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/index.css": {
+      "before": "9b412efd7904ab67403fe899162cb9b63cc32cb5c173a9e22919f74c9e0e823f",
+      "after": "24f66d3fe340620243af32f1ffc805edad3da325d3bd0a97ac7b70c2627caf0f",
+      "inverse": [
+        {
+          "start": 36,
+          "afterCount": 41,
+          "beforeLines": []
+        }
+      ]
+    },
+    "e2e/public-apps.spec.ts": {
+      "before": "59f7f0456cbe5a25bc4c580141c82aed63e4eb4bb5f0c7499d10995a64368fb5",
+      "after": "c7e341fc9d4def17d1f3ec9d7a0438ed38a1e1f94376cb04dfcdaeb6cd30ec79",
+      "inverse": [
+        {
+          "start": 229,
+          "afterCount": 1,
+          "beforeLines": [
+            "    await expect(heroVideo).toHaveAttribute('preload', 'metadata');"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/CatalogGridPlaceholder.tsx": {
+      "before": null,
+      "after": "49052d46318c78fbd3852696d7ced135e3afdbd04503e713f844de8d523baaa8"
+    },
+    "tests/trial-brand-identity.test.ts": {
+      "before": "47688a460cade981f5c237cc6c60ee41fd2bb7ae1e928830289dd9c74f04cecd",
+      "after": "bd682a6b421438ba8aa9f2b3d1986a2c6c7c0910820cb38118aac417bb2fcad1",
+      "inverse": [
+        {
+          "start": 33,
+          "afterCount": 1,
+          "beforeLines": [
+            "test('H keeps live identity, contacts, historical SQL and media exact except the reviewed mobile compression',()=>{"
+          ]
+        },
+        {
+          "start": 38,
+          "afterCount": 1,
+          "beforeLines": []
+        },
+        {
+          "start": 42,
+          "afterCount": 8,
+          "beforeLines": [
+            "  assert.equal(hash(readFileSync(approvedMobileVideo)),'c47271c8b877acd6e2950ee6c8462a968e54846915ec734d3d81ef6fe120be66','Only the exact reviewed mobile compression is admitted');"
+          ]
+        },
+        {
+          "start": 52,
+          "afterCount": 1,
+          "beforeLines": [
+            " assert.deepEqual(pathsBeforeHandover213(pathsBeforeSalesOnlyPhase3(changed)).filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR,approvedMobileVideo].includes(f)),[]);"
+          ]
+        }
+      ]
     }
   }
 }

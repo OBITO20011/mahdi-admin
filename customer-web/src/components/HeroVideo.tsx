@@ -36,7 +36,7 @@ export default function HeroVideo({desktop}: {desktop: boolean}) {
   }, [eligible, failed]);
   if (!eligible || failed) return null;
   return <video ref={ref} data-testid={desktop ? 'desktop-hero-video' : undefined}
-    aria-hidden="true" autoPlay muted loop playsInline preload="metadata"
+    aria-hidden="true" autoPlay muted loop playsInline preload="none"
     disablePictureInPicture poster="/nawasrah-hero-poster.webp"
     onPlaying={() => setPlaying(true)} onError={() => { ref.current?.pause(); setFailed(true); }}
     style={{opacity: playing ? 1 : 0}}

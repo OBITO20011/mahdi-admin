@@ -227,7 +227,7 @@ test.describe('متجر العملاء العام', () => {
       'src',
       expectedSource,
     );
-    await expect(heroVideo).toHaveAttribute('preload', 'metadata');
+    await expect(heroVideo).toHaveAttribute('preload', 'none');
     const inactiveHeroSource =
       testInfo.project.name === 'mobile-webkit'
         ? '/nawasrah-hero-desktop-1080p.mp4'
