@@ -2078,7 +2078,7 @@
     },
     "scripts/audit/source-before-storefront-search.mjs": {
       "before": null,
-      "after": "c05a287f94e2cf9f39a7a791a6bb46e04c24b71f5c8771ae2feaad53aa31d278"
+      "after": "9f5e172bb3710a9813a646f354434b38e43c2ad6df594e1c1a7c49ee961be845"
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "f47a7e3748ba03153e4e58bbdee984813be922a66bfe489bd930b8e6694e9563",
@@ -2098,7 +2098,7 @@
     },
     "tests/storefront-search-history.test.ts": {
       "before": null,
-      "after": "7bc4859d9291450999b2776ab34e817e9879debad91b2e14b5e0106e07d12cdd"
+      "after": "cf1a3d0855ad7dd47d71220fc2261cd16fbb5ad0e0b93f0f5a2ffdcf19a8e943"
     },
     "docs/operations/FAST_DOWN_ALERT_AR.md": {
       "before": null,
@@ -2237,6 +2237,16 @@
           ]
         }
       ]
+    }
+  },
+  "heroMedia": {
+    "customer-web/public/nawasrah-hero-desktop-1080p.mp4": {
+      "before": "c2617bc81a6a1e2c8a1fa73da739645225cf9195c26ae0c27d1aa1990d85c74a",
+      "after": "b5eb7aedcb254ce8fd666aa9ab2e6a227d975724430f7c86bb58e0d060f59412"
+    },
+    "customer-web/public/nawasrah-hero-mobile.mp4": {
+      "before": "c47271c8b877acd6e2950ee6c8462a968e54846915ec734d3d81ef6fe120be66",
+      "after": "9a7f3cbe7ecbb646fd515ee59db54d1f44547b8f10e539677ff37cce79eb9f4a"
     }
   }
 }
